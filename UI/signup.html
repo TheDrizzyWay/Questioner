@@ -1,0 +1,57 @@
+<!--  firstname lastname othername email phonenumber username  -->
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+  	<title> Questioner - Signup</title>
+  	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+  	<meta name="description" content="Questioner Signup Page" />
+  	<link rel="stylesheet" href="css/signup.css">
+  </head>
+  <body>
+    <div class="header_container">
+      <header>
+        <h1>Questioner</h1>
+      </header>
+    </div>
+    <div id="wrapper">
+        <form action="">
+            <fieldset>
+                <legend>Signup Form</legend>
+                <div>
+                    <input type="text" name="first_name" placeholder="First Name" required/>
+                </div>
+                <div>
+                    <input type="text" name="last_name" placeholder="Last Name" required/>
+                </div>
+                <div>
+                    <input type="text" name="other_name" placeholder="Other Name" optional/>
+                </div>
+                <div>
+                    <input type="text" name="email" placeholder="Email" required/>
+                </div>
+                <div>
+                    <input type="password" name="password" placeholder="Password" required/>
+                </div>
+                <div class="small">
+                  Your password should be between six and 18 characters long.
+                </div>
+                <div>
+                    <input type="password" name="conf_password" placeholder="Confirm Password" required/>
+                </div>
+                <div>
+                    <input type="text" name="user_name" placeholder="Username" required/>
+                </div>
+                <div>
+                    <input type="text" name="phone" placeholder="Phone Number" required/>
+                </div>
+                <input type="submit" name="submit" value="Signup"/>
+            </fieldset>
+        </form>
+    </div>
+      <span>Already a member? Login below.</span>
+        <a href="login.html" class="home">LOGIN</a>
+  </body>
+</html>
