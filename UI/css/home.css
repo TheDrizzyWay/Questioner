@@ -82,14 +82,19 @@ footer {
 
 @media(max-width:600px) {
   header {
-    background: #000000;
+    background: url("../images/light-grey.jpg");
+    background-size: cover;
     height: 500px;
   }
   .header_div {
     padding: 10px;
   }
   h1 {
+    color: #555555;
     font-size: 2.0em;
+  }
+  .details p {
+    color: #777777;
   }
   .details button {
     background: #ffffff;
