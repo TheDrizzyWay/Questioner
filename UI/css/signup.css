@@ -52,7 +52,7 @@ fieldset {
     background: linear-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#888888));
     background: -webkit-linear-gradient(#ffffff, #888888);
     padding:20px;
-    border-color:rgba(4, 129, 177, 0.4);
+    border-color:rgba(4, 4, 4, 0.4);
 }
 
 input {
@@ -80,13 +80,13 @@ input[type="password"]:focus {
     text-indent: 0;
     z-index: 1;
     color: #000000;
-    -webkit-transition-duration: 400ms;
+    -webkit-transition-duration: 0.4s;
     -webkit-transition-property: width, background;
     -webkit-transition-timing-function: ease;
-    -moz-transition-duration: 400ms;
+    -moz-transition-duration: 0.4s;
     -moz-transition-property: width, background;
     -moz-transition-timing-function: ease;
-    -o-transition-duration: 400ms;
+    -o-transition-duration: 0.4s;
     -o-transition-property: width, background;
     -o-transition-timing-function: ease;
     width: 380px;
@@ -97,11 +97,11 @@ input[type="password"]:focus {
 }
 
 input[type="submit"]{
-    background: #222;
+    background: #222222;
     border: none;
     text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
     text-transform:uppercase;
-    color: #eee;
+    color: #eeeeee;
     cursor: pointer;
     font-size: 15px;
     margin: 5px 0;
@@ -135,10 +135,10 @@ span {
   font-size: 1.5em;
 }
 
-.home {
+a {
   position: absolute;
   width: 150px;
-  margin-top: 30px;
+  margin-top: 5px;
   left: 50%;
   text-align: center;
   transform: translate(-50%, 0);
@@ -154,6 +154,23 @@ span {
   transition: all 0.15s ease-in-out;
 }
 
-.home:hover {
+a:hover {
   background: #555555;
+}
+
+@media (max-width:600px) {
+  body {
+    padding: 5px 5px;
+  }
+  #wrapper {
+    width: 100%;
+  }
+  input[type="text"],
+  input[type="password"] {
+    width: 70%;
+  }
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    width: 90%;
+  }
 }
