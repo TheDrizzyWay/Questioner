@@ -20,31 +20,31 @@
             <fieldset>
                 <legend>Signup Form</legend>
                 <div>
-                    <input type="text" name="first_name" placeholder="First Name" required/>
+                    <input type="text" name="first_name" placeholder="First Name" maxlength="24" required/>
                 </div>
                 <div>
-                    <input type="text" name="last_name" placeholder="Last Name" required/>
+                    <input type="text" name="last_name" placeholder="Last Name" maxlength="24" required/>
                 </div>
                 <div>
-                    <input type="text" name="other_name" placeholder="Other Name" optional/>
+                    <input type="text" name="other_name" placeholder="Other Name" maxlength="24" optional/>
                 </div>
                 <div>
-                    <input type="text" name="email" placeholder="Email" required/>
+                    <input type="email" name="email" placeholder="Email" required/>
                 </div>
                 <div>
-                    <input type="password" name="password" placeholder="Password" required/>
+                    <input type="password" name="password" placeholder="Password" maxlength="18" required/>
                 </div>
                 <div class="small">
                   Your password should be between six and 18 characters long.
                 </div>
                 <div>
-                    <input type="password" name="conf_password" placeholder="Confirm Password" required/>
+                    <input type="password" name="conf_password" placeholder="Confirm Password" maxlength="18" required/>
                 </div>
                 <div>
-                    <input type="text" name="user_name" placeholder="Username" required/>
+                    <input type="text" name="user_name" placeholder="Username" maxlength="24" required/>
                 </div>
                 <div>
-                    <input type="text" name="phone" placeholder="Phone Number" required/>
+                    <input type="tel" name="phone" placeholder="Phone Number" maxlength="24" required/>
                 </div>
                 <input type="submit" name="submit" value="Signup"/>
             </fieldset>
