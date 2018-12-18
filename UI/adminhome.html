@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+  	<title> Questioner - Admin Home</title>
+  	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+  	<meta name="description" content="Questioner Admin Page" />
+  	<link rel="stylesheet" href="css/adminhome.css">
+  </head>
+  <body>
+    <div class="header_container">
+      <header>
+        <h1>Admin Section</h1>
+      </header>
+    </div>
+    <div class="create">
+      <button id="modal-button"><img src="images/plus.png" alt="plus icon"></button>
+      <p>Create a new meetup</p>
+    </div>
+    <section>
+      <p>My meetups</p>
+      <div class="meet_container">
+        <div class="meet">
+          <p>ID: 001</p>
+          <p>TOPIC: Topic 001</p>
+          <p>DATE: 10/March/2019</p>
+          <a href="#"><button>View</button></a>
+        </div>
+        <div class="meet">
+          <p>ID: 002</p>
+          <p>TOPIC: Topic 002</p>
+          <p>DATE: 10/March/2019</p>
+          <a href="#"><button>View</button></a>
+        </div>
+        <div class="meet">
+          <p>ID: 003</p>
+          <p>TOPIC: Topic 003</p>
+          <p>DATE: 10/March/2019</p>
+          <a href="#"><button>View</button></a>
+        </div>
+        <div class="meet">
+          <p>ID: 004</p>
+          <p>TOPIC: Topic 004</p>
+          <p>DATE: 10/March/2019</p>
+          <a href="#"><button>View</button></a>
+        </div>
+        <div class="meet">
+          <p>ID: 005</p>
+          <p>TOPIC: Topic 005</p>
+          <p>DATE: 10/March/2019</p>
+          <a href="#"><button>View</button></a>
+        </div>
+        <div class="meet">
+          <p>ID: 006</p>
+          <p>TOPIC: Topic 006</p>
+          <p>DATE: 10/March/2019</p>
+          <a href="#"><button>View</button></a>
+        </div>
+        <div class="meet">
+          <p>ID: 007</p>
+          <p>TOPIC: Topic 007</p>
+          <p>DATE: 10/March/2019</p>
+          <a href="#"><button>View</button></a>
+        </div>
+      </div>
+    </section>
+    <div id="simple-modal" class="modal">
+      <div class="modal_content">
+        <span class="close_btn">&times;</span>
+        <div class="create_form">
+        <form>
+          <fieldset>
+            <legend>Create meetup Form</legend>
+            <input type="text" name="topic" placeholder="Meetup Topic *"/>
+            <textarea name="location" placeholder="Location *"></textarea>
+            <label> Upload Location Image</label>
+            <input type="file" accept="image/*"name="image" />
+            <div class="tags-input" data-name="tags-input">
+              Add Tags Here
+            </div>
+            <label>Happening On: Select Date Below</label>
+            <label for="Date">Year</label>
+            <select class="Year" name="Year">
+              <optgroup label="Year">
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2020">2021</option>
+              </optgroup>
+            </select>
+            <label for="Month">Month</label>
+            <select class="Month" name="Month">
+            <optgroup label="Month">
+              <option value="January">January</option>
+              <option value="February">February</option>
+              <option value="March">March</option>
+              <option value="April">April</option>
+              <option value="May">May</option>
+              <option value="June">June</option>
+              <option value="July">July</option>
+              <option value="August">August</option>
+              <option value="September">September</option>
+              <option value="October">October</option>
+              <option value="November">November</option>
+              <option value="December">December</option>
+            </optgroup>
+            </select>
+            <label for="Day">Day</label>
+            <input type="text" name="day" maxlength="2"/>
+          </fieldset>
+          <input type="submit" value="Submit" />
+        </form>
+        </div>
+      </div>
+    </div>
+    <div>
+      <a href="signin.html" class="logout">Logout</a>
+    </div>
+
+    <script type="text/javascript" src="scripts/createmodal.js">
+    </script>
+    <script type="text/javascript" src="scripts/tags.js">
+    </script>
+  </body>
+</html>
