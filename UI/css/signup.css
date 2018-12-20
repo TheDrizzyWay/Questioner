@@ -158,6 +158,12 @@ a:hover {
   background: #555555;
 }
 
+.footer {
+  height:30px;
+  margin-top: 40px;
+  background:#f4f4f4;
+}
+
 @media (max-width:600px) {
   body {
     padding: 5px 5px;
