@@ -88,20 +88,34 @@ span {
   justify-content: flex-start;
 }
 
-.buttons img {
+.buttons img, .buttons a img{
   border: 1px solid black;
   height: 60px;
   width: 60px;
 }
 
+.buttons a img {
+  padding-top: 10px;
+}
+
 .buttons p {
   color: #ffffff;
-  padding: 10px 20px;
+  padding: 15px 20px;
   font-size: 2.0em;
 }
 
 .buttons button:hover {
   background: #000000;
+}
+
+.buttons a img:hover {
+  background: #f4f4f4;
+}
+
+.footer {
+  height:30px;
+  margin-top: 30px;
+  background:#f4f4f4;
 }
 
 @media (max-width:600px) {

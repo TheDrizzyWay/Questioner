@@ -204,8 +204,7 @@ section > p {
 }
 
 .create_form input[type="text"], .create_form input[type="file"],
-.create_form textarea,
-.create_form select {
+.create_form textarea {
 	font-family: Georgia, "Times New Roman", serif;
 	background: rgba(255,255,255,0.1);
 	border: none;
@@ -226,8 +225,7 @@ section > p {
 }
 
 .create_form input[type="text"]:focus,
-.create_form textarea:focus,
-.create_form select:focus, .create_form input[type="file"]:focus {
+.create_form textarea:focus, .create_form input[type="file"]:focus {
 	background: #d2d9dd;
 }
 
@@ -256,6 +254,11 @@ section > p {
 	background: #777777;
 }
 
+#date {
+  padding: 10px 10px;
+  margin-bottom: 15px;
+  font-size: 1.3em;
+}
 .tags-input {
     display: inline-block;
     width: 100%;
@@ -294,8 +297,21 @@ section > p {
     padding: 0.5em 0.1em;
 }
 
+.footer {
+  height:30px;
+  margin-top: 40px;
+  background:#f4f4f4;
+}
+
 @media (max-width:600px) {
   .header_container h1 {
     text-align: center;
+  }
+  .create_form legend {
+    margin-left: 5%;
+  }
+  #date, .create_form input[type="text"], .create_form input[type="file"],
+  .create_form textarea {
+    width:85%;
   }
 }

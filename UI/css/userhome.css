@@ -1,0 +1,139 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  background: url("../images/light-grey.jpg");
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  transition: all 0.2s ease-in;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  background: #000000;
+  margin: auto auto;
+  width: 80%;
+  color: #fffaf0;
+}
+
+.header_container h1 {
+  font-size: 3.0em;
+}
+
+.wrapper {
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 80%;
+  height: 100%;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid #000000;
+}
+
+.new_meetups, .joined {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #ffffff;
+  background: #000000;
+  flex: 1;
+  height: 95%;
+  margin: 10px 10px;
+  border-radius: 10px;
+}
+
+.new_one {
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-right: 10px;
+}
+
+.new_one p {
+  background: #555555;
+  font-family: Tahoma;
+  font-size: 1.2em;
+  padding: 10px 10px;
+  color: #ffffff;
+}
+
+.new_one a {
+  align-self: center;
+  padding-left: 10px;
+}
+
+.new_one button {
+  background: #222222;
+  border: none;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+  text-transform:uppercase;
+  font-size: 15px;
+  padding: 5px 22px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-border-radius:4px;
+  color: #ffffff;
+}
+
+.new_one button:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+span {
+  color: #ffffff;
+  padding-left: 10px;
+  font-weight: bold;
+}
+
+.rsvp {
+  background: #777777;
+}
+
+.new_header {
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+
+.new_header p {
+  background: #555555;
+  text-align: center;
+  font-family: Tahoma;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.next {
+  display: flex;
+  padding: 10px 10px;
+  justify-content: center;
+}
+
+@media (max-width:600px) {
+  header {
+    text-align: center;
+  }
+  .wrapper {
+    width: 95%;
+  }
+  .rsvp {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .rsvp a {
+    padding: 10px 10px;
+  }
+  .rsvp span {
+    padding: 10px 10px; 
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+}
