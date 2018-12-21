@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title> Questioner - User Meetups</title>
+  	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+  	<meta name="description" content="Questioner User Meetups Page" />
+  	<link rel="stylesheet" href="css/usermeetups.css">
+  </head>
+  <body>
+    <div class="header_container">
+      <header>
+        <h1>Meetup Details</h1>
+      </header>
+    </div>
+    <div class="add">
+      <button id="modal-button"><img src="images/plus.png" alt="plus icon"></button>
+      <p>Post a new question</p>
+    </div>
+    <main>
+      <p>Topic 001</p>
+      <p>QUESTIONS</p>
+      <div class="container">
+        <div class="questions">
+          <p><span>Question: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p><span>Votes: </span>5</p>
+          <p><span>Posted By: </span>user001</p>
+          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
+          <div class="actions">
+            <img src="images/upvote.jpg" alt="upvote">
+            <button>Upvote</button>
+            <img src="images/downvote.jpg" alt="downvote">
+            <button>Downvote</button>
+            <img src="images/comment.png" alt="comments">
+            <a href="#"><button>Comments</button></a>
+          </div>
+        </div>
+        <div class="questions">
+          <p><span>Question: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p><span>Votes: </span>5</p>
+          <p><span>Posted By: </span>user001</p>
+          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
+          <div class="actions">
+            <img src="images/upvote.jpg" alt="upvote">
+            <button>Upvote</button>
+            <img src="images/downvote.jpg" alt="downvote">
+            <button>Downvote</button>
+            <img src="images/comment.png" alt="comments">
+            <a href="#"><button>Comments</button></a>
+          </div>
+        </div>
+        <div class="questions">
+          <p><span>Question: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p><span>Votes: </span>5</p>
+          <p><span>Posted By: </span>user001</p>
+          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
+          <div class="actions">
+            <img src="images/upvote.jpg" alt="upvote">
+            <a href="#"><button>Upvote</button></a>
+            <img src="images/downvote.jpg" alt="downvote">
+            <button>Downvote</button>
+            <img src="images/comment.png" alt="comments">
+            <button>Comments</button>
+          </div>
+        </div>
+        <p id="lower">Showing 3 of 5 questions</p>
+        <div class="next">
+          <a href="#">&laquo;</a>
+          <a href="#" class="active">1</a>
+          <a href="#">2</a>
+          <a href="#">3</a>
+          <a href="#">&raquo;</a>
+        </div>
+      </div>
+    </main>
+    <div id="simple-modal" class="modal">
+      <div class="modal_content">
+        <span class="close_btn">&times;</span>
+        <div class="create_form">
+        <form>
+          <fieldset>
+            <legend>Create meetup Form</legend>
+            <textarea name="question" rows="3" cols="60" placeholder="Post Question Here..." required></textarea>
+          </fieldset>
+          <input type="submit" value="Submit" />
+        </form>
+        </div>
+      </div>
+    </div>
+    <div>
+      <a href="userhome.html" class="home">Home</a>
+    </div>
+    <footer>
+      <div class="footer">
+      </div>
+    </footer>
+    <script type="text/javascript" src="scripts/createmodal.js">
+    </script>
+  </body>
+</html>
