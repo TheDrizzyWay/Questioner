@@ -83,14 +83,16 @@ span {
 
 .buttons {
   display: flex;
+  background: #dddddd;
   width: 60%;
   margin: auto auto;
   justify-content: flex-start;
+  border: 1px solid #000000;
 }
 
 .buttons img, .buttons a img{
   border: 1px solid black;
-  height: 60px;
+  height: 55px;
   width: 60px;
 }
 
@@ -99,7 +101,7 @@ span {
 }
 
 .buttons p {
-  color: #ffffff;
+  color: #000000;
   padding: 15px 20px;
   font-size: 2.0em;
 }
