@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title> Questioner - User Comments</title>
+  	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+  	<meta name="description" content="Questioner User Comments Page" />
+  	<link rel="stylesheet" href="css/usermeetups.css">
+  </head>
+  <body>
+    <div class="header_container">
+      <header>
+        <h1>Comments Section</h1>
+      </header>
+    </div>
+    <div class="add">
+      <button id="modal-button"><img src="images/plus.png" alt="plus icon"></button>
+      <p>Add a comment</p>
+    </div>
+    <main>
+      <p>Topic 001</p>
+      <p>QUESTION: Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <div class="container">
+        <div class="questions">
+          <p><span>Comment: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p><span>Posted By: </span>user001</p>
+          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
+        </div>
+        <div class="questions">
+          <p><span>Comment: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p><span>Posted By: </span>user001</p>
+          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
+        </div>
+        <div class="questions">
+          <p><span>Comment: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p><span>Posted By: </span>user001</p>
+          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
+        </div>
+        <div class="questions">
+          <p><span>Comment: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+          <p><span>Posted By: </span>user001</p>
+          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
+        </div>
+        <p id="lower">Showing 4 of 10 comments</p>
+        <div class="next">
+          <a href="#">&laquo;</a>
+          <a href="#" class="active">1</a>
+          <a href="#">2</a>
+          <a href="#">3</a>
+          <a href="#">&raquo;</a>
+        </div>
+      </div>
+    </main>
+    <div id="simple-modal" class="modal">
+      <div class="modal_content">
+        <span class="close_btn">&times;</span>
+        <div class="create_form">
+        <form>
+          <fieldset>
+            <legend>Post Comment Below</legend>
+            <textarea name="question" rows="3" cols="60" maxlength="300" required></textarea>
+          </fieldset>
+          <input type="submit" value="Submit" />
+        </form>
+        </div>
+      </div>
+    </div>
+    <div>
+      <a href="userhome.html" class="home">Home</a>
+    </div>
+    <footer>
+      <div class="footer">
+      </div>
+    </footer>
+    <script type="text/javascript" src="scripts/createmodal.js">
+    </script>
+  </body>
+</html>
