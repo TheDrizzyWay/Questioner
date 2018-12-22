@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+  	<title> Questioner - User Profile</title>
+  	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+  	<meta name="description" content="Questioner Profile Page" />
+  	<link rel="stylesheet" href="css/profile.css">
+  </head>
+  <body>
+    <div class="header_container">
+      <header>
+        <h1>Profile Page</h1>
+      </header>
+    </div>
+    <div class="details_wrapper">
+      <div class="user_image">
+        <img src="images/user.png" alt="user icon">
+      </div>
+      <div class="user_details">
+        <p>First Name: user first name</p>
+        <p>Last Name: user last name</p>
+        <p>Username: username</p>
+        <button id="modal-button">Edit Details</button>
+      </div>
+    </div>
+    <div class="activity">
+      <div class="log">
+        <p>Activity Log</p>
+      </div>
+      <div class="activities">
+        <p>Number of questions posted: <span>5</span></p>
+        <p>Number of questions commented on: <span>5</span></p>
+        <p>Total number of comments posted: <span>10</span></p>
+      </div>
+    </div>
+    <section>
+      <div class="top">
+        <p id="top">Top Questions From Joined Meetups</p>
+        <div class="question">
+          <p>Question: Lorem ipsum dolor sit amet consectetur adipisicing el</p>
+          <p>Posted by: user001</p>
+          <p>Votes: 5</p>
+        </div>
+        <div class="question">
+          <p>Question: Lorem ipsum dolor sit amet consectetur adipisicing el</p>
+          <p>Posted by: user002</p>
+          <p>Votes: 3</p>
+        </div>
+      </div>
+    </section>
+    <div id="simple-modal" class="modal">
+      <div class="modal_content">
+        <span class="close_btn">&times;</span>
+        <div class="create_form">
+        <form>
+          <fieldset>
+            <legend>Edit your Personal Details</legend>
+            <input type="text" name="username" placeholder="Username" maxlength="24" />
+            <input type="text" name="password" placeholder="Old Password" maxlength="24"/>
+            <input type="text" name="confpassword" placeholder="New Password" maxlength="24"/>
+            <label> Upload Profile Picture</label>
+            <input type="file" accept="image/*" name="image" />
+          </fieldset>
+          <input type="submit" value="Submit" />
+        </form>
+        </div>
+      </div>
+    </div>
+    <div>
+      <a href="userhome.html" class="home">Home</a>
+    </div>
+    <footer>
+      <div class="footer"></div>
+    </footer>
+    <script type="text/javascript" src="scripts/createmodal.js">
+    </script>
+  </body>
+</html>
