@@ -159,9 +159,16 @@ a:hover {
 }
 
 .footer {
-  height:30px;
+  display: flex;
+  justify-content: flex-end;
+  height:40px;
   margin-top: 40px;
   background:#f4f4f4;
+}
+
+.footer a {
+  position: relative;
+  left: 0%;
 }
 
 @media (max-width:600px) {
