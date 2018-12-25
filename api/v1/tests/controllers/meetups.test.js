@@ -71,4 +71,14 @@ describe('Meetups', () => {
       expect(res.body).to.have.property('data');
     });
   });
+
+  describe('GET /meetups', () => {
+    it('should get all meetups and return 200', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups');
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+  });
 });
