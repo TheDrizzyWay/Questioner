@@ -1,13 +1,12 @@
 import express from 'express';
 
+import routes from './v1/routes';
+
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-app.get('/', (req, res) => {
-  res.status(200).send('Welcome to the Questioner API!');
-});
+app.use('/api/v1', routes);
 
 const port = process.env.PORT || 3000;
 
