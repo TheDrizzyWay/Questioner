@@ -35,5 +35,14 @@ describe('Meetups', () => {
       expect(res).to.have.status(201);
       expect(res.body).to.have.property('data');
     });
+
+    it('should create meetup with appropriate id', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/meetups')
+        .send(correct);
+
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('data');
+    });
   });
 });
