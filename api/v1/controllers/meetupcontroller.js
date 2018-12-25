@@ -23,4 +23,6 @@ export default {
     }
     return res.status(200).send({ status: 200, data: [meetup] });
   },
+
+  getAllMeetups: (req, res) => res.status(200).send({ status: 200, data: meetupStore }),
 };
