@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node_modules/.bin/nodemon api/app.js --exec babel-node --",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc --reporter=text mocha -c ./api/v1/tests/**/*.js --exit --require babel-core/register"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "moment": "^2.23.0"
   },
   "devDependencies": {
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
