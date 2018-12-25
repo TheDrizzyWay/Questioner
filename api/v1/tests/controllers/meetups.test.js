@@ -45,4 +45,30 @@ describe('Meetups', () => {
       expect(res.body).to.have.property('data');
     });
   });
+
+  describe('GET /meetups/:id', () => {
+    it('should return 422 if id is invalid', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups/abc');
+
+      expect(res).to.have.status(422);
+      expect(res.body).to.have.property('error');
+    });
+
+    it('should return 404 if id does not exist', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups/10');
+
+      expect(res).to.have.status(404);
+      expect(res.body).to.have.property('error');
+    });
+
+    it('should return 200 if request is successfull', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups/1');
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+  });
 });
