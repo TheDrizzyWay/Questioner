@@ -216,7 +216,7 @@ span {
   margin-left: 30%;
 }
 
-textarea {
+.create_form input[type="text"], textarea {
 	font-family: Georgia, "Times New Roman", serif;
 	background: rgba(255,255,255,0.1);
 	border: none;
