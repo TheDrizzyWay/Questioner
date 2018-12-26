@@ -3,11 +3,32 @@ import chaiHttp from 'chai-http';
 import app from '../../../app';
 import {
   missing, invalid, correct,
+  correct2, correct3,
 } from '../mockdata/meetupdata';
 
 chai.use(chaiHttp);
 
 describe('Meetups', () => {
+  describe('GET /meetups', () => {
+    it('should return an empty array if no meetups are found', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups');
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+  });
+
+  describe('GET /meetups/upcoming', () => {
+    it('should return an empty array if no upcoming meetups are found', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups/upcoming');
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+  });
+
   describe('POST /meetups', () => {
     it('it should return 400 if required fields are missing', async () => {
       const res = await chai.request(app)
@@ -39,7 +60,16 @@ describe('Meetups', () => {
     it('should create meetup with appropriate id', async () => {
       const res = await chai.request(app)
         .post('/api/v1/meetups')
-        .send(correct);
+        .send(correct2);
+
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('data');
+    });
+
+    it('should create meetup with appropriate id', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/meetups')
+        .send(correct3);
 
       expect(res).to.have.status(201);
       expect(res.body).to.have.property('data');
@@ -76,6 +106,16 @@ describe('Meetups', () => {
     it('should get all meetups and return 200', async () => {
       const res = await chai.request(app)
         .get('/api/v1/meetups');
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+  });
+
+  describe('GET /meetups/upcoming', () => {
+    it('should get all upcoming meetups', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups/upcoming');
 
       expect(res).to.have.status(200);
       expect(res.body).to.have.property('data');

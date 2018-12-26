@@ -24,5 +24,31 @@ export default {
     return res.status(200).send({ status: 200, data: [meetup] });
   },
 
-  getAllMeetups: (req, res) => res.status(200).send({ status: 200, data: meetupStore }),
+  getAllMeetups: (req, res) => {
+    if (meetupStore.length === 0) {
+      return res.status(200).send({
+        status: 200,
+        message: 'No meetups created yet.',
+        data: [],
+      });
+    }
+    return res.status(200).send({ status: 200, data: meetupStore });
+  },
+
+  getUpcomingMeetups: (req, res) => {
+    const upcoming = meetupStore.filter(obj => new Date(obj.happeningOn) > new Date(Date.now()));
+    if (upcoming.length === 0) {
+      return res.status(200).send({
+        status: 200,
+        message: 'No upcoming meetups found.',
+        data: [],
+      });
+    }
+    const sorted = upcoming.sort((a, b) => {
+      const aDate = new Date(a.happeningOn);
+      const bDate = new Date(b.happeningOn);
+      return aDate - bDate;
+    });
+    return res.status(200).send({ status: 200, data: sorted });
+  },
 };
