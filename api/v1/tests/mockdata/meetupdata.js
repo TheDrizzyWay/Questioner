@@ -20,6 +20,23 @@ const correct = {
   tags: ['tag1', 'tag2'],
 };
 
+const correct2 = {
+  topic: 'topic 001',
+  location: 'location 001',
+  happeningOn: '2019-12-12T23:02',
+  images: ['http://sample.com/image1.jpg', 'http://sample.com/image2.jpg'],
+  tags: ['tag1', 'tag2'],
+};
+
+const correct3 = {
+  topic: 'topic 001',
+  location: 'location 001',
+  happeningOn: '2019-12-08T23:02',
+  images: ['http://sample.com/image1.jpg', 'http://sample.com/image2.jpg'],
+  tags: ['tag1', 'tag2'],
+};
+
 export {
   missing, invalid, correct,
+  correct2, correct3,
 };
