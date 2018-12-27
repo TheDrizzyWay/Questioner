@@ -13,4 +13,25 @@ export default {
       data: [question],
     });
   },
+
+  getAllQuestions: (req, res) => {
+    if (questionStore.length === 0) {
+      return res.status(200).send({
+        status: 200,
+        message: 'No questions available yet.',
+        data: [],
+      });
+    }
+    return res.status(200).send({ status: 200, data: questionStore });
+  },
+
+  getOneQuestion: (req, res) => {
+    const { id } = req.params;
+    const question = questionStore.find(obj => obj.id === id);
+
+    if (!question) {
+      return res.status(404).send({ status: 404, error: 'Question not found' });
+    }
+    return res.status(200).send({ status: 200, data: [question] });
+  },
 };
