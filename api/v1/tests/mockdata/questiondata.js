@@ -20,13 +20,20 @@ const correct = {
 };
 
 const correct2 = {
-  meetup: '2',
+  meetup: '1',
   title: 'title',
   body: 'body',
   createdBy: '2',
 };
 
+const invalidmeetup = {
+  meetup: '5',
+  title: 'title',
+  body: 'body',
+  createdBy: '3',
+};
+
 export {
   missing, invalid, correct,
-  correct2,
+  correct2, invalidmeetup,
 };
