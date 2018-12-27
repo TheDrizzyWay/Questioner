@@ -5,6 +5,6 @@ const { getUndefined } = appController;
 
 const router = express.Router();
 
-router.get('/', getUndefined);
+router.all('/', getUndefined);
 
 export default router;
