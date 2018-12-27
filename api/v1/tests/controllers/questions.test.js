@@ -111,4 +111,22 @@ describe('Questions', () => {
       expect(res.body).to.have.property('data');
     });
   });
+
+  describe('PATCH /questions/:id/downvote', () => {
+    it('should return 404 if id does not exist', async () => {
+      const res = await chai.request(app)
+        .patch('/api/v1/questions/10/downvote');
+
+      expect(res).to.have.status(404);
+      expect(res.body).to.have.property('error');
+    });
+
+    it('should return 200 if request is successfull', async () => {
+      const res = await chai.request(app)
+        .patch('/api/v1/questions/1/downvote');
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+  });
 });
