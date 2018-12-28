@@ -36,7 +36,28 @@ const correct3 = {
   tags: ['tag1', 'tag2'],
 };
 
+const invalidrsvp = {
+  meetup: '10',
+  response: 'Yes',
+};
+
+const wrongrsvp = {
+  meetup: '1',
+  response: 'abc',
+};
+
+const rsvp = {
+  meetup: '1',
+  response: 'Yes',
+};
+
+const missingrsvp = {
+  meetup: '',
+  response: '',
+};
+
 export {
   missing, invalid, correct,
-  correct2, correct3,
+  correct2, correct3, invalidrsvp,
+  wrongrsvp, rsvp, missingrsvp,
 };
