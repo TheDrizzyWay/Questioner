@@ -1,4 +1,4 @@
-﻿Questioner
+# ﻿Questioner
 
 Questioner is a full stack application for crowd-sourcing questions for a meetup. ​It helps the meetup organizer prioritize  questions to be answered. Other users can vote on asked questions and they bubble to the top  or bottom of the log.
 
@@ -31,6 +31,6 @@ Version 1 (v1) of the Questioner API is hosted on Heroku at: [https://drizzyques
 | /api/v1/questions/:id/upvote  | PATCH          | question id | Allows a user upvote a question       |
 | /api/v1/questions/:id/downvote| PATCH          | question id | Allows a user downvote a question     |                
 
-
+***
 ### Project Management
 This project is managed with Pivotal Tracker and can be found [here](https://www.pivotaltracker.com/n/projects/2232521)

@@ -67,7 +67,7 @@ describe('Meetups', () => {
       expect(res.body).to.have.property('data');
     });
 
-    it('should create meetup with appropriate id', async () => {
+    it('should create meetup without optional fields', async () => {
       const res = await chai.request(app)
         .post('/api/v1/meetups')
         .send(correct3);
