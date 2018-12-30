@@ -24,7 +24,7 @@ Version 1 (v1) of the Questioner API is hosted on Heroku at: [https://drizzyques
 ### Question Endpoints
 
 | Endpoint                      | Request Method | Parameters  | Action                                |
-| ------------------------ -----|:--------------:| :----------:| :------------------------------------:|
+| ------------------------------| :------------: |:-----------:| :-----------------------------------: |
 | /api/v1/questions             | POST           |             | Allows a user create a question       |
 | /api/v1/questions             | GET            |             | Allows a user get all questions       |
 | /api/v1/questions/:id         | GET            | question id | Allows a user get a single question   |
