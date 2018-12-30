@@ -1,3 +1,3 @@
 export default {
-  getUndefined: (req, res) => res.status(404).send({ message: 'Invalid request.' }),
+  welcome: (req, res) => res.status(200).send('Welcome to the Questioner API.'),
 };

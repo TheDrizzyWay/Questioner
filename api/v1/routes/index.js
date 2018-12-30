@@ -7,6 +7,6 @@ const router = new Router();
 
 router.use('/meetups', meetupRoute);
 router.use('/questions', questionRoute);
-router.use('/*', appRoute);
+router.use('/welcome', appRoute);
 
 export default router;

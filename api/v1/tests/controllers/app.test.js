@@ -13,4 +13,13 @@ describe('App', () => {
       expect(res).to.have.status(404);
     });
   });
+
+  describe('GET /welcome', () => {
+    it('should display a welcome message', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/welcome');
+
+      expect(res).to.have.status(200);
+    });
+  });
 });

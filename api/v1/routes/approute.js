@@ -1,10 +1,10 @@
 import express from 'express';
 import appController from '../controllers/appcontroller';
 
-const { getUndefined } = appController;
+const { welcome } = appController;
 
 const router = express.Router();
 
-router.all('/', getUndefined);
+router.get('/', welcome);
 
 export default router;
