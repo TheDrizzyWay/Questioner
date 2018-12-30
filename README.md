@@ -32,5 +32,27 @@ Version 1 (v1) of the Questioner API is hosted on Heroku at: [https://drizzyques
 | /api/v1/questions/:id/downvote| PATCH          | question id | Allows a user downvote a question     |                
 
 ***
+### Tools
+
+> Frontend (UI)
+ - HTML for webpage layout
+ - CSS for styling
+ - Javascript for dynamic behaviour
+
+> Backend (api)
+ - Node js for server-side logic
+ - Express for routing
+ - Babel for transpiling source code
+
+> Test Driven Development (TDD)
+ - Mocha and Chai for testing api routes
+ - Chai-http for simulating http calls
+
+> Continuous Integration
+ - Travis CI for automated testing
+ - Codeclimate for code quality report
+ - Coveralls for test coverage
+
+***
 ### Project Management
 This project is managed with Pivotal Tracker and can be found [here](https://www.pivotaltracker.com/n/projects/2232521)
