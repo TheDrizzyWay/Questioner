@@ -6,8 +6,8 @@ export default class Meetups {
     this.topic = meetup.topic;
     this.location = meetup.location;
     this.happeningOn = meetup.happeningOn;
-    this.images = meetup.images;
-    this.tags = meetup.tags;
+    this.images = meetup.images ? meetup.images : [];
+    this.tags = meetup.tags ? meetup.tags : [];
     this.createdOn = moment();
   }
 }
