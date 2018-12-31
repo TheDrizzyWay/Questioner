@@ -9,7 +9,7 @@ Questioner is a full stack application for crowd-sourcing questions for a meetup
 
 The application's front-end is hosted on gh-pages [here](https://thedrizzyway.github.io/Questioner/UI)
 
-Version 1 (v1) of the Questioner API is hosted on Heroku at: [https://drizzyquestioner.herokuapp.com/api/v1](https://drizzyquestioner.herokuapp.com/api/v1/welcome) and has the following endpoints:
+Version 1 (v1) of the Questioner API is hosted on Heroku at: [https://drizzyquestioner.herokuapp.com/api/v1](https://drizzyquestioner.herokuapp.com/api/v1/) and has the following endpoints:
 
 ### Meetup Endpoints
 

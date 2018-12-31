@@ -17,7 +17,7 @@ describe('App', () => {
   describe('GET /welcome', () => {
     it('should display a welcome message', async () => {
       const res = await chai.request(app)
-        .get('/api/v1/welcome');
+        .get('/api/v1/');
 
       expect(res).to.have.status(200);
     });
