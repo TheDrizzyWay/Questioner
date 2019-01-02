@@ -120,6 +120,170 @@ span {
   background:#f4f4f4;
 }
 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation-name: modalopen;
+  animation-duration: 1s;
+}
+
+.modal_content {
+  background-color: #f4f4f4;
+  margin: 10% auto;
+  padding: 20px;
+  width: 70%;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.17);
+}
+
+.close_btn {
+  background: #000000;
+  color: #ffffff;
+  float: right;
+  font-size: 30px;
+  font-weight: bolder;
+  width: 50px;
+  text-align: center;
+}
+
+.close_btn:hover, .close_btn:focus {
+  background: #555555;
+  color: #000000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@keyframes modalopen {
+  from {opacity: 0}
+  to {opacity: 1}
+}
+
+.create_form {
+	max-width: 500px;
+	padding: 10px 20px;
+	background: #f4f7f8;
+	margin: 10px auto;
+	padding: 20px;
+	background: #f4f7f8;
+	border-radius: 8px;
+	font-family: Georgia, "Times New Roman", serif;
+}
+
+.create_form fieldset{
+	border: none;
+}
+
+.create_form legend {
+	font-size: 1.4em;
+	margin-bottom: 10px;
+  margin-left: 30%;
+}
+
+.create_form label {
+	display: block;
+	margin-bottom: 8px;
+}
+
+.create_form input[type="text"], .create_form input[type="file"],
+.create_form textarea {
+	font-family: Georgia, "Times New Roman", serif;
+	background: rgba(255,255,255,0.1);
+	border: none;
+	border-radius: 4px;
+	font-size: 16px;
+	margin: 0;
+	outline: 0;
+	padding: 7px;
+	width: 100%;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	background-color: #e8eeef;
+	color:#8a97a0;
+	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+	margin-bottom: 30px;
+}
+
+.create_form input[type="text"]:focus,
+.create_form textarea:focus, .create_form input[type="file"]:focus {
+	background: #d2d9dd;
+}
+
+.create_form select {
+	-webkit-appearance: menulist-button;
+	height:35px;
+}
+
+.create_form input[type="submit"] {
+	position: relative;
+	display: block;
+	padding: 19px 39px 18px 39px;
+	color: #ffffff;
+	margin: 0 auto;
+	background: #000000;
+	font-size: 25px;
+	text-align: center;
+	font-style: normal;
+	width: 100%;
+	border: 1px solid #555555;
+	border-width: 1px 1px 3px;
+	margin-bottom: 10px;
+}
+
+.create_form input[type="submit"]:hover {
+	background: #777777;
+}
+
+#date {
+  padding: 10px 10px;
+  margin-bottom: 15px;
+  font-size: 1.3em;
+}
+.tags-input {
+    display: inline-block;
+    width: 100%;
+}
+
+.tags-input .tag {
+    font-size: 85%;
+    padding: 0.5em 0.75em;
+    margin: 0.25em 0.1em;
+    display: inline-block;
+    background-color: #dddddd;
+    transition: all 0.2s linear;
+    cursor: pointer;
+}
+
+.tags-input .tag:hover {
+    background-color: #000000;
+    color: white;
+}
+
+.tags-input .tag .close::after {
+    content: 'x';
+    font-weight: 400;
+    display: inline-block;
+    transform: scale(1.4);
+    margin-left: 0.75em;
+}
+
+.tags-input .tag .close:hover::after {
+    color: red;
+}
+
+.tags-input .main-input {
+    border: 0;
+    outline: 0;
+    padding: 0.5em 0.1em;
+}
+
 @media (max-width:600px) {
   .main_div {
     width:80%;
@@ -132,5 +296,16 @@ span {
   }
   .buttons {
     flex-direction: column;
+  }
+  .create_form legend {
+    margin-left: 5%;
+  }
+  .create_form input[type="text"], .create_form input[type="file"],
+  .create_form textarea {
+    width: 180px;
+  }
+
+  #date {
+    width: 150px;
   }
 }

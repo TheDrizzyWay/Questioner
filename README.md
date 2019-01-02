@@ -14,29 +14,29 @@ Version 1 (v1) of the Questioner API is hosted on Heroku at: [https://drizzyques
 
 | Endpoint                 | Request Method | Parameters  | Action                                |
 | ------------------------ |:--------------:| :----------:| :------------------------------------:|
-| /api/v1/meetups          | POST           |             | Allows an admin to create meetups     |
-| /api/v1/meetups          | GET            |             | Allows an admin get all meetups       |
-| /api/v1/meetups/upcoming | GET            |             | Allows a user get all upcoming meetups|
-| /api/v1/meetups/:id      | GET            |  meetup id  | Allows a user get a single meetup     |
-| /api/v1/meetups/:id/rsvps| POST           |  meetup id  | Allows a user respond to a meetup     |                
+| /meetups                 | POST           |             | Allows an admin to create meetups     |
+| /meetups                 | GET            |             | Allows an admin get all meetups       |
+| /meetups/upcoming        | GET            |             | Allows a user get all upcoming meetups|
+| /meetups/:id             | GET            |  meetup id  | Allows a user get a single meetup     |
+| /meetups/:id/rsvps       | POST           |  meetup id  | Allows a user respond to a meetup     |                
 
 ### Question Endpoints
 
 | Endpoint                      | Request Method | Parameters  | Action                                |
 | ------------------------------| :------------: |:-----------:| :-----------------------------------: |
-| /api/v1/questions             | POST           |             | Allows a user create a question       |
-| /api/v1/questions             | GET            |             | Allows a user get all questions       |
-| /api/v1/questions/:id         | GET            | question id | Allows a user get a single question   |
-| /api/v1/questions/:id/upvote  | PATCH          | question id | Allows a user upvote a question       |
-| /api/v1/questions/:id/downvote| PATCH          | question id | Allows a user downvote a question     |                
+| /questions                    | POST           |             | Allows a user create a question       |
+| /questions                    | GET            |             | Allows a user get all questions       |
+| /questions/:id                | GET            | question id | Allows a user get a single question   |
+| /questions/:id/upvote         | PATCH          | question id | Allows a user upvote a question       |
+| /questions/:id/downvote       | PATCH          | question id | Allows a user downvote a question     |       
 
 ***
 ### Tools
 
 > Frontend (UI)
- - HTML for webpage layout
- - CSS for styling
- - Javascript for dynamic behaviour
+> - HTML for webpage layout
+> - CSS for styling
+> - Javascript for dynamic behaviour
 
 > Backend (api)
  - Node js for server-side logic
