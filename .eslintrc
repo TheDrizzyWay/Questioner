@@ -14,7 +14,7 @@
     "no-unused-vars": "warn",
     "valid-typeof": "warn",
     "max-len": [1, 120, 2],
-    "import/prefer-default-export": "off",
+    "no-console": "off",
     "linebreak-style": "off",
   }
 }
