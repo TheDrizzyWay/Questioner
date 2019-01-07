@@ -8,6 +8,6 @@ export default class Meetups {
     this.happeningOn = meetup.happeningOn;
     this.images = meetup.images ? meetup.images : [];
     this.tags = meetup.tags ? meetup.tags : [];
-    this.createdOn = moment();
+    this.createdOn = moment().toISOString().replace('T', ' by ').replace('Z', '');
   }
 }

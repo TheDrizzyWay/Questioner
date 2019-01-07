@@ -44,9 +44,9 @@ export default {
         data: [],
       });
     }
-    const sorted = upcoming.sort((a, b) => {
-      const aDate = new Date(a.happeningOn);
-      const bDate = new Date(b.happeningOn);
+    const sorted = upcoming.sort((older, newer) => {
+      const aDate = new Date(older.happeningOn);
+      const bDate = new Date(newer.happeningOn);
       return aDate - bDate;
     });
     return res.status(200).send({ status: 200, data: sorted });
