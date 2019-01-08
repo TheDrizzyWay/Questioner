@@ -1,3 +1,5 @@
+import validator from 'validator';
+
 export default (req, res, next) => {
   const errors = {};
   const checkInput = /[!@#$%^&*()_+\-=[\]{};':"\\|<>/?]/;
@@ -6,19 +8,19 @@ export default (req, res, next) => {
   const meetup = req.body;
   const { images, tags } = meetup;
 
-  if (!meetup.topic) {
+  if (validator.isEmpty(meetup.topic)) {
     errors.topic = 'A topic is required';
   }
   if (checkInput.test(meetup.topic)) {
     errors.validTopic = 'Your topic should contain only alphabets and numbers.';
   }
-  if (!meetup.location) {
+  if (validator.isEmpty(meetup.location)) {
     errors.location = 'A location is required';
   }
   if (checkInput.test(meetup.location)) {
     errors.validTopic = 'Your location should contain only alphabets and numbers.';
   }
-  if (!meetup.happeningOn) {
+  if (validator.isEmpty(meetup.happeningOn)) {
     errors.happeningOn = 'A date and time for the meetup is required';
   }
   if (!checkDate.test(meetup.happeningOn)) {
@@ -33,13 +35,13 @@ export default (req, res, next) => {
   }
   if (tags) {
     tags.forEach((tag) => {
-      if (checkInput.test(tag)) {
+      if (!validator.isAlphanumeric(tag)) {
         errors.tags = `${tag} should contain only alphabets and numbers.`;
       }
     });
   }
   if (Object.keys(errors).length > 0) {
-    return res.status(400).send({ status: 400, error: errors });
+    return res.status(400).json({ status: 400, error: errors });
   }
   return next();
 };

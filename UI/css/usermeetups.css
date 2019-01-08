@@ -105,16 +105,9 @@ span {
 
 .actions img {
   padding-top: 5px;
-  padding-left: 50px;
+  padding-left: 100px;
   width: 40px;
   height: 40px;
-}
-
-.actions a {
-  width: 40px;
-  height: 40px;
-  padding-top: 0px;
-  padding-left: 50px;
 }
 
 .next {
@@ -177,7 +170,7 @@ span {
 
 .close_btn:hover, .close_btn:focus {
   background: #191970;
-  color: #000000;
+  color: #ffffff;
   text-decoration: none;
   cursor: pointer;
 }
@@ -206,6 +199,7 @@ span {
 	font-size: 1.4em;
 	margin-bottom: 10px;
   margin-left: 30%;
+  color: #4169e1;
 }
 
 .create_form input[type="text"], textarea {
@@ -238,18 +232,18 @@ textarea:focus {
 	padding: 10px 20px 10px 20px;
 	color: #ffffff;
 	margin: 0 auto;
-	background: #000000;
+	background: #4169e1;
 	font-size: 20px;
 	text-align: center;
 	font-style: normal;
 	width: 100%;
-	border: 1px solid #555555;
+	border: 1px solid #ffffff;
 	border-width: 1px 1px 3px;
 	margin-bottom: 10px;
 }
 
 .create_form input[type="submit"]:hover {
-	background: #777777;
+	background: #191970;
 }
 
 .footer {

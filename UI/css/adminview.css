@@ -148,7 +148,7 @@ span {
 }
 
 .close_btn {
-  background: #000000;
+  background: #4169e1;
   color: #ffffff;
   float: right;
   font-size: 30px;
@@ -158,8 +158,8 @@ span {
 }
 
 .close_btn:hover, .close_btn:focus {
-  background: #555555;
-  color: #000000;
+  background: #191970;
+  color: #ffffff;
   text-decoration: none;
   cursor: pointer;
 }
@@ -188,11 +188,13 @@ span {
 	font-size: 1.4em;
 	margin-bottom: 10px;
   margin-left: 30%;
+  color: #4169e1;
 }
 
 .create_form label {
 	display: block;
 	margin-bottom: 8px;
+  color: #4169e1;
 }
 
 .create_form input[type="text"], .create_form input[type="file"],
@@ -232,18 +234,18 @@ span {
 	padding: 19px 39px 18px 39px;
 	color: #ffffff;
 	margin: 0 auto;
-	background: #000000;
+	background: #4169e1;
 	font-size: 25px;
 	text-align: center;
 	font-style: normal;
 	width: 100%;
-	border: 1px solid #555555;
+	border: 1px solid #ffffff;
 	border-width: 1px 1px 3px;
 	margin-bottom: 10px;
 }
 
 .create_form input[type="submit"]:hover {
-	background: #777777;
+	background: #191970;
 }
 
 #date {

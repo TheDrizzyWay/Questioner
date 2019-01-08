@@ -174,7 +174,7 @@ section > p {
 
 .close_btn:hover, .close_btn:focus {
   background: #191970;
-  color: #000000;
+  color: #ffffff;
   text-decoration: none;
   cursor: pointer;
 }
@@ -190,7 +190,6 @@ section > p {
 	background: #f4f7f8;
 	margin: 10px auto;
 	padding: 20px;
-	background: #f4f7f8;
 	border-radius: 8px;
 	font-family: Georgia, "Times New Roman", serif;
 }
