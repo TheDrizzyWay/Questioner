@@ -1,5 +1,4 @@
 import { meetupStore, rsvpStore } from '../datastore';
-import Rsvp from '../models/Rsvp';
 
 export default {
   respond: (req, res) => {
@@ -8,13 +7,12 @@ export default {
 
     if (!meetup) return res.status(404).send({ status: 404, error: 'Meetup does not exist.' });
     rsvp.topic = meetup.topic;
-    const newRsvp = new Rsvp(rsvp);
-    rsvpStore.push(newRsvp);
+    rsvpStore.push(rsvp);
 
     return res.status(200).send({
       status: 200,
       message: 'Response recorded.',
-      data: [newRsvp],
+      data: [rsvp],
     });
   },
 };

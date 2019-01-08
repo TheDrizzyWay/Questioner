@@ -4,7 +4,7 @@
 }
 
 body {
-  background: url("../images/light-grey.jpg");
+  background: url("../images/light-blue.jpg");
   background-size: cover;
   width: 100%;
   height: 100%;
@@ -14,7 +14,7 @@ body {
 header {
   display: flex;
   justify-content: center;
-  background: #000000;
+  background: #191970;
   margin: auto auto;
   width: 80%;
   color: #fffaf0;
@@ -31,11 +31,11 @@ header {
   margin-left: auto;
   margin-right: auto;
   width: 80%;
-  background: #555555;
+  background: #4169e1;
 }
 
 .create img {
-  border: 1px solid black;
+  border: 1px solid #ffffff;
   height: 60px;
   width: 60px;
 }
@@ -47,7 +47,7 @@ header {
 }
 
 .create button:hover {
-  background: #000000;
+  background: #4169e1;
 }
 
 section {
@@ -58,7 +58,7 @@ section {
 }
 
 section > p {
-  background: #555555;
+  background: #4169e1;
   text-align: center;
   font-family: Tahoma;
   font-size: 1.5em;
@@ -70,7 +70,7 @@ section > p {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  background: #777777;
+  background: #ffffff;
 }
 
 .meet {
@@ -81,11 +81,17 @@ section > p {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 10px;
-  padding: 40px 40px;
-  border: 2px solid #ffffff;
-  line-height: 2.0;
-  color: white;
+  padding: 20px 20px;
+  border: 2px solid #4196e1;
+  line-height: 1.2;
+  color: #191970;
   font-size: 1.1em;
+  letter-spacing: 0.06em;
+}
+
+.meet img {
+  width: 250px;
+  height: 150px;
 }
 
 .meet a {
@@ -93,11 +99,12 @@ section > p {
 }
 
 .meet button {
-  background: #222222;
+  background: #4169e1;
   border: none;
   text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
   text-transform:uppercase;
   font-size: 15px;
+  margin-top: 5px;
   padding: 5px 22px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -106,8 +113,8 @@ section > p {
 }
 
 .meet button:hover {
-  background: #ffffff;
-  color: #000000;
+  background: #20a2bb;
+  color: #ffffff;
 }
 
 .logout {
@@ -118,7 +125,7 @@ section > p {
   text-align: center;
   transform: translate(-50%, 0);
   color: white;
-  background: #777777;
+  background: #4169e1;
   text-decoration: none;
   border: none;
   padding: 5px 15px;
@@ -130,7 +137,7 @@ section > p {
 }
 
 .logout:hover {
-  background: #555555;
+  background: #20a2bb;
 }
 
 .modal {
@@ -156,7 +163,7 @@ section > p {
 }
 
 .close_btn {
-  background: #000000;
+  background: #4169e1;
   color: #ffffff;
   float: right;
   font-size: 30px;
@@ -166,7 +173,7 @@ section > p {
 }
 
 .close_btn:hover, .close_btn:focus {
-  background: #555555;
+  background: #191970;
   color: #000000;
   text-decoration: none;
   cursor: pointer;
@@ -196,11 +203,13 @@ section > p {
 	font-size: 1.4em;
 	margin-bottom: 10px;
   margin-left: 30%;
+  color: #4169e1;
 }
 
 .create_form label {
 	display: block;
 	margin-bottom: 8px;
+  color: #4169e1;
 }
 
 .create_form input[type="text"], .create_form input[type="file"],
@@ -240,7 +249,7 @@ section > p {
 	padding: 19px 39px 18px 39px;
 	color: #ffffff;
 	margin: 0 auto;
-	background: #000000;
+	background: #4169e1;
 	font-size: 25px;
 	text-align: center;
 	font-style: normal;
@@ -251,7 +260,7 @@ section > p {
 }
 
 .create_form input[type="submit"]:hover {
-	background: #777777;
+	background: #191970;
 }
 
 #date {
@@ -262,6 +271,7 @@ section > p {
 .tags-input {
     display: inline-block;
     width: 100%;
+    color: #4169e1;
 }
 
 .tags-input .tag {
@@ -275,12 +285,12 @@ section > p {
 }
 
 .tags-input .tag:hover {
-    background-color: #000000;
+    background-color: #191970;
     color: white;
 }
 
 .tags-input .tag .close::after {
-    content: 'x';
+    content: 'X';
     font-weight: 400;
     display: inline-block;
     transform: scale(1.4);
@@ -306,6 +316,9 @@ section > p {
 @media (max-width:600px) {
   .header_container h1 {
     text-align: center;
+  }
+  .meet img {
+    width: 180px;
   }
   .create_form legend {
     margin-left: 5%;

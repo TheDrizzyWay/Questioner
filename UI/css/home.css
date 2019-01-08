@@ -51,8 +51,8 @@ h1 {
   width: 10%;
   margin-top: 20px;
   font-family: inherit;
-  color: white;
-  background: #000000;
+  color: #000000;
+  background: #7fffd4;
   outline: none;
   border: none;
   padding: 5px 15px;
@@ -70,7 +70,7 @@ h1 {
 
 footer {
 	text-align: center;
-	color: #000000;
+	color: #1e90ff;
   font-weight: bold;
 	font-size: 25px;
 	margin-top: 10px;
