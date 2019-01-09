@@ -1,26 +1,22 @@
-import validator from 'validator';
+import Validator from 'validatorjs';
+import trim from './trim';
 
-export default (req, res, next) => {
-  const errors = {};
-  const rsvp = req.body;
-  const { meetup, response } = rsvp;
+export default class RsvpValidation {
+  static validRsvp(req, res, next) {
+    const rsvp = req.body;
+    rsvp.meetup = rsvp.meetup;
+    rsvp.response = trim(rsvp.response);
 
-  const fields = [meetup, response];
-  let emptyField;
-  fields.map((field) => {
-    if (validator.isEmpty(field)) {
-      emptyField = true;
-    }
-    return emptyField;
-  });
-  if (emptyField) return res.status(400).json({ status: 400, error: 'Please fill in all fields.' });
+    const rsvpProperties = {
+      meetup: 'required|numeric',
+      response: ['required', { in: ['yes', 'no', 'maybe'] }],
+    };
 
-  if (!validator.isIn(response.toLowerCase(), ['yes', 'no', 'maybe'])) {
-    errors.response = 'Please insert a valid response.';
+    const validator = new Validator(rsvp, rsvpProperties);
+    validator.passes(() => next());
+    validator.fails(() => {
+      const errors = validator.errors.all();
+      return res.status(400).json({ status: 400, error: errors });
+    });
   }
-
-  if (Object.keys(errors).length > 0) {
-    return res.status(400).json({ status: 400, error: errors });
-  }
-  return next();
-};
+}

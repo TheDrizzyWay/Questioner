@@ -36,7 +36,7 @@ const correct3 = {
 
 const invalidrsvp = {
   meetup: '10',
-  response: 'Yes',
+  response: 'yes',
 };
 
 const wrongrsvp = {
@@ -46,7 +46,7 @@ const wrongrsvp = {
 
 const rsvp = {
   meetup: '1',
-  response: 'Yes',
+  response: 'yes',
 };
 
 const missingrsvp = {

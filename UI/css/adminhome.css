@@ -191,7 +191,7 @@ section > p {
 	margin: 10px auto;
 	padding: 20px;
 	border-radius: 8px;
-	font-family: Georgia, "Times New Roman", serif;
+	font-family: Georgia, serif;
 }
 
 .create_form fieldset{
@@ -213,7 +213,7 @@ section > p {
 
 .create_form input[type="text"], .create_form input[type="file"],
 .create_form textarea {
-	font-family: Georgia, "Times New Roman", serif;
+	font-family: Georgia, serif;
 	background: rgba(255,255,255,0.1);
 	border: none;
 	border-radius: 4px;

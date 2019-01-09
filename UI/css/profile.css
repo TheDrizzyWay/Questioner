@@ -93,7 +93,7 @@ header {
   margin: auto auto;
   text-align: center;
   color: #ffffff;
-  font-family: Verdana, sans-serif;
+  font-family: Tahoma, sans-serif;
   font-size: 1.2em;
   font-weight: bold;
 }
@@ -124,7 +124,7 @@ span {
 }
 
 #top {
-  font-family: Verdana, sans-serif;
+  font-family: Georgia, sans-serif;
   font-size: 1.2em;
   font-weight: bold;
   text-align: center;
