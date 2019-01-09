@@ -1,4 +1,4 @@
 export default function trim(field) {
-  if (field) return field.trim();
-  return true;
+  if (field) field.trim();
+  return field;
 }

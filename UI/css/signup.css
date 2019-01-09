@@ -29,7 +29,7 @@ header {
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
-    font-family:Verdana, sans-serif;
+    font-family:Georgia, sans-serif;
 }
 
 .lower {
@@ -53,19 +53,19 @@ legend {
 fieldset {
     border-radius:4px;
     background: #fff;
+    border: 1px solid #ffffff;
     background: -moz-linear-gradient(#ffffff, #20b2aa);
     background: -o-linear-gradient(#ffffff, #20b2aa);
     background: linear-gradient(linear, 0% 0%, 0% 100%, from(#ffffff), to(#20b2aa));
     background: -webkit-linear-gradient(#ffffff, #20b2aa);
     padding:20px;
-    border-color:rgba(4, 4, 4, 0.4);
 }
 
 input {
-    color: #373737;
+    color: #4169e1;
     background: #ffffff;
     border: 1px solid #87cefa;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.2em;
     margin-bottom:15px;
     -moz-border-radius:4px;
@@ -150,7 +150,7 @@ a {
   text-align: center;
   transform: translate(-50%, 0);
   color: white;
-  background: #20a2bb;
+  background: #4169e1;
   text-decoration: none;
   border: none;
   padding: 5px 15px;

@@ -1,11 +1,16 @@
 import { meetupStore, questionStore } from '../datastore';
 import Questions from '../models/Questions';
+import trim from '../middleware/trim';
 
 export default {
   createQuestion: (req, res) => {
     const questionLength = questionStore.length;
     req.body.id = questionLength > 0 ? questionStore[questionLength - 1].id + 1 : 1;
     const question = new Questions(req.body);
+
+    question.title = trim(question.title);
+    question.body = trim(question.body);
+
     const foundMeetup = meetupStore.find(meetup => meetup.id === parseInt(question.meetup, 10));
 
     if (!foundMeetup) return res.status(400).json({ status: 400, error: 'Meetup does not exist.' });

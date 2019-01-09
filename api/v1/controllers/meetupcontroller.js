@@ -1,11 +1,17 @@
 import { meetupStore } from '../datastore';
 import Meetups from '../models/Meetups';
+import trim from '../middleware/trim';
 
 export default {
   createMeetup: (req, res) => {
     const meetupLength = meetupStore.length;
     req.body.id = meetupLength > 0 ? meetupStore[meetupLength - 1].id + 1 : 1;
     const meetup = new Meetups(req.body);
+
+    meetup.topic = trim(meetup.topic);
+    meetup.location = trim(meetup.location);
+    meetup.happeningOn = trim(meetup.happeningOn);
+
     meetupStore.push(meetup);
     return res.status(201).json({
       status: 201,

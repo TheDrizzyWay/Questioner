@@ -1,12 +1,8 @@
 import Validator from 'validatorjs';
-import trim from './trim';
 
 export default class MeetupValidation {
   static validMeetup(req, res, next) {
     const meetup = req.body;
-    meetup.topic = trim(meetup.topic);
-    meetup.location = trim(meetup.location);
-    meetup.happeningOn = trim(meetup.happeningOn);
 
     const meetupProperties = {
       topic: 'required|string|min:1',

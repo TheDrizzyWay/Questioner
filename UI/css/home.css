@@ -52,7 +52,7 @@ h1 {
   margin-top: 20px;
   font-family: inherit;
   color: #ffffff;
-  background: #7fffd4;
+  background: #4169e1;
   outline: none;
   border: none;
   padding: 5px 15px;
@@ -82,27 +82,26 @@ footer {
 
 @media(max-width:600px) {
   header {
-    background: url("../images/light-grey.jpg");
-    background-size: cover;
+    background: #ffffff;
     height: 500px;
   }
   .header_div {
     padding: 10px;
   }
   h1 {
-    color: #555555;
+    color: #191970;
     font-size: 2.0em;
   }
   .details p {
-    color: #777777;
+    color: #4169e1;
   }
   .details button {
     background: #ffffff;
-    color: #000000;
+    color: #4169e1;
     width: 30%;
   }
   .details button:hover {
-    background: #555555;
+    background: #4169e1;
     color: #ffffff;
   }
 }
