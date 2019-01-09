@@ -66,6 +66,7 @@ h1 {
 .details button:hover {
   background: #ffffff;
   color: #4169e1;
+  cursor: pointer;
 }
 
 footer {

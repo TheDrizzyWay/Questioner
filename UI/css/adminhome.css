@@ -4,7 +4,7 @@
 }
 
 body {
-  background: url("../images/light-blue.jpg");
+  background: url("../images/white1.jpg");
   background-size: cover;
   width: 100%;
   height: 100%;
@@ -48,6 +48,7 @@ header {
 
 .create button:hover {
   background: #4169e1;
+  cursor: pointer;
 }
 
 section {
@@ -115,6 +116,7 @@ section > p {
 .meet button:hover {
   background: #ffffff;
   color: #4169e1;
+  cursor: pointer;
 }
 
 .logout {
@@ -139,6 +141,7 @@ section > p {
 .logout:hover {
   background: #ffffff;
   color: #4169e1;
+  cursor: pointer;
 }
 
 .modal {
@@ -262,6 +265,7 @@ section > p {
 .create_form input[type="submit"]:hover {
 	background: #ffffff;
   color: #4169e1;
+  cursor: pointer;
 }
 
 #date {
@@ -300,6 +304,7 @@ section > p {
 
 .tags-input .tag .close:hover::after {
     color: red;
+    cursor: pointer;
 }
 
 .tags-input .main-input {

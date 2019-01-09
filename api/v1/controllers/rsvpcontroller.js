@@ -3,11 +3,13 @@ import trim from '../middleware/trim';
 
 export default {
   respond: (req, res) => {
+    const { id } = req.params;
     const rsvp = req.body;
     rsvp.response = trim(rsvp.response);
-    const foundMeetup = meetupStore.find(meetup => meetup.id === parseInt(rsvp.meetup, 10));
+    const foundMeetup = meetupStore.find(meetup => meetup.id === parseInt(id, 10));
 
     if (!foundMeetup) return res.status(404).json({ status: 404, error: 'Meetup does not exist.' });
+    rsvp.id = id;
     rsvp.topic = foundMeetup.topic;
     rsvpStore.push(rsvp);
 
