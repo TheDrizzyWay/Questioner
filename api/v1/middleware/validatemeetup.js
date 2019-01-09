@@ -1,45 +1,28 @@
-export default (req, res, next) => {
-  const errors = {};
-  const checkInput = /[!@#$%^&*()_+\-=[\]{};':"\\|<>/?]/;
-  const checkImgUrl = /(http(s?):(\/){2})([^/])([/.\w\s-])*\.(?:jpg|png)/;
-  const checkDate = /[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}/;
-  const meetup = req.body;
-  const { images, tags } = meetup;
+import Validator from 'validatorjs';
+import trim from './trim';
 
-  if (!meetup.topic) {
-    errors.topic = 'A topic is required';
-  }
-  if (checkInput.test(meetup.topic)) {
-    errors.validTopic = 'Your topic should contain only alphabets and numbers.';
-  }
-  if (!meetup.location) {
-    errors.location = 'A location is required';
-  }
-  if (checkInput.test(meetup.location)) {
-    errors.validTopic = 'Your location should contain only alphabets and numbers.';
-  }
-  if (!meetup.happeningOn) {
-    errors.happeningOn = 'A date and time for the meetup is required';
-  }
-  if (!checkDate.test(meetup.happeningOn)) {
-    errors.date = 'Please insert a valid date and time';
-  }
-  if (images) {
-    images.forEach((image) => {
-      if (!checkImgUrl.test(image)) {
-        errors.images = `${image} is not a valid image link`;
-      }
+export default class MeetupValidation {
+  static validMeetup(req, res, next) {
+    const meetup = req.body;
+    meetup.topic = trim(meetup.topic);
+    meetup.location = trim(meetup.location);
+    meetup.happeningOn = trim(meetup.happeningOn);
+
+    const meetupProperties = {
+      topic: 'required|string|min:1',
+      location: 'required|string|min:1',
+      happeningOn: ['required', 'date', 'regex:/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}/'],
+      images: 'array|max:2',
+      tags: 'array|max:10',
+      'images.*': 'url',
+      'tags.*': 'alpha_num',
+    };
+
+    const validator = new Validator(meetup, meetupProperties);
+    validator.passes(() => next());
+    validator.fails(() => {
+      const errors = validator.errors.all();
+      return res.status(400).json({ status: 400, error: errors });
     });
   }
-  if (tags) {
-    tags.forEach((tag) => {
-      if (checkInput.test(tag)) {
-        errors.tags = `${tag} should contain only alphabets and numbers.`;
-      }
-    });
-  }
-  if (Object.keys(errors).length > 0) {
-    return res.status(400).send({ status: 400, error: errors });
-  }
-  return next();
-};
+}

@@ -8,7 +8,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/api/v1', routes);
 
-app.all('/*', (req, res) => res.status(404).send({ message: 'Invalid request.' }));
+app.get('/api/v1', (req, res) => {
+  res.status(200).json('Welcome to the Questioner API.');
+});
+app.all('/*', (req, res) => res.status(404).json({ message: 'Invalid request.' }));
 
 const port = process.env.PORT || 3000;
 

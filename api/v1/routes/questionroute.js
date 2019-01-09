@@ -1,6 +1,6 @@
 import express from 'express';
 import questionController from '../controllers/questioncontroller';
-import validateQuestion from '../middleware/validatequestion';
+import QuestionValidation from '../middleware/validatequestion';
 import idValidator from '../middleware/idvalidator';
 
 const {
@@ -10,7 +10,7 @@ const {
 
 const router = express.Router();
 
-router.post('/', validateQuestion, createQuestion);
+router.post('/', QuestionValidation.validQuestion, createQuestion);
 router.get('/', getAllQuestions);
 router.get('/:id', idValidator, getOneQuestion);
 router.patch('/:id/upvote', idValidator, upvoteQuestion);
