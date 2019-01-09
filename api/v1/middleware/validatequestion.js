@@ -1,12 +1,9 @@
 import Validator from 'validatorjs';
-import trim from './trim';
 
 export default class QuestionValidation {
   static validQuestion(req, res, next) {
     const question = req.body;
     question.meetup = parseInt(question.meetup, 10);
-    question.title = trim(question.title);
-    question.body = trim(question.body);
     question.createdBy = parseInt(question.createdBy, 10);
 
     const questionProperties = {
