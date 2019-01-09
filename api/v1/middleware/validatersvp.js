@@ -5,7 +5,6 @@ export default class RsvpValidation {
     const rsvp = req.body;
 
     const rsvpProperties = {
-      meetup: 'required|numeric',
       response: ['required', { in: ['yes', 'no', 'maybe'] }],
     };
 
