@@ -1,9 +1,15 @@
 const goodResponse = (res, statusCode, message, data) => {
-  const response = {
+  let response = {
     status: statusCode,
     data,
   };
-  if (message) response.message = message;
+  if (message) {
+    response = {
+      status: statusCode,
+      message,
+      data,
+    };
+  }
   return res.status(statusCode).json(response);
 };
 

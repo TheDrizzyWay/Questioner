@@ -1,4 +1,5 @@
 import Validator from 'validatorjs';
+import { badResponse } from '../utils/responses';
 
 export default class RsvpValidation {
   static validRsvp(req, res, next) {
@@ -12,7 +13,7 @@ export default class RsvpValidation {
     validator.passes(() => next());
     validator.fails(() => {
       const errors = validator.errors.all();
-      return res.status(400).json({ status: 400, error: errors });
+      return badResponse(res, 400, errors);
     });
   }
 }

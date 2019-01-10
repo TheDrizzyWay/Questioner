@@ -1,4 +1,5 @@
 import Validator from 'validatorjs';
+import { badResponse } from '../utils/responses';
 
 export default class MeetupValidation {
   static validMeetup(req, res, next) {
@@ -18,7 +19,7 @@ export default class MeetupValidation {
     validator.passes(() => next());
     validator.fails(() => {
       const errors = validator.errors.all();
-      return res.status(400).json({ status: 400, error: errors });
+      return badResponse(res, 400, errors);
     });
   }
 }
