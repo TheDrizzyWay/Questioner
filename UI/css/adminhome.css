@@ -114,8 +114,7 @@ section > p {
 }
 
 .meet button:hover {
-  background: #ffffff;
-  color: #4169e1;
+  opacity: 0.5;
   cursor: pointer;
 }
 
