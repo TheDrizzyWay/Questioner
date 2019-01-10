@@ -1,5 +1,6 @@
 import { meetupStore, rsvpStore } from '../datastore';
-import trim from '../middleware/trim';
+import trim from '../utils/trim';
+import { goodResponse, badResponse } from '../utils/responses';
 
 export default {
   respond: (req, res) => {
@@ -8,15 +9,11 @@ export default {
     rsvp.response = trim(rsvp.response);
     const foundMeetup = meetupStore.find(meetup => meetup.id === parseInt(id, 10));
 
-    if (!foundMeetup) return res.status(404).json({ status: 404, error: 'Meetup does not exist.' });
+    if (!foundMeetup) return badResponse(res, 404, 'Meetup does not exist.');
     rsvp.id = id;
     rsvp.topic = foundMeetup.topic;
     rsvpStore.push(rsvp);
 
-    return res.status(200).json({
-      status: 200,
-      message: 'Response recorded.',
-      data: [rsvp],
-    });
+    return goodResponse(res, 200, 'Response recorded.', [rsvp]);
   },
 };

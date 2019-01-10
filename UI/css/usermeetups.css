@@ -71,7 +71,7 @@ main > p {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  background: #ffffff;
+  background: #4169e1;
 }
 
 .questions {
@@ -85,12 +85,12 @@ main > p {
 }
 
 .questions p {
-  background: #4169e1;
+  background: #ffffff;
   line-height: 1.0;
   font-family: Tahoma;
   font-size: 1.2em;
   padding: 10px 10px;
-  color: #ffffff;
+  color: #4169e1;
 }
 
 span {
@@ -101,7 +101,7 @@ span {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  background: #ffffff;
+  background: #4169e1;
 }
 
 .actions img {
@@ -116,6 +116,7 @@ span {
   display: flex;
   padding: 10px 10px;
   justify-content: center;
+  background: #ffffff;
 }
 
 .next a {
@@ -123,6 +124,7 @@ span {
   padding: 8px 16px;
   text-decoration: none;
   border: 1px solid #ffffff;
+  color: #ffffff;
 }
 
 .active {
