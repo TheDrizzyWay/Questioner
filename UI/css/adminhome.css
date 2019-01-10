@@ -14,7 +14,7 @@ body {
 header {
   display: flex;
   justify-content: center;
-  background: #4169e1;
+  background: #00bfff;
   margin: auto auto;
   width: 80%;
   color: #fffaf0;
@@ -31,7 +31,7 @@ header {
   margin-left: auto;
   margin-right: auto;
   width: 80%;
-  background: #4169e1;
+  background: #00bfff;
 }
 
 .create img {
@@ -47,7 +47,7 @@ header {
 }
 
 .create button:hover {
-  background: #4169e1;
+  background: #00bfff;
   cursor: pointer;
 }
 
@@ -59,7 +59,7 @@ section {
 }
 
 section > p {
-  background: #4169e1;
+  background: #00bfff;
   text-align: center;
   font-family: Tahoma;
   font-size: 1.5em;
@@ -83,9 +83,9 @@ section > p {
   margin-right: auto;
   margin-bottom: 10px;
   padding: 20px 20px;
-  border: 2px solid #4196e1;
+  border: 2px solid #00bfff;
   line-height: 1.2;
-  color: #4169e1;
+  color: #00bfff;
   font-size: 1.1em;
   letter-spacing: 0.06em;
 }
@@ -100,7 +100,7 @@ section > p {
 }
 
 .meet button {
-  background: #4169e1;
+  background: #00bfff;
   border: none;
   text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
   text-transform:uppercase;
@@ -143,7 +143,7 @@ section > p {
   text-align: center;
   transform: translate(-50%, 0);
   color: white;
-  background: #4169e1;
+  background: #00bfff;
   text-decoration: none;
   border: none;
   padding: 5px 15px;
@@ -156,7 +156,7 @@ section > p {
 
 .logout:hover {
   background: #ffffff;
-  color: #4169e1;
+  color: #00bfff;
   cursor: pointer;
 }
 
@@ -183,7 +183,7 @@ section > p {
 }
 
 .close_btn {
-  background: #4169e1;
+  background: #00bfff;
   color: #ffffff;
   float: right;
   font-size: 30px;
@@ -194,7 +194,7 @@ section > p {
 
 .close_btn:hover, .close_btn:focus {
   background: #ffffff;
-  color: #4169e1;
+  color: #00bfff;
   text-decoration: none;
   cursor: pointer;
 }
@@ -222,13 +222,13 @@ section > p {
 	font-size: 1.4em;
 	margin-bottom: 10px;
   margin-left: 30%;
-  color: #4169e1;
+  color: #00bfff;
 }
 
 .create_form label {
 	display: block;
 	margin-bottom: 8px;
-  color: #4169e1;
+  color: #00bfff;
 }
 
 .create_form input[type="text"], .create_form input[type="file"],
@@ -268,7 +268,7 @@ section > p {
 	padding: 19px 39px 18px 39px;
 	color: #ffffff;
 	margin: 0 auto;
-	background: #4169e1;
+	background: #00bfff;
 	font-size: 25px;
 	text-align: center;
 	font-style: normal;
@@ -280,7 +280,7 @@ section > p {
 
 .create_form input[type="submit"]:hover {
 	background: #ffffff;
-  color: #4169e1;
+  color: #00bfff;
   cursor: pointer;
 }
 
@@ -292,7 +292,7 @@ section > p {
 .tags-input {
     display: inline-block;
     width: 100%;
-    color: #4169e1;
+    color: #00bfff;
 }
 
 .tags-input .tag {
