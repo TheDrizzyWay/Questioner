@@ -4,7 +4,7 @@
 }
 
 body {
-  background: url("../images/light-grey.jpg");
+  background: url("../images/white1.jpg");
   background-size: cover;
   width: 100%;
   height: 100%;
@@ -14,7 +14,7 @@ body {
 header {
   display: flex;
   justify-content: center;
-  background: #000000;
+  background: #00bfff;
   margin: auto auto;
   width: 80%;
   color: #fffaf0;
@@ -33,14 +33,14 @@ header {
   margin-top: 15px;
   margin-left: auto;
   margin-right: auto;
-  border: 2px solid #000000;
+  border: 2px solid #ffffff;
 }
 
 .new_meetups, .joined {
   display: flex;
   flex-direction: column;
   border: 2px solid #ffffff;
-  background: #000000;
+  background: #00bfff;
   flex: 1;
   height: 95%;
   margin: 10px 10px;
@@ -54,11 +54,11 @@ header {
 }
 
 .new_one p {
-  background: #555555;
+  background: #fffaf0;
   font-family: Tahoma;
   font-size: 1.2em;
   padding: 10px 10px;
-  color: #ffffff;
+  color: #00bfff;
 }
 
 .new_one a {
@@ -67,7 +67,7 @@ header {
 }
 
 .new_one button {
-  background: #222222;
+  background: #00bfff;
   border: none;
   text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
   text-transform:uppercase;
@@ -77,21 +77,23 @@ header {
   border-radius: 4px;
   -webkit-border-radius:4px;
   color: #ffffff;
+  display: hidden;
 }
 
 .new_one button:hover {
-  background: #ffffff;
-  color: #000000;
+  opacity: 0.7;
+  color: #ffffff;
+  cursor: pointer;
 }
 
 span {
-  color: #ffffff;
+  color: #00bfff;
   padding-left: 10px;
   font-weight: bold;
 }
 
 .rsvp {
-  background: #777777;
+  background: #fffaf0;
 }
 
 .new_header {
@@ -102,7 +104,7 @@ span {
 }
 
 .new_header p {
-  background: #555555;
+  background: #00bfff;
   text-align: center;
   font-family: Tahoma;
   font-size: 1.5em;
@@ -117,18 +119,21 @@ span {
 }
 
 .next a {
+  background: #00bfff;
   color: #ffffff;
   padding: 8px 16px;
   text-decoration: none;
-  border: 1px solid #dddddd;
-}
-
-.active {
-  background: #555555;
+  border: 1px solid #ffffff;
 }
 
 .next a:hover {
-  background: #777777;
+  background: #ffffff;
+  color: #00bfff;
+  cursor: pointer;
+}
+
+.active {
+  background: #4196e1;
 }
 
 .footer {
@@ -145,7 +150,7 @@ span {
   text-align: center;
   transform: translate(-50%, 0);
   color: white;
-  background: #777777;
+  background: #00bfff;
   text-decoration: none;
   border: none;
   padding: 5px 15px;
@@ -157,7 +162,9 @@ span {
 }
 
 .logout:hover {
-  background: #555555;
+  background: #ffffff;
+  color: #00bfff;
+  cursor: pointer;
 }
 
 @media (max-width:600px) {

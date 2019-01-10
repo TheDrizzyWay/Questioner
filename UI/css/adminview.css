@@ -4,7 +4,7 @@
 }
 
 body {
-  background: url("../images/light-grey.jpg");
+  background: url("../images/white1.jpg");
   background-size: cover;
   width: 100%;
   height: 100%;
@@ -14,7 +14,7 @@ body {
 header {
   display: flex;
   justify-content: center;
-  background: #000000;
+  background: #00bfff;
   margin: auto auto;
   width: 80%;
   color: #fffaf0;
@@ -31,13 +31,14 @@ header {
   margin-top: 20px;
   padding: 20px 20px;
   border: 1px solid black;
-  background: #777777;
+  background: #ffffff;
   line-height: 1.7;
 }
 
 .main_div p {
   font-size: 1.5em;
-  color: #fffaf0;
+  letter-spacing: 0.07em;
+  color: #00bfff;
 }
 
 .main_div img {
@@ -50,7 +51,7 @@ header {
 }
 
 .tags div {
-  background: #555555;
+  background: #00bfff;
   padding: 10px 10px;
   margin-left: 10px;
   font-size: 1.1em;
@@ -65,7 +66,7 @@ span {
   width: 60%;
   margin: auto auto;
   padding: 20px 20px;
-  background: #000000;
+  background: #00bfff;
   color: #ffffff;
   line-height: 1.5;
 }
@@ -74,24 +75,28 @@ span {
   font-size: 1.2em;
   font-weight: bold;
   text-align: center;
+  letter-spacing: 0.1em;
 }
 
 .question {
-  background: #777777;
+  background: #00bfff;
+  padding-left: 10px;
   font-size: 1.2em;
+  letter-spacing: 0.1em;
 }
 
 .buttons {
   display: flex;
-  background: #dddddd;
+  background: #ffffff;
   width: 60%;
   margin: auto auto;
+  margin-top: 20px;
   justify-content: flex-start;
-  border: 1px solid #000000;
+  border: 1px solid #00bfff;
 }
 
 .buttons img, .buttons a img{
-  border: 1px solid black;
+  border: 1px solid #20a2bb;
   height: 55px;
   width: 60px;
 }
@@ -101,17 +106,19 @@ span {
 }
 
 .buttons p {
-  color: #000000;
+  color: #00bfff;
   padding: 15px 20px;
   font-size: 2.0em;
 }
 
 .buttons button:hover {
-  background: #000000;
+  background: #00bfff;
+  cursor: pointer;
 }
 
 .buttons a img:hover {
-  background: #000000;
+  background: #00bfff;
+  cursor: pointer;
 }
 
 .footer {
@@ -135,7 +142,7 @@ span {
 }
 
 .modal_content {
-  background-color: #f4f4f4;
+  background-color: #ffffff;
   margin: 10% auto;
   padding: 20px;
   width: 70%;
@@ -143,7 +150,7 @@ span {
 }
 
 .close_btn {
-  background: #000000;
+  background: #00bfff;
   color: #ffffff;
   float: right;
   font-size: 30px;
@@ -153,8 +160,8 @@ span {
 }
 
 .close_btn:hover, .close_btn:focus {
-  background: #555555;
-  color: #000000;
+  background: #ffffff;
+  color: #00bfff;
   text-decoration: none;
   cursor: pointer;
 }
@@ -170,7 +177,6 @@ span {
 	background: #f4f7f8;
 	margin: 10px auto;
 	padding: 20px;
-	background: #f4f7f8;
 	border-radius: 8px;
 	font-family: Georgia, "Times New Roman", serif;
 }
@@ -183,16 +189,18 @@ span {
 	font-size: 1.4em;
 	margin-bottom: 10px;
   margin-left: 30%;
+  color: #00bfff;
 }
 
 .create_form label {
 	display: block;
 	margin-bottom: 8px;
+  color: #00bfff;
 }
 
 .create_form input[type="text"], .create_form input[type="file"],
 .create_form textarea {
-	font-family: Georgia, "Times New Roman", serif;
+	font-family: Georgia, serif;
 	background: rgba(255,255,255,0.1);
 	border: none;
 	border-radius: 4px;
@@ -227,18 +235,20 @@ span {
 	padding: 19px 39px 18px 39px;
 	color: #ffffff;
 	margin: 0 auto;
-	background: #000000;
+	background: #00bfff;
 	font-size: 25px;
 	text-align: center;
 	font-style: normal;
 	width: 100%;
-	border: 1px solid #555555;
+	border: 1px solid #ffffff;
 	border-width: 1px 1px 3px;
 	margin-bottom: 10px;
 }
 
 .create_form input[type="submit"]:hover {
-	background: #777777;
+	background: #ffffff;
+  color: #00bfff;
+  cursor: pointer;
 }
 
 #date {
@@ -276,6 +286,7 @@ span {
 
 .tags-input .tag .close:hover::after {
     color: red;
+    cursor: pointer;
 }
 
 .tags-input .main-input {

@@ -1,45 +1,25 @@
-export default (req, res, next) => {
-  const errors = {};
-  const checkInput = /[!@#$%^&*()_+\-=[\]{};':"\\|<>/?]/;
-  const checkImgUrl = /(http(s?):(\/){2})([^/])([/.\w\s-])*\.(?:jpg|png)/;
-  const checkDate = /[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}/;
-  const meetup = req.body;
-  const { images, tags } = meetup;
+import Validator from 'validatorjs';
+import { badResponse } from '../utils/responses';
 
-  if (!meetup.topic) {
-    errors.topic = 'A topic is required';
-  }
-  if (checkInput.test(meetup.topic)) {
-    errors.validTopic = 'Your topic should contain only alphabets and numbers.';
-  }
-  if (!meetup.location) {
-    errors.location = 'A location is required';
-  }
-  if (checkInput.test(meetup.location)) {
-    errors.validTopic = 'Your location should contain only alphabets and numbers.';
-  }
-  if (!meetup.happeningOn) {
-    errors.happeningOn = 'A date and time for the meetup is required';
-  }
-  if (!checkDate.test(meetup.happeningOn)) {
-    errors.date = 'Please insert a valid date and time';
-  }
-  if (images) {
-    images.forEach((image) => {
-      if (!checkImgUrl.test(image)) {
-        errors.images = `${image} is not a valid image link`;
-      }
+export default class MeetupValidation {
+  static validMeetup(req, res, next) {
+    const meetup = req.body;
+
+    const meetupProperties = {
+      topic: 'required|string|min:1',
+      location: 'required|string|min:1',
+      happeningOn: ['required', 'date', 'regex:/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}/'],
+      images: 'array|max:2',
+      tags: 'array|max:10',
+      'images.*': 'url',
+      'tags.*': 'alpha_num',
+    };
+
+    const validator = new Validator(meetup, meetupProperties);
+    validator.passes(() => next());
+    validator.fails(() => {
+      const errors = validator.errors.all();
+      return badResponse(res, 400, errors);
     });
   }
-  if (tags) {
-    tags.forEach((tag) => {
-      if (checkInput.test(tag)) {
-        errors.tags = `${tag} should contain only alphabets and numbers.`;
-      }
-    });
-  }
-  if (Object.keys(errors).length > 0) {
-    return res.status(400).send({ status: 400, error: errors });
-  }
-  return next();
-};
+}

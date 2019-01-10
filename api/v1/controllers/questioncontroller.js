@@ -1,63 +1,61 @@
 import { meetupStore, questionStore } from '../datastore';
 import Questions from '../models/Questions';
+import trim from '../utils/trim';
+import { goodResponse, badResponse } from '../utils/responses';
 
 export default {
   createQuestion: (req, res) => {
-    const qLength = questionStore.length;
-    req.body.id = qLength > 0 ? questionStore[qLength - 1].id + 1 : 1;
+    const questionLength = questionStore.length;
+    req.body.id = questionLength > 0 ? questionStore[questionLength - 1].id + 1 : 1;
     const question = new Questions(req.body);
-    const meetup = meetupStore.find(obj => obj.id === parseInt(question.meetup, 10));
 
-    if (!meetup) return res.status(400).send({ status: 400, error: 'Meetup does not exist.' });
+    question.title = trim(question.title);
+    question.body = trim(question.body);
+
+    const foundMeetup = meetupStore.find(meetup => meetup.id === parseInt(question.meetup, 10));
+    if (!foundMeetup) return badResponse(res, 400, 'Meetup does not exist.');
+
     questionStore.push(question);
 
-    return res.status(201).send({
-      status: 201,
-      message: 'Question created successfully.',
-      data: [question],
-    });
+    return goodResponse(res, 201, 'Question created successfully.', [question]);
   },
 
   getAllQuestions: (req, res) => {
     if (questionStore.length === 0) {
-      return res.status(200).send({
-        status: 200,
-        message: 'No questions available yet.',
-        data: [],
-      });
+      return goodResponse(res, 200, 'No questions available yet.', []);
     }
-    return res.status(200).send({ status: 200, data: questionStore });
+    return goodResponse(res, 200, null, questionStore);
   },
 
   getOneQuestion: (req, res) => {
     const { id } = req.params;
-    const question = questionStore.find(obj => obj.id === id);
+    const foundQuestion = questionStore.find(question => question.id === id);
 
-    if (!question) {
-      return res.status(404).send({ status: 404, error: 'Question not found' });
+    if (!foundQuestion) {
+      return badResponse(res, 404, 'Question not found');
     }
-    return res.status(200).send({ status: 200, data: [question] });
+    return goodResponse(res, 200, null, [foundQuestion]);
   },
 
   upvoteQuestion: (req, res) => {
     const { id } = req.params;
-    const question = questionStore.find(obj => obj.id === id);
+    const foundQuestion = questionStore.find(question => question.id === id);
 
-    if (!question) {
-      return res.status(404).send({ status: 404, error: 'Question not found' });
+    if (!foundQuestion) {
+      return badResponse(res, 404, 'Question not found');
     }
-    question.votes += 1;
-    return res.status(200).send({ status: 200, data: [question] });
+    foundQuestion.votes += 1;
+    return goodResponse(res, 200, null, [foundQuestion]);
   },
 
   downvoteQuestion: (req, res) => {
     const { id } = req.params;
-    const question = questionStore.find(obj => obj.id === id);
+    const foundQuestion = questionStore.find(question => question.id === id);
 
-    if (!question) {
-      return res.status(404).send({ status: 404, error: 'Question not found' });
+    if (!foundQuestion) {
+      return badResponse(res, 404, 'Question not found');
     }
-    question.votes -= 1;
-    return res.status(200).send({ status: 200, data: [question] });
+    foundQuestion.votes -= 1;
+    return goodResponse(res, 200, null, [foundQuestion]);
   },
 };

@@ -51,8 +51,8 @@ h1 {
   width: 10%;
   margin-top: 20px;
   font-family: inherit;
-  color: white;
-  background: #000000;
+  color: #ffffff;
+  background: #00bfff;
   outline: none;
   border: none;
   padding: 5px 15px;
@@ -65,12 +65,13 @@ h1 {
 
 .details button:hover {
   background: #ffffff;
-  color: #000000;
+  color: #00bfff;
+  cursor: pointer;
 }
 
 footer {
 	text-align: center;
-	color: #000000;
+	color: #1e90ff;
   font-weight: bold;
 	font-size: 25px;
 	margin-top: 10px;
@@ -82,27 +83,26 @@ footer {
 
 @media(max-width:600px) {
   header {
-    background: url("../images/light-grey.jpg");
-    background-size: cover;
+    background: #ffffff;
     height: 500px;
   }
   .header_div {
     padding: 10px;
   }
   h1 {
-    color: #555555;
+    color: #00bfff;
     font-size: 2.0em;
   }
   .details p {
-    color: #777777;
+    color: #00bfff;
   }
   .details button {
     background: #ffffff;
-    color: #000000;
+    color: #00bfff;
     width: 30%;
   }
   .details button:hover {
-    background: #555555;
+    background: #00bfff;
     color: #ffffff;
   }
 }

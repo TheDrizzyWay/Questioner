@@ -1,54 +1,49 @@
 import { meetupStore } from '../datastore';
 import Meetups from '../models/Meetups';
+import trim from '../utils/trim';
+import { goodResponse, badResponse } from '../utils/responses';
 
 export default {
   createMeetup: (req, res) => {
-    const mLength = meetupStore.length;
-    req.body.id = mLength > 0 ? meetupStore[mLength - 1].id + 1 : 1;
+    const meetupLength = meetupStore.length;
+    req.body.id = meetupLength > 0 ? meetupStore[meetupLength - 1].id + 1 : 1;
     const meetup = new Meetups(req.body);
+
+    meetup.topic = trim(meetup.topic);
+    meetup.location = trim(meetup.location);
+    meetup.happeningOn = trim(meetup.happeningOn);
+
     meetupStore.push(meetup);
-    return res.status(201).send({
-      status: 201,
-      message: 'Meetup created successfully.',
-      data: [meetup],
-    });
+    goodResponse(res, 201, 'Meetup created successfully.', [meetup]);
   },
 
   getOneMeetup: (req, res) => {
     const { id } = req.params;
-    const meetup = meetupStore.find(obj => obj.id === id);
+    const foundMeetup = meetupStore.find(meetup => meetup.id === id);
 
-    if (!meetup) {
-      return res.status(404).send({ status: 404, error: 'Meetup not found' });
+    if (!foundMeetup) {
+      return badResponse(res, 404, 'Meetup not found');
     }
-    return res.status(200).send({ status: 200, data: [meetup] });
+    return res.status(200).json({ status: 200, data: [foundMeetup] });
   },
 
   getAllMeetups: (req, res) => {
     if (meetupStore.length === 0) {
-      return res.status(200).send({
-        status: 200,
-        message: 'No meetups created yet.',
-        data: [],
-      });
+      return goodResponse(res, 200, 'No meetups created yet.', []);
     }
-    return res.status(200).send({ status: 200, data: meetupStore });
+    return goodResponse(res, 200, null, meetupStore);
   },
 
   getUpcomingMeetups: (req, res) => {
-    const upcoming = meetupStore.filter(obj => new Date(obj.happeningOn) > new Date(Date.now()));
+    const upcoming = meetupStore.filter(meetup => new Date(meetup.happeningOn) > new Date(Date.now()));
     if (upcoming.length === 0) {
-      return res.status(200).send({
-        status: 200,
-        message: 'No upcoming meetups found.',
-        data: [],
-      });
+      return goodResponse(res, 200, 'No upcoming meetups found.', []);
     }
     const sorted = upcoming.sort((older, newer) => {
-      const aDate = new Date(older.happeningOn);
-      const bDate = new Date(newer.happeningOn);
-      return aDate - bDate;
+      const olderDate = new Date(older.happeningOn);
+      const newerDate = new Date(newer.happeningOn);
+      return olderDate - newerDate;
     });
-    return res.status(200).send({ status: 200, data: sorted });
+    return goodResponse(res, 200, null, sorted);
   },
 };
