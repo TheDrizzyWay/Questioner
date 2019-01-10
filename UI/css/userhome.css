@@ -40,7 +40,7 @@ header {
   display: flex;
   flex-direction: column;
   border: 2px solid #ffffff;
-  background: #fffaf0;
+  background: #4169e1;
   flex: 1;
   height: 95%;
   margin: 10px 10px;
@@ -54,11 +54,11 @@ header {
 }
 
 .new_one p {
-  background: #4169e1;
+  background: #fffaf0;
   font-family: Tahoma;
   font-size: 1.2em;
   padding: 10px 10px;
-  color: #ffffff;
+  color: #4169e1;
 }
 
 .new_one a {
@@ -77,11 +77,12 @@ header {
   border-radius: 4px;
   -webkit-border-radius:4px;
   color: #ffffff;
+  display: hidden;
 }
 
 .new_one button:hover {
-  background: #ffffff;
-  color: #4169e1;
+  opacity: 0.7;
+  color: #ffffff;
   cursor: pointer;
 }
 
@@ -92,7 +93,7 @@ span {
 }
 
 .rsvp {
-  background: #ffffff;
+  background: #fffaf0;
 }
 
 .new_header {

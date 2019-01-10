@@ -1,6 +1,7 @@
 import { meetupStore } from '../datastore';
 import Meetups from '../models/Meetups';
-import trim from '../middleware/trim';
+import trim from '../utils/trim';
+import { goodResponse, badResponse } from '../utils/responses';
 
 export default {
   createMeetup: (req, res) => {
@@ -13,11 +14,7 @@ export default {
     meetup.happeningOn = trim(meetup.happeningOn);
 
     meetupStore.push(meetup);
-    return res.status(201).json({
-      status: 201,
-      message: 'Meetup created successfully.',
-      data: [meetup],
-    });
+    goodResponse(res, 201, 'Meetup created successfully.', [meetup]);
   },
 
   getOneMeetup: (req, res) => {
@@ -25,36 +22,28 @@ export default {
     const foundMeetup = meetupStore.find(meetup => meetup.id === id);
 
     if (!foundMeetup) {
-      return res.status(404).json({ status: 404, error: 'Meetup not found' });
+      return badResponse(res, 404, 'Meetup not found');
     }
     return res.status(200).json({ status: 200, data: [foundMeetup] });
   },
 
   getAllMeetups: (req, res) => {
     if (meetupStore.length === 0) {
-      return res.status(200).json({
-        status: 200,
-        message: 'No meetups created yet.',
-        data: [],
-      });
+      return goodResponse(res, 200, 'No meetups created yet.', []);
     }
-    return res.status(200).json({ status: 200, data: meetupStore });
+    return goodResponse(res, 200, null, meetupStore);
   },
 
   getUpcomingMeetups: (req, res) => {
     const upcoming = meetupStore.filter(meetup => new Date(meetup.happeningOn) > new Date(Date.now()));
     if (upcoming.length === 0) {
-      return res.status(200).json({
-        status: 200,
-        message: 'No upcoming meetups found.',
-        data: [],
-      });
+      return goodResponse(res, 200, 'No upcoming meetups found.', []);
     }
     const sorted = upcoming.sort((older, newer) => {
       const olderDate = new Date(older.happeningOn);
       const newerDate = new Date(newer.happeningOn);
       return olderDate - newerDate;
     });
-    return res.status(200).json({ status: 200, data: sorted });
+    return goodResponse(res, 200, null, sorted);
   },
 };

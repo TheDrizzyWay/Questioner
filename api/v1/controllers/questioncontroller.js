@@ -1,6 +1,7 @@
 import { meetupStore, questionStore } from '../datastore';
 import Questions from '../models/Questions';
-import trim from '../middleware/trim';
+import trim from '../utils/trim';
+import { goodResponse, badResponse } from '../utils/responses';
 
 export default {
   createQuestion: (req, res) => {
@@ -12,26 +13,18 @@ export default {
     question.body = trim(question.body);
 
     const foundMeetup = meetupStore.find(meetup => meetup.id === parseInt(question.meetup, 10));
+    if (!foundMeetup) return badResponse(res, 400, 'Meetup does not exist.');
 
-    if (!foundMeetup) return res.status(400).json({ status: 400, error: 'Meetup does not exist.' });
     questionStore.push(question);
 
-    return res.status(201).json({
-      status: 201,
-      message: 'Question created successfully.',
-      data: [question],
-    });
+    return goodResponse(res, 201, 'Question created successfully.', [question]);
   },
 
   getAllQuestions: (req, res) => {
     if (questionStore.length === 0) {
-      return res.status(200).json({
-        status: 200,
-        message: 'No questions available yet.',
-        data: [],
-      });
+      return goodResponse(res, 200, 'No questions available yet.', []);
     }
-    return res.status(200).json({ status: 200, data: questionStore });
+    return goodResponse(res, 200, null, questionStore);
   },
 
   getOneQuestion: (req, res) => {
@@ -39,9 +32,9 @@ export default {
     const foundQuestion = questionStore.find(question => question.id === id);
 
     if (!foundQuestion) {
-      return res.status(404).json({ status: 404, error: 'Question not found' });
+      return badResponse(res, 404, 'Question not found');
     }
-    return res.status(200).json({ status: 200, data: [foundQuestion] });
+    return goodResponse(res, 200, null, [foundQuestion]);
   },
 
   upvoteQuestion: (req, res) => {
@@ -49,10 +42,10 @@ export default {
     const foundQuestion = questionStore.find(question => question.id === id);
 
     if (!foundQuestion) {
-      return res.status(404).json({ status: 404, error: 'Question not found' });
+      return badResponse(res, 404, 'Question not found');
     }
     foundQuestion.votes += 1;
-    return res.status(200).json({ status: 200, data: [foundQuestion] });
+    return goodResponse(res, 200, null, [foundQuestion]);
   },
 
   downvoteQuestion: (req, res) => {
@@ -60,9 +53,9 @@ export default {
     const foundQuestion = questionStore.find(question => question.id === id);
 
     if (!foundQuestion) {
-      return res.status(404).json({ status: 404, error: 'Question not found' });
+      return badResponse(res, 404, 'Question not found');
     }
     foundQuestion.votes -= 1;
-    return res.status(200).json({ status: 200, data: [foundQuestion] });
+    return goodResponse(res, 200, null, [foundQuestion]);
   },
 };
