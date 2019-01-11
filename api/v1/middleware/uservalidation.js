@@ -1,8 +1,16 @@
 import Validator from 'validatorjs';
-import { badResponse } from '../utils/responses';
+import { errorResponse } from '../utils/responses';
 
 export default class UserValidation {
   static validSignUp(req, res, next) {
+    /**
+     * @description Validates the request payload for user signup
+     * @param  {Object} req - The request object
+     * @param  {object} res - The response object
+     * @param {Object} next - The next middleware
+     * @returns Status code and error message or next()
+     */
+
     const user = req.body;
 
     const userProperties = {
@@ -19,11 +27,19 @@ export default class UserValidation {
     validator.passes(() => next());
     validator.fails(() => {
       const errors = validator.errors.all();
-      return badResponse(res, 400, errors);
+      return errorResponse(res, 400, errors);
     });
   }
 
   static validLogin(req, res, next) {
+    /**
+     * @description Validates the request payload for user login
+     * @param  {Object} req - The request object
+     * @param  {object} res - The response object
+     * @param {Object} next - The next middleware
+     * @returns Status code and error message or next()
+     */
+
     const user = req.body;
 
     const userProperties = {
@@ -35,7 +51,7 @@ export default class UserValidation {
     validator.passes(() => next());
     validator.fails(() => {
       const errors = validator.errors.all();
-      return badResponse(res, 400, errors);
+      return errorResponse(res, 400, errors);
     });
   }
 }

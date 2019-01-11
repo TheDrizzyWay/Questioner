@@ -8,20 +8,19 @@ console.log('Creating tables...');
         id SERIAL PRIMARY KEY,
         firstname VARCHAR(50) NOT NULL,
         lastname VARCHAR(50) NOT NULL,
-        othername VARCHAR(50),
         username VARCHAR(50) UNIQUE NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
         password VARCHAR(100) NOT NULL,
         phonenumber VARCHAR(11) NOT NULL,
         isadmin BOOLEAN DEFAULT FALSE,
-        registered TIMESTAMPTZ DEFAULT NOW())`);
+        createdon TIMESTAMPTZ DEFAULT NOW())`);
 
     await pool.query(`CREATE TABLE IF NOT EXISTS meetups(
         id SERIAL PRIMARY KEY,
         topic VARCHAR(255) NOT NULL,
         location TEXT NOT NULL,
         happeningon VARCHAR(20) NOT NULL,
-        images TEXT[],
+        image VARCHAR(50),
         tags TEXT[],
         createdon TIMESTAMPTZ DEFAULT NOW())`);
 
@@ -30,10 +29,11 @@ console.log('Creating tables...');
         meetupid INT NOT NULL,
         title VARCHAR(255) NOT NULL,
         body TEXT NOT NULL,
-        votes INT DEFAULT 0,
-        createdby INT NOT NULL,
+        upvotes INT DEFAULT 0,
+        downvotes INT DEFAULT 0,
+        userid INT NOT NULL,
         createdon TIMESTAMPTZ DEFAULT NOW(),
-        FOREIGN KEY (createdby) REFERENCES users (id) ON DELETE CASCADE,
+        FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (meetupid) REFERENCES meetups (id) ON DELETE CASCADE)`);
 
     await pool.query(`CREATE TABLE IF NOT EXISTS rsvps(
@@ -50,9 +50,9 @@ console.log('Creating tables...');
         meetupid INT NOT NULL,
         questionid INT NOT NULL,
         body TEXT NOT NULL,
-        createdby INT NOT NULL,
+        userid INT NOT NULL,
         createdon TIMESTAMPTZ DEFAULT NOW(),
-        FOREIGN KEY (createdby) REFERENCES users (id) ON DELETE CASCADE,
+        FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (questionid) REFERENCES questions (id) ON DELETE CASCADE,
         FOREIGN KEY (meetupid) REFERENCES meetups (id) ON DELETE CASCADE)`);
 
