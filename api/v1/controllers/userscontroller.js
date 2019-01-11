@@ -1,5 +1,6 @@
 import User from '../models/Users';
 import Hash from '../utils/passwords';
+import Jwt from '../utils/jwt';
 import convertName from '../utils/convertname';
 import { goodResponse, badResponse } from '../utils/responses';
 
@@ -24,20 +25,19 @@ export default {
 
   logIn: async (req, res) => {
     const { email, password } = req.body;
-
     const result = await User.logIn(email);
+
     if (!result) {
-      return res.status(401).send({ success: false, message: 'User account not found.' });
+      return badResponse(res, 401, 'User account not found.');
     }
+
     const { password: userPassword } = result;
     if (!Hash.comparePassword(password, userPassword)) {
-      return res.status(401).send({
-        success: false,
-        message: 'Invalid email/password combination.',
-      });
+      return badResponse(res, 401, 'Invalid email/password combination.');
     }
-    const { id, role } = result;
-    const token = await Hash.generateToken({ id, role });
-    return res.status(200).send({ success: true, message: 'You are now logged in.', token });
+
+    const { id, username, isadmin } = result;
+    const token = await Jwt.generateToken({ id, username, isadmin });
+    return goodResponse(res, 200, 'You are logged in.', token);
   },
 };
