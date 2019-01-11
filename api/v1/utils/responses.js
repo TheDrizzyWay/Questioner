@@ -1,19 +1,13 @@
-const goodResponse = (res, statusCode, message, data) => {
-  let response = {
+const successResponse = (res, statusCode, message, data) => {
+  const response = {
     status: statusCode,
+    message,
     data,
   };
-  if (message) {
-    response = {
-      status: statusCode,
-      message,
-      data,
-    };
-  }
   return res.status(statusCode).json(response);
 };
 
-const badResponse = (res, statusCode, message) => {
+const errorResponse = (res, statusCode, message) => {
   const response = {
     status: statusCode,
     error: message,
@@ -21,4 +15,4 @@ const badResponse = (res, statusCode, message) => {
   return res.status(statusCode).json(response);
 };
 
-export { goodResponse, badResponse };
+export { successResponse, errorResponse };

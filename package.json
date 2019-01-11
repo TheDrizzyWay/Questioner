@@ -13,7 +13,8 @@
     "start": "npm run build && node ./build/app.js",
     "migrations": "babel-node api/v1/database/droptables && babel-node api/v1/database/createtables",
     "devstart": "node_modules/.bin/nodemon api/app.js --exec babel-node --",
-    "test": "nyc --reporter=text-summary mocha -c ./api/v1/tests/**/*.js --exit --require babel-core/register"
+    "pretest": "npm run migrations",
+    "test": "nyc --reporter=text mocha -c ./api/v1/tests/**/*.js --exit --require babel-core/register"
   },
   "repository": {
     "type": "git",

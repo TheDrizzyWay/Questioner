@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+    - 'stable'
+cache:
+  directories:
+    - 'node_modules'
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database questionertest;' -U postgres
+script:
+    - npm test
+after_success:
+    - nyc report --reporter=text-lcov | coveralls

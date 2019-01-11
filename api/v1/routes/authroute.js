@@ -8,6 +8,6 @@ const { signUp, logIn } = usersController;
 const router = express.Router();
 
 router.post('/signup', UserValidation.validSignUp, tryCatch(signUp));
-router.post('/login', tryCatch(logIn));
+router.post('/login', UserValidation.validLogin, tryCatch(logIn));
 
 export default router;
