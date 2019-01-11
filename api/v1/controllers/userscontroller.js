@@ -38,6 +38,6 @@ export default {
 
     const { id, username, isadmin } = result;
     const token = await Jwt.generateToken({ id, username, isadmin });
-    return goodResponse(res, 200, 'You are now logged in.', token);
+    return goodResponse(res, 200, 'You are logged in.', token);
   },
 };
