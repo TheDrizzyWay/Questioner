@@ -22,4 +22,20 @@ export default class UserValidation {
       return badResponse(res, 400, errors);
     });
   }
+
+  static validLogin(req, res, next) {
+    const user = req.body;
+
+    const userProperties = {
+      email: 'required|email|max:100',
+      password: 'required|alpha_num|min:6|max:18',
+    };
+
+    const validator = new Validator(user, userProperties);
+    validator.passes(() => next());
+    validator.fails(() => {
+      const errors = validator.errors.all();
+      return badResponse(res, 400, errors);
+    });
+  }
 }
