@@ -14,7 +14,6 @@ app.get('/api/v1', (req, res) => {
 app.all('/*', (req, res) => res.status(404).json({ message: 'Invalid request.' }));
 
 const port = process.env.PORT || 3000;
-
 app.listen(port, () => console.log(`Server running on port ${port}`));
 
 export default app;

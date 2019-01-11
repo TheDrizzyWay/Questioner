@@ -12,7 +12,7 @@ console.log('Creating tables...');
         username VARCHAR(50) UNIQUE NOT NULL,
         email VARCHAR(100) UNIQUE NOT NULL,
         password VARCHAR(100) NOT NULL,
-        phonenumber VARCHAR(15) NOT NULL,
+        phonenumber VARCHAR(11) NOT NULL,
         isadmin BOOLEAN DEFAULT FALSE,
         registered TIMESTAMPTZ DEFAULT NOW())`);
 
