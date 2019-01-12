@@ -1,10 +1,8 @@
 import { Router } from 'express';
-import meetupRoute from './meetuproute';
-import questionRoute from './questionroute';
+import authRoute from './authroute';
 
 const router = new Router();
 
-router.use('/meetups', meetupRoute);
-router.use('/questions', questionRoute);
+router.use('/auth', authRoute);
 
 export default router;

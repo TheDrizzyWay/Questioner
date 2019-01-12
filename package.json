@@ -11,8 +11,10 @@
     "build-babel": "babel -d ./build ./api -s",
     "build": "npm run clean && npm run build-babel",
     "start": "npm run build && node ./build/app.js",
+    "migrations": "babel-node api/v1/database/droptables && babel-node api/v1/database/createtables",
     "devstart": "node_modules/.bin/nodemon api/app.js --exec babel-node --",
-    "test": "nyc --reporter=text-summary mocha -c ./api/v1/tests/**/*.js --exit --require babel-core/register"
+    "pretest": "npm run migrations",
+    "test": "nyc --reporter=text mocha -c ./api/v1/tests/**/*.js --exit --require babel-core/register"
   },
   "repository": {
     "type": "git",
@@ -31,9 +33,12 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^6.2.0",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
     "moment": "^2.23.0",
-    "validator": "^10.10.0",
+    "pg": "^7.7.1",
     "validatorjs": "^3.15.1"
   },
   "devDependencies": {
