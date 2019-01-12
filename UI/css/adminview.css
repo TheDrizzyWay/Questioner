@@ -43,7 +43,7 @@ header {
 
 .main_div img {
   height: 45%;
-  width: 45%;
+  width: 55%;
 }
 
 .tags {
@@ -97,8 +97,8 @@ span {
 
 .buttons img, .buttons a img{
   border: 1px solid #20a2bb;
-  height: 55px;
-  width: 60px;
+  height: 45px;
+  width: 50px;
 }
 
 .buttons a img {
@@ -301,6 +301,9 @@ span {
   }
   header {
     text-align: center;
+  }
+  .main_div img {
+    width: 65%;
   }
   .top {
     width: 80%;

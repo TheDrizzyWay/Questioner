@@ -19,9 +19,13 @@ export default {
     user.lastname = convertName(user.lastname);
     user.password = Hash.hashPassword(user.password);
     user.email = user.email.trim();
+    user.username = user.username.trim();
 
     const userExists = await User.getUserByEmail(user.email);
     if (userExists) return errorResponse(res, 409, 'This email address is already taken.');
+
+    const usernameExists = await User.getUserByUsername(user.username);
+    if (usernameExists) return errorResponse(res, 409, 'This username is already taken.');
 
     const newUser = await user.signUp();
     return successResponse(res, 201, 'You have signed up successfully', newUser);

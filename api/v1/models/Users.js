@@ -27,6 +27,13 @@ export default class User {
     return rows[0];
   }
 
+  static async getUserByUsername(username) {
+    const text = 'SELECT * FROM users WHERE username = $1';
+    const values = [username];
+    const { rows } = await pool.query(text, values);
+    return rows[0];
+  }
+
   static async logIn(email) {
     const text = 'SELECT id, password FROM users WHERE email = $1';
     const values = [email];
