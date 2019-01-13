@@ -17,7 +17,7 @@ header {
   background: #00bfff;
   margin: auto auto;
   width: 80%;
-  color: #fffaf0;
+  color: #ffffff;
 }
 
 .header_container h1 {
@@ -31,7 +31,7 @@ header {
   margin-left: auto;
   margin-right: auto;
   width: 80%;
-  background: #00bfff;
+  background: #ffffff;
 }
 
 .create img {
@@ -41,7 +41,7 @@ header {
 }
 
 .create p {
-  color: #ffffff;
+  color: #00bfff;
   padding: 10px 20px;
   font-size: 2.0em;
 }

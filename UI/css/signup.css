@@ -58,8 +58,8 @@ fieldset {
 }
 
 input {
-    color: #00bfff;
-    background: #ffffff;
+    color: #000000;
+    background: #ded9cf;
     border: 1px solid #87cefa;
     font-size: 20px;
     line-height: 1.2em;
@@ -75,13 +75,16 @@ input[type="email"], input[type="tel"]{
     padding: 8px 6px;
     height: 22px;
     width:320px;
+    -webkit-animation: shadowFadeOut 0.4s;
+    -moz-animation: shadowFadeOut 0.4s;
 }
 
 input[type="text"]:focus, input[type="tel"]:focus,
 input[type="password"]:focus, input[type="email"]:focus {
     text-indent: 0;
     z-index: 1;
-    color: #00bfff;
+    background: #d2d9dd;
+    color: #000000;
     -webkit-transition-duration: 0.4s;
     -webkit-transition-property: width;
     -webkit-transition-timing-function: ease;
@@ -94,7 +97,6 @@ input[type="password"]:focus, input[type="email"]:focus {
     width: 380px;
     border-color:#87cefa;
     box-shadow:0 0 5px rgba(4, 4, 4, 0.5);
-    opacity:0.8;
 }
 
 input[type="submit"]{
@@ -116,9 +118,71 @@ input[type="submit"]{
 }
 
 input[type="submit"]:hover {
-  background: #00bfff;
-  color: #ffffff;
+  color: #00bfff;
   cursor: pointer;
+  -webkit-animation: shadowFade 0.4s;
+  -moz-animation: shadowFade 0.4s;
+}
+
+@keyframes shadowFade {
+  0% {
+    box-shadow: inset 0px 0px 0px 0px #00bfff;
+    color: #fff;
+  }
+  100% {
+    box-shadow: inset 0px 46px 0px 0px #00bfff;
+    color: #fff;
+  }
+}
+@keyframes shadowFadeOut {
+  0% {
+    box-shadow: inset 0px 46px 0px 0px #00bfff;
+    color: #fff;
+  }
+  100% {
+    box-shadow: inset 0px 0px 0px 0px #00bfff;
+    color: #fff;
+  }
+}
+@-webkit-keyframes shadowFade {
+  0% {
+    box-shadow: inset 0px 0px 0px 0px #00bfff;
+    color: #fff;
+  }
+  100% {
+    box-shadow: inset 0px 46px 0px 0px #00bfff;
+    color: #fff;
+  }
+}
+@-webkit-keyframes shadowFadeOut {
+  0% {
+    box-shadow: inset 0px 46px 0px 0px #00bfff;
+    color: #fff;
+  }
+  100% {
+    box-shadow: inset 0px 0px 0px 0px #00bfff;
+    color: #fff;
+  }
+}
+@-moz-keyframes shadowFade {
+  0% {
+    box-shadow: inset 0px 0px 0px 0px #00bfff;;
+    color: #fff;
+  }
+  100% {
+    box-shadow: inset 0px 46px 0px 0px #00bfff;;
+    color: #fff;
+  }
+}
+@-moz-keyframes shadowFadeOut {
+  0% {
+    box-shadow: inset 0px 44px 0px 0px #00bfff;;
+    color: #fff;
+  }
+  100% {
+    box-shadow: inset 0px 0px 0px 0px #00bfff;;
+    color: #fff;
+  }
 }
 
 .small {

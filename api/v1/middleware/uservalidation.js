@@ -1,5 +1,6 @@
 import Validator from 'validatorjs';
 import { errorResponse } from '../utils/responses';
+import customErrorMessages from '../utils/customerrormessages';
 
 export default class UserValidation {
   static validSignUp(req, res, next) {
@@ -20,10 +21,10 @@ export default class UserValidation {
       username: 'required|alpha_num|min:5|max:50',
       email: 'required|email|max:100',
       password: 'required|alpha_num|min:6|max:18',
-      phonenumber: 'required|numeric|min:11',
+      phonenumber: 'required|digits:11',
     };
 
-    const validator = new Validator(user, userProperties);
+    const validator = new Validator(user, userProperties, customErrorMessages);
     validator.passes(() => next());
     validator.fails(() => {
       const errors = validator.errors.all();
@@ -47,7 +48,7 @@ export default class UserValidation {
       password: 'required|alpha_num|min:6|max:18',
     };
 
-    const validator = new Validator(user, userProperties);
+    const validator = new Validator(user, userProperties, customErrorMessages);
     validator.passes(() => next());
     validator.fails(() => {
       const errors = validator.errors.all();

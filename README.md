@@ -2,7 +2,7 @@
 
 Questioner is a full stack application for crowd-sourcing questions for a meetup. ​It helps the meetup organizer prioritize  questions to be answered. Other users can vote on asked questions and they bubble to the top  or bottom of the log.
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/44d33e84bea8951b1f81/maintainability)](https://codeclimate.com/github/TheDrizzyWay/Questioner/maintainability) [![Build Status](https://travis-ci.org/TheDrizzyWay/Questioner.svg?branch=develop)](https://travis-ci.org/TheDrizzyWay/Questioner) [![Coverage Status](https://coveralls.io/repos/github/TheDrizzyWay/Questioner/badge.svg?branch=develop)](https://coveralls.io/github/TheDrizzyWay/Questioner?branch=develop) [![Heroku](https://heroku-badge.herokuapp.com/?app=drizzyquestioner&style=flat&svg=1&root=api/v1)](https://drizzyquestioner.herokuapp.com/api/v1/) [![License:   MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Maintainability](https://api.codeclimate.com/v1/badges/44d33e84bea8951b1f81/maintainability)](https://codeclimate.com/github/TheDrizzyWay/Questioner/maintainability) [![Build Status](https://travis-ci.org/TheDrizzyWay/Questioner.svg?branch=develop)](https://travis-ci.org/TheDrizzyWay/Questioner) [![Coverage Status](https://coveralls.io/repos/github/TheDrizzyWay/Questioner/badge.svg?branch=develop)](https://coveralls.io/github/TheDrizzyWay/Questioner?branch=develop) [![License:   MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Questioner API
 
