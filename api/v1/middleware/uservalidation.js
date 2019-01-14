@@ -17,7 +17,6 @@ export default class UserValidation {
     const userProperties = {
       firstname: 'required|alpha|min:2|max:50',
       lastname: 'required|alpha|min:2|max:50',
-      othername: 'alpha|min:2|max:50',
       username: 'required|alpha_num|min:5|max:50',
       email: 'required|email|max:100',
       password: 'required|alpha_num|min:6|max:18',
@@ -46,6 +45,26 @@ export default class UserValidation {
     const userProperties = {
       email: 'required|email|max:100',
       password: 'required|alpha_num|min:6|max:18',
+    };
+
+    const validator = new Validator(user, userProperties, customErrorMessages);
+    validator.passes(() => next());
+    validator.fails(() => {
+      const errors = validator.errors.all();
+      return errorResponse(res, 400, errors);
+    });
+  }
+
+  static validEdit(req, res, next) {
+    const user = req.body;
+
+    const userProperties = {
+      firstname: 'alpha|min:2|max:50',
+      lastname: 'alpha|min:2|max:50',
+      username: 'alpha_num|min:5|max:50',
+      email: 'email|max:100',
+      password: 'alpha_num|min:6|max:18',
+      phonenumber: 'digits:11',
     };
 
     const validator = new Validator(user, userProperties, customErrorMessages);

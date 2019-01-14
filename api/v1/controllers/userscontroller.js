@@ -58,4 +58,23 @@ export default {
     const token = await Jwt.generateToken({ id, username, isadmin });
     return successResponse(res, 200, 'You are logged in.', token);
   },
+
+  editUser: async (req, res) => {
+    const { id } = req.user;
+    const userExists = await User.getUserById(id);
+
+    const {
+      firstname, lastname, username, email, password, phonenumber,
+    } = req.body;
+
+    userExists.firstname = firstname || userExists.firstname;
+    userExists.lastname = lastname || userExists.lastname;
+    userExists.username = username || userExists.username;
+    userExists.email = email || userExists.email;
+    userExists.password = password || userExists.password;
+    userExists.phonenumber = phonenumber || userExists.phonenumber;
+
+    const result = await User.updateUser(id, userExists);
+    return successResponse(res, 200, 'Your details have been updated successfully', result);
+  },
 };
