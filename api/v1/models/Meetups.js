@@ -17,4 +17,10 @@ export default class Meetup {
     const { rows } = await pool.query(text, values);
     return rows[0];
   }
+
+  static async getAllMeetups() {
+    const text = 'SELECT * FROM meetups';
+    const { rows } = await pool.query(text);
+    return rows;
+  }
 }

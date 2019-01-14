@@ -92,6 +92,7 @@ export default {
    * @param  {object} res - The response object
    * @returns status code, message and a list of all users
    */
+
   getAllUsers: async (req, res) => {
     const result = await User.getAllUsers();
     return successResponse(res, 200, 'Users found.', result);
