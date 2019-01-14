@@ -3,6 +3,11 @@ const correctLogin = {
   password: 'jasonv',
 };
 
+const userLogin = {
+  email: 'myers@email.com',
+  password: 'mikemyers',
+};
+
 const correctEdit = {
   firstname: 'Jason',
   lastname: 'Voorhees',
@@ -23,5 +28,5 @@ const invalidEdit = {
 
 export {
   correctLogin, correctEdit, invalidEdit,
-  correctEdit2,
+  correctEdit2, userLogin,
 };

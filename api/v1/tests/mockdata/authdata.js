@@ -14,12 +14,12 @@ const missingSignup = {
 };
 
 const correctSignup = {
-  firstname: 'micheal',
-  lastname: 'myers',
-  username: 'myers13',
-  email: 'myers@email.com',
-  password: 'myers13',
-  phonenumber: '08011112222',
+  firstname: 'freddy',
+  lastname: 'krueger',
+  username: 'freddyk',
+  email: 'freddyk@email.com',
+  password: 'freddy',
+  phonenumber: '08012345555',
 };
 
 const emptyLogin = {
@@ -38,7 +38,7 @@ const notExistLogin = {
 
 const correctLogin = {
   email: 'myers@email.com',
-  password: 'myers13',
+  password: 'mikemyers',
 };
 
 const nonMatchingLogin = {

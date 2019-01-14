@@ -79,4 +79,9 @@ export default {
     const result = await User.updateUser(id, userExists);
     return successResponse(res, 200, 'Your details have been updated successfully', result);
   },
+
+  getAllUsers: async (req, res) => {
+    const result = await User.getAllUsers();
+    return successResponse(res, 200, 'Users found.', result);
+  },
 };
