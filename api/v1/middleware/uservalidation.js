@@ -63,7 +63,8 @@ export default class UserValidation {
       lastname: 'alpha|min:2|max:50',
       username: 'alpha_num|min:5|max:50',
       email: 'email|max:100',
-      password: 'alpha_num|min:6|max:18',
+      password: 'alpha_num|min:6|max:18|confirmed',
+      password_confirmation: 'required_with:password',
       phonenumber: 'digits:11',
     };
 

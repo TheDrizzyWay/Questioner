@@ -71,7 +71,9 @@ export default {
     userExists.lastname = lastname || userExists.lastname;
     userExists.username = username || userExists.username;
     userExists.email = email || userExists.email;
-    userExists.password = password || userExists.password;
+    if (password) {
+      userExists.password = Hash.hashPassword(password);
+    }
     userExists.phonenumber = phonenumber || userExists.phonenumber;
 
     const result = await User.updateUser(id, userExists);

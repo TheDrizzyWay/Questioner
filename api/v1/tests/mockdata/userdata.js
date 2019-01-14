@@ -12,6 +12,7 @@ const correctEdit = {
 const correctEdit2 = {
   email: 'jasonv@email.com',
   password: 'jasonv',
+  password_confirmation: 'jasonv',
   phonenumber: '08011112222',
 };
 
