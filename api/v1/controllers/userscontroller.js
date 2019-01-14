@@ -59,6 +59,12 @@ export default {
     return successResponse(res, 200, 'You are logged in.', token);
   },
 
+  /**
+   * @description Edits a user's details
+   * @param  {Object} req - The request object
+   * @param  {object} res - The response object
+   * @returns status code, message and user details
+   */
   editUser: async (req, res) => {
     const { id } = req.user;
     const userExists = await User.getUserById(id);
@@ -80,6 +86,12 @@ export default {
     return successResponse(res, 200, 'Your details have been updated successfully', result);
   },
 
+  /**
+   * @description Gets all users
+   * @param  {Object} req - The request object
+   * @param  {object} res - The response object
+   * @returns status code, message and a list of all users
+   */
   getAllUsers: async (req, res) => {
     const result = await User.getAllUsers();
     return successResponse(res, 200, 'Users found.', result);
