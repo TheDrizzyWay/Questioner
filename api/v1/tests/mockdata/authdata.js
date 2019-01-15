@@ -4,6 +4,7 @@ const emptySignup = {
   username: '',
   email: '',
   password: '',
+  password_confirmation: '',
   phonenumber: '',
 };
 
@@ -11,6 +12,7 @@ const missingSignup = {
   username: 'username',
   email: 'email@email.com',
   password: 'password',
+  password_confirmation: 'password',
 };
 
 const correctSignup = {
@@ -19,6 +21,7 @@ const correctSignup = {
   username: 'freddyk',
   email: 'freddyk@email.com',
   password: 'freddy',
+  password_confirmation: 'freddy',
   phonenumber: '08012345555',
 };
 

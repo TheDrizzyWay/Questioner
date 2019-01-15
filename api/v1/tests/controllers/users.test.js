@@ -26,10 +26,10 @@ describe('Users', () => {
 
     userToken = userResponse.body.data;
   });
-  describe('PUT /edit', () => {
+  describe('PUT /', () => {
     it('should return 401 if no token is received', async () => {
       const res = await chai.request(app)
-        .put('/api/v1/users/edit')
+        .put('/api/v1/users')
         .send(correctEdit);
 
       expect(res).to.have.status(401);
@@ -38,7 +38,7 @@ describe('Users', () => {
 
     it('should return 401 for invalid token', async () => {
       const res = await chai.request(app)
-        .put('/api/v1/users/edit')
+        .put('/api/v1/users')
         .set({ Authorization: null })
         .send(correctEdit);
 
@@ -48,7 +48,7 @@ describe('Users', () => {
 
     it('should return 400 if fields contain invalid details', async () => {
       const res = await chai.request(app)
-        .put('/api/v1/users/edit')
+        .put('/api/v1/users')
         .set({ Authorization: `Bearer ${adminToken}` })
         .send(invalidEdit);
       expect(res).to.have.status(400);
@@ -57,7 +57,7 @@ describe('Users', () => {
 
     it('should return 200 for successfull update', async () => {
       const res = await chai.request(app)
-        .put('/api/v1/users/edit')
+        .put('/api/v1/users')
         .set({ Authorization: `Bearer ${adminToken}` })
         .send(correctEdit);
       expect(res).to.have.status(200);
@@ -66,7 +66,7 @@ describe('Users', () => {
 
     it('should return 200 for successfull partial update', async () => {
       const res = await chai.request(app)
-        .put('/api/v1/users/edit')
+        .put('/api/v1/users')
         .set({ Authorization: `Bearer ${adminToken}` })
         .send(correctEdit2);
       expect(res).to.have.status(200);

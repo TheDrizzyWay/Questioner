@@ -30,4 +30,22 @@ export default class Meetup {
     const { rows } = await pool.query(text, values);
     return rows[0];
   }
+
+  static async updateMeetup(id, meetup) {
+    const {
+      topic, location, happeningon, image, tags,
+    } = meetup;
+    const text = `UPDATE meetups SET topic = $1, location = $2, happeningon = $3,
+     image = $4, tags = $5 WHERE id = $6 RETURNING *`;
+    const values = [topic, location, happeningon, image, tags, id];
+    const { rows } = await pool.query(text, values);
+    return rows[0];
+  }
+
+  static async getUpcomingMeetups(currentDate) {
+    const text = 'SELECT * FROM meetups WHERE happeningon > $1 ORDER BY happeningon';
+    const values = [currentDate];
+    const { rows } = await pool.query(text, values);
+    return rows;
+  }
 }
