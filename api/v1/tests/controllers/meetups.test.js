@@ -24,6 +24,15 @@ describe('Meetups', () => {
 
     userToken = userResponse.body.data;
   });
+  describe('GET /', () => {
+    it('should return an empty array if no meetups exist', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.status(200);
+      expect(res.body.message).to.equal('No meetups found.');
+    });
+  });
 
   describe('POST /', () => {
     it('should return 400 if required fields are empty', async () => {
@@ -50,6 +59,42 @@ describe('Meetups', () => {
         .set({ Authorization: `Bearer ${adminToken}` })
         .send(correctMeetup);
       expect(res).to.have.status(201);
+      expect(res.body).to.have.property('data');
+    });
+  });
+
+  describe('GET /', () => {
+    it('should return a list of all meetups', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+  });
+
+  describe('GET /:id', () => {
+    it('should return 404 if id does not exist', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups/10')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.status(404);
+      expect(res.body).to.have.property('error');
+    });
+
+    it('should return 422 if id is invalid', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups/abc')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.status(422);
+      expect(res.body).to.have.property('error');
+    });
+
+    it('should return 200 if id exists', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups/1')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.status(200);
       expect(res.body).to.have.property('data');
     });
   });
