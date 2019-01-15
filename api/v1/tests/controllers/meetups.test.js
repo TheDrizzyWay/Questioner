@@ -37,6 +37,16 @@ describe('Meetups', () => {
     });
   });
 
+  describe('GET /upcoming', () => {
+    it('should return an empty array if no upcoming meetups exist', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups/upcoming')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.status(200);
+      expect(res.body.message).to.equal('No upcoming meetups found.');
+    });
+  });
+
   describe('POST /', () => {
     it('should return 400 if required fields are empty', async () => {
       const res = await chai.request(app)
@@ -135,6 +145,16 @@ describe('Meetups', () => {
         .put('/api/v1/meetups/1')
         .set({ Authorization: `Bearer ${adminToken}` })
         .send(correctMeetup3);
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+  });
+
+  describe('GET /upcoming', () => {
+    it('should return a list of upcoming meetups', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/meetups/upcoming')
+        .set({ Authorization: `Bearer ${userToken}` });
       expect(res).to.have.status(200);
       expect(res.body).to.have.property('data');
     });

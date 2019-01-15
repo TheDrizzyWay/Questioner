@@ -60,4 +60,12 @@ export default {
     const result = await Meetup.updateMeetup(id, meetupExists);
     return successResponse(res, 200, 'Meetup updated successfully', result);
   },
+
+  getUpcomingMeetups: async (req, res) => {
+    const currentDate = new Date(Date.now());
+    const result = await Meetup.getUpcomingMeetups(currentDate);
+
+    if (result.length === 0) return successResponse(res, 200, 'No upcoming meetups found.', result);
+    return successResponse(res, 200, 'Upcoming Meetups found.', result);
+  },
 };
