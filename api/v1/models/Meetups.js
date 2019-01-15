@@ -48,4 +48,11 @@ export default class Meetup {
     const { rows } = await pool.query(text, values);
     return rows;
   }
+
+  static async deleteMeetup(id) {
+    const text = 'DELETE FROM meetups WHERE id = $1';
+    const values = [id];
+    const result = await pool.query(text, values);
+    return result;
+  }
 }

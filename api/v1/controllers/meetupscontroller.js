@@ -68,4 +68,13 @@ export default {
     if (result.length === 0) return successResponse(res, 200, 'No upcoming meetups found.', result);
     return successResponse(res, 200, 'Upcoming Meetups found.', result);
   },
+
+  deleteMeetup: async (req, res) => {
+    const { id } = req.params;
+    const meetupExists = await Meetup.getMeetupById(id);
+
+    if (!meetupExists) return errorResponse(res, 404, 'Meetup not found.');
+    await Meetup.deleteMeetup(id);
+    return successResponse(res, 200, 'Meetup deleted successfully.', null);
+  },
 };
