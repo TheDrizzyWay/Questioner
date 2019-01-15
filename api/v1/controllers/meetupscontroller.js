@@ -41,4 +41,23 @@ export default {
     if (!result) return errorResponse(res, 404, 'Meetup not found');
     return successResponse(res, 200, 'Meetup Found.', result);
   },
+
+  updateMeetup: async (req, res) => {
+    const { id } = req.params;
+    const meetupExists = await Meetup.getMeetupById(id);
+    const newMeetup = req.body;
+
+    if (newMeetup.topic) newMeetup.topic = newMeetup.topic.replace(/([^a-zA-z0-9\s])/g, '');
+    if (newMeetup.location) newMeetup.location = newMeetup.location.replace(/([^a-zA-z\s])/g, '');
+    if (newMeetup.happeningon) newMeetup.happeningon = newMeetup.happeningon.replace('T', ' by ');
+
+    meetupExists.topic = newMeetup.topic || meetupExists.topic;
+    meetupExists.location = newMeetup.location || meetupExists.location;
+    meetupExists.happeningon = newMeetup.happeningon || meetupExists.happeningon;
+    meetupExists.image = newMeetup.image || meetupExists.image;
+    meetupExists.tags = newMeetup.tags || meetupExists.tags;
+
+    const result = await Meetup.updateMeetup(id, meetupExists);
+    return successResponse(res, 200, 'Meetup updated successfully', result);
+  },
 };

@@ -8,7 +8,7 @@ const { editUser, getAllUsers } = usersController;
 
 const router = express.Router();
 
-router.put('/edit', requireAuth, UserValidation.validEdit, tryCatch(editUser));
+router.put('/', requireAuth, UserValidation.validEdit, tryCatch(editUser));
 router.get('/', requireAuth, adminAuth, tryCatch(getAllUsers));
 // add route for get user profile
 

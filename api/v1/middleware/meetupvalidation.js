@@ -42,4 +42,36 @@ export default class MeetupValidation {
     }
     return next();
   }
+
+  static validEdit(req, res, next) {
+    const meetup = req.body;
+
+    const meetupProperties = {
+      topic: 'string|min:1|max:255',
+      location: 'string|min:1',
+      happeningon: ['date', 'regex:/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}/'],
+      images: 'url',
+      tags: 'array|min:1|max:10',
+      'tags.*': 'alpha_num',
+    };
+
+    const validator = new Validator(meetup, meetupProperties, customErrorMessages);
+    validator.passes(() => next());
+    validator.fails(() => {
+      const errors = validator.errors.all();
+      return errorResponse(res, 400, errors);
+    });
+  }
+
+  static checkDateEdit(req, res, next) {
+    if (req.body.happeningon) {
+      const currentDate = new Date(Date.now());
+      const meetupDate = new Date(req.body.happeningon);
+
+      if (currentDate > meetupDate) {
+        return errorResponse(res, 400, `Your Date should be greater than ${currentDate}.`);
+      }
+    }
+    return next();
+  }
 }
