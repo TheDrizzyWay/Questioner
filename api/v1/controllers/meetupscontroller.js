@@ -1,5 +1,5 @@
 import Meetup from '../models/Meetups';
-import { successResponse } from '../utils/responses';
+import { successResponse, errorResponse } from '../utils/responses';
 
 export default {
   /**
@@ -32,5 +32,13 @@ export default {
 
     if (result.length === 0) return successResponse(res, 200, 'No meetups found.', result);
     return successResponse(res, 200, 'Meetups found.', result);
+  },
+
+  getMeetupById: async (req, res) => {
+    const { id } = req.params;
+    const result = await Meetup.getMeetupById(id);
+
+    if (!result) return errorResponse(res, 404, 'Meetup not found');
+    return successResponse(res, 200, 'Meetup Found.', result);
   },
 };

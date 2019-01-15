@@ -1,7 +1,7 @@
 import User from '../models/Users';
 import Hash from '../utils/passwords';
 import Jwt from '../utils/jwt';
-import convertName from '../utils/convertname';
+import convertName from '../utils/stringfunctions';
 import { successResponse, errorResponse } from '../utils/responses';
 
 export default {
@@ -18,8 +18,6 @@ export default {
     user.firstname = convertName(user.firstname);
     user.lastname = convertName(user.lastname);
     user.password = Hash.hashPassword(user.password);
-    user.email = user.email.trim();
-    user.username = user.username.trim();
 
     const userExists = await User.getUserByEmail(user.email);
     if (userExists) return errorResponse(res, 409, 'This email address is already taken.');
@@ -39,9 +37,7 @@ export default {
    */
 
   logIn: async (req, res) => {
-    let { email, password } = req.body;
-    email = email.trim();
-    password = password.trim();
+    const { email, password } = req.body;
 
     const result = await User.logIn(email);
 

@@ -23,4 +23,11 @@ export default class Meetup {
     const { rows } = await pool.query(text);
     return rows;
   }
+
+  static async getMeetupById(id) {
+    const text = 'SELECT * FROM meetups WHERE id = $1';
+    const values = [id];
+    const { rows } = await pool.query(text, values);
+    return rows[0];
+  }
 }
