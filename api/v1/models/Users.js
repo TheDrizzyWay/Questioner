@@ -20,6 +20,13 @@ export default class User {
     return rows[0];
   }
 
+  static async getUserById(id) {
+    const text = 'SELECT * FROM users WHERE id = $1';
+    const values = [id];
+    const { rows } = await pool.query(text, values);
+    return rows[0];
+  }
+
   static async getUserByEmail(email) {
     const text = 'SELECT * FROM users WHERE email = $1';
     const values = [email];
@@ -37,6 +44,17 @@ export default class User {
   static async logIn(email) {
     const text = 'SELECT id, password FROM users WHERE email = $1';
     const values = [email];
+    const { rows } = await pool.query(text, values);
+    return rows[0];
+  }
+
+  static async updateUser(id, user) {
+    const {
+      firstname, lastname, username, email, password, phonenumber,
+    } = user;
+    const text = `UPDATE users SET firstname = $1, lastname = $2, username = $3,
+     email = $4, password = $5, phonenumber =$6 WHERE id = $7 RETURNING *`;
+    const values = [firstname, lastname, username, email, password, phonenumber, id];
     const { rows } = await pool.query(text, values);
     return rows[0];
   }
