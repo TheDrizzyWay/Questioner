@@ -16,3 +16,17 @@ console.log('seeding database');
     return error;
   }
 })();
+
+(async () => {
+  const password = 'mikemyers';
+  const hashed = Hash.hashPassword(password);
+  let result;
+  const params = ['Micheal', 'Myers', 'mikemyers', 'myers@email.com', hashed, '08022223333', false];
+  try {
+    result = await pool.query(`INSERT INTO users (firstname, lastname, username, email, password, phonenumber, isadmin)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)`, params);
+    return result;
+  } catch (error) {
+    return error;
+  }
+})();

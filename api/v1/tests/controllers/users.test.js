@@ -3,11 +3,12 @@ import chaiHttp from 'chai-http';
 import app from '../../../app';
 import {
   correctLogin, correctEdit, invalidEdit,
-  correctEdit2,
+  correctEdit2, userLogin,
 } from '../mockdata/userdata';
 
 chai.use(chaiHttp);
 let adminToken;
+let userToken;
 
 describe('Users', () => {
   before(async () => {
@@ -17,6 +18,13 @@ describe('Users', () => {
       .send(correctLogin);
 
     adminToken = response.body.data;
+
+    const userResponse = await chai
+      .request(app)
+      .post('/api/v1/auth/login')
+      .send(userLogin);
+
+    userToken = userResponse.body.data;
   });
   describe('PUT /edit', () => {
     it('should return 401 if no token is received', async () => {
@@ -61,6 +69,24 @@ describe('Users', () => {
         .put('/api/v1/users/edit')
         .set({ Authorization: `Bearer ${adminToken}` })
         .send(correctEdit2);
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+  });
+
+  describe('GET /users', () => {
+    it('should return 403 if user is not an admin', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/users')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.status(403);
+      expect(res.body).to.have.property('error');
+    });
+
+    it('should get all users and return 200', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/users')
+        .set({ Authorization: `Bearer ${adminToken}` });
       expect(res).to.have.status(200);
       expect(res.body).to.have.property('data');
     });
