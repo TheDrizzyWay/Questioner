@@ -34,6 +34,13 @@ export default {
     return successResponse(res, 200, 'Meetups found.', result);
   },
 
+  /**
+   * @description Gets a single meetup
+   * @param  {Object} req - The request object
+   * @param  {object} res - The response object
+   * @returns status code, message and a single meetup if it exists
+   */
+
   getMeetupById: async (req, res) => {
     const { id } = req.params;
     const result = await Meetup.getMeetupById(id);
@@ -45,6 +52,8 @@ export default {
   updateMeetup: async (req, res) => {
     const { id } = req.params;
     const meetupExists = await Meetup.getMeetupById(id);
+    if (!meetupExists) return errorResponse(res, 404, 'Meetup not found');
+
     const newMeetup = req.body;
 
     if (newMeetup.topic) newMeetup.topic = newMeetup.topic.replace(/([^a-zA-z0-9\s])/g, '');
