@@ -41,4 +41,28 @@ export default {
     await Question.updateVotesTable(userid, questionid, vote);
     return successResponse(res, 200, `Question ${vote}.`, result);
   },
+
+  downvoteQuestion: async (req, res) => {
+    const questionid = req.params.id;
+    const userid = req.user.id;
+    const userAction = req.originalUrl;
+
+    const questionExists = await Question.getQuestionById(questionid);
+    if (!questionExists) return errorResponse(res, 404, 'Question not found.');
+
+    if (questionExists.userid === userid) {
+      return errorResponse(res, 400, 'You can not vote on your own question.');
+    }
+
+    const voted = await Question.ifVoted(userid, questionid);
+    if (voted) {
+      return errorResponse(res, 400, `You have already ${voted.vote} this question`);
+    }
+
+    const userActionArray = userAction.split('/');
+    const vote = `${userActionArray[userActionArray.length - 1]}d`;
+    const result = await Question.downvoteQuestion(questionid);
+    await Question.updateVotesTable(userid, questionid, vote);
+    return successResponse(res, 200, `Question ${vote}.`, result);
+  },
 };

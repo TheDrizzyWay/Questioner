@@ -4,6 +4,7 @@ import app from '../../../app';
 import { correctLogin, userLogin } from '../mockdata/userdata';
 import {
   missing, correct, invalidmeetup,
+  correct2,
 } from '../mockdata/questiondata';
 
 chai.use(chaiHttp);
@@ -31,6 +32,17 @@ describe('Questions', () => {
     it('it should return 404 if question id does not exist', async () => {
       const res = await chai.request(app)
         .patch('/api/v1/questions/5/upvote')
+        .set({ Authorization: `Bearer ${userToken}` });
+
+      expect(res).to.have.status(404);
+      expect(res.body).to.have.property('error');
+    });
+  });
+
+  describe('PATCH /:id/downvote', () => {
+    it('it should return 404 if question id does not exist', async () => {
+      const res = await chai.request(app)
+        .patch('/api/v1/questions/5/downvote')
         .set({ Authorization: `Bearer ${userToken}` });
 
       expect(res).to.have.status(404);
@@ -68,6 +80,16 @@ describe('Questions', () => {
       expect(res).to.have.status(201);
       expect(res.body).to.have.property('data');
     });
+
+    it('should return 201 if question is created successfully', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/questions')
+        .set({ Authorization: `Bearer ${adminToken}` })
+        .send(correct2);
+
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('data');
+    });
   });
 
   describe('PATCH /:id/upvote', () => {
@@ -96,6 +118,35 @@ describe('Questions', () => {
 
       expect(res).to.have.status(400);
       expect(res.body.error).to.equal('You have already upvoted this question');
+    });
+  });
+
+  describe('PATCH /:id/downvote', () => {
+    it('it should return 400 if question creator tries to vote', async () => {
+      const res = await chai.request(app)
+        .patch('/api/v1/questions/2/downvote')
+        .set({ Authorization: `Bearer ${adminToken}` });
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.have.property('error');
+    });
+
+    it('it should return 200 if downvote is successfull', async () => {
+      const res = await chai.request(app)
+        .patch('/api/v1/questions/2/downvote')
+        .set({ Authorization: `Bearer ${userToken}` });
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+
+    it('it should return 400 if user tries to vote twice', async () => {
+      const res = await chai.request(app)
+        .patch('/api/v1/questions/2/downvote')
+        .set({ Authorization: `Bearer ${userToken}` });
+
+      expect(res).to.have.status(400);
+      expect(res.body.error).to.equal('You have already downvoted this question');
     });
   });
 });

@@ -10,6 +10,12 @@ const correct = {
   body: 'body',
 };
 
+const correct2 = {
+  meetupid: '1',
+  title: 'title2',
+  body: 'body2',
+};
+
 const invalidmeetup = {
   meetupid: '5',
   title: 'title',
@@ -18,4 +24,5 @@ const invalidmeetup = {
 
 export {
   missing, correct, invalidmeetup,
+  correct2,
 };

@@ -30,6 +30,13 @@ export default class Question {
     return rows[0];
   }
 
+  static async downvoteQuestion(id) {
+    const text = 'UPDATE questions SET downvotes = downvotes + 1 WHERE id = $1 RETURNING *';
+    const values = [id];
+    const { rows } = await pool.query(text, values);
+    return rows[0];
+  }
+
   static async updateVotesTable(userid, questionid, vote) {
     const text = `INSERT INTO votes (userid, questionid, vote) VALUES
     ($1, $2, $3)`;
