@@ -21,4 +21,13 @@ export default {
     }
     return successResponse(res, 200, 'Response recorded.', result);
   },
+
+  getJoinedMeetups: async (req, res) => {
+    const { id } = req.user;
+    const response = 'yes';
+
+    const result = await Rsvp.getJoinedMeetups(id, response);
+    if (result.length === 0) return successResponse(res, 200, 'You have not joined any meetups yet.', result);
+    return successResponse(res, 200, 'Joined meetups found.', result);
+  },
 };
