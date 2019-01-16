@@ -10,24 +10,24 @@ export default class Meetup {
   }
 
   async createMeetup() {
-    const text = `INSERT INTO meetups (topic, location, happeningon,
+    const queryString = `INSERT INTO meetups (topic, location, happeningon,
       image, tags) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
     const values = [this.topic, this.location, this.happeningon,
       this.image, this.tags];
-    const { rows } = await pool.query(text, values);
+    const { rows } = await pool.query(queryString, values);
     return rows[0];
   }
 
   static async getAllMeetups() {
-    const text = 'SELECT * FROM meetups';
-    const { rows } = await pool.query(text);
+    const queryString = 'SELECT * FROM meetups';
+    const { rows } = await pool.query(queryString);
     return rows;
   }
 
   static async getMeetupById(id) {
-    const text = 'SELECT * FROM meetups WHERE id = $1';
+    const queryString = 'SELECT * FROM meetups WHERE id = $1';
     const values = [id];
-    const { rows } = await pool.query(text, values);
+    const { rows } = await pool.query(queryString, values);
     return rows[0];
   }
 
@@ -35,24 +35,24 @@ export default class Meetup {
     const {
       topic, location, happeningon, image, tags,
     } = meetup;
-    const text = `UPDATE meetups SET topic = $1, location = $2, happeningon = $3,
+    const queryString = `UPDATE meetups SET topic = $1, location = $2, happeningon = $3,
      image = $4, tags = $5 WHERE id = $6 RETURNING *`;
     const values = [topic, location, happeningon, image, tags, id];
-    const { rows } = await pool.query(text, values);
+    const { rows } = await pool.query(queryString, values);
     return rows[0];
   }
 
   static async getUpcomingMeetups(currentDate) {
-    const text = 'SELECT * FROM meetups WHERE happeningon > $1 ORDER BY happeningon';
+    const queryString = 'SELECT * FROM meetups WHERE happeningon > $1 ORDER BY happeningon';
     const values = [currentDate];
-    const { rows } = await pool.query(text, values);
+    const { rows } = await pool.query(queryString, values);
     return rows;
   }
 
   static async deleteMeetup(id) {
-    const text = 'DELETE FROM meetups WHERE id = $1';
+    const queryString = 'DELETE FROM meetups WHERE id = $1';
     const values = [id];
-    const result = await pool.query(text, values);
+    const result = await pool.query(queryString, values);
     return result;
   }
 }
