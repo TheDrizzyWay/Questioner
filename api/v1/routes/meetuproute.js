@@ -12,7 +12,7 @@ const {
   updateMeetup, getUpcomingMeetups, deleteMeetup,
 } = meetupsController;
 
-const { joinMeetup } = rsvpController;
+const { joinMeetup, getJoinedMeetups } = rsvpController;
 
 const router = express.Router();
 
@@ -20,11 +20,12 @@ router.post('/', requireAuth, adminAuth, MeetupValidation.validCreate,
   MeetupValidation.checkTags, MeetupValidation.checkDate, tryCatch(createMeetup));
 router.get('/', requireAuth, tryCatch(getAllMeetups));
 router.get('/upcoming', requireAuth, tryCatch(getUpcomingMeetups));
+router.get('/rsvps', requireAuth, tryCatch(getJoinedMeetups));
 router.get('/:id', requireAuth, idValidation, tryCatch(getMeetupById));
 router.put('/:id', requireAuth, adminAuth, idValidation,
   MeetupValidation.validEdit, MeetupValidation.checkTags,
   MeetupValidation.checkDateEdit, tryCatch(updateMeetup));
 router.delete('/:id', requireAuth, adminAuth, idValidation, tryCatch(deleteMeetup));
-router.post('/:id/rsvps', requireAuth, RsvpValidation.validRsvp, tryCatch(joinMeetup));
+router.post('/:id/rsvps', requireAuth, idValidation, RsvpValidation.validRsvp, tryCatch(joinMeetup));
 
 export default router;
