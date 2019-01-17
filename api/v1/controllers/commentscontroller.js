@@ -12,6 +12,7 @@ export default {
     newComment.title = questionExists.title;
     newComment.body = questionExists.body;
     newComment.userid = req.user.id;
+    newComment.comment = newComment.comment.replace(/([@#$%&<>*/\\\s])/g, '');
 
     const newCommentClass = new Comment(newComment);
     const result = await newCommentClass.createComment();
@@ -19,13 +20,13 @@ export default {
   },
 
   getCommentsByQuestion: async (req, res) => {
-    const id = req.params.meetupid;
+    const { id } = req.params;
 
     const questionExists = await Question.getQuestionById(id);
     if (!questionExists) return errorResponse(res, 404, 'Question does not exist.');
 
     const result = await Comment.getCommentsByQuestion(id);
-    if (result.length === 0) return errorResponse(res, 400, 'No comments found for this question.');
+    if (result.length === 0) return errorResponse(res, 404, 'No comments found for this question.');
     return successResponse(res, 200, 'Comments Found', result);
   },
 };

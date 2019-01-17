@@ -46,6 +46,16 @@ describe('Users', () => {
       expect(res.body).to.have.property('error');
     });
 
+    it('should return 500 for internal error', async () => {
+      const res = await chai.request(app)
+        .put('/api/v1/users')
+        .set({ Authorization: 'Bearer abcd' })
+        .send(correctEdit);
+
+      expect(res).to.have.status(500);
+      expect(res.body).to.have.property('error');
+    });
+
     it('should return 400 if fields contain invalid details', async () => {
       const res = await chai.request(app)
         .put('/api/v1/users')
