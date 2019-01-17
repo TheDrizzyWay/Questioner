@@ -192,7 +192,7 @@ span {
 }
 
 .close_btn {
-  background: #000000;
+  background: #00bfff;
   color: #ffffff;
   float: right;
   font-size: 30px;
@@ -202,8 +202,8 @@ span {
 }
 
 .close_btn:hover, .close_btn:focus {
-  background: #555555;
-  color: #000000;
+  background: #ffffff;
+  color: #00bfff;
   text-decoration: none;
   cursor: pointer;
 }
@@ -232,11 +232,13 @@ span {
 	font-size: 1.4em;
 	margin-bottom: 10px;
   margin-left: 30%;
+  color: #00bfff;
 }
 
 .create_form label {
 	display: block;
 	margin-bottom: 8px;
+  color: #00bfff;
 }
 
 .create_form input[type="text"], .create_form input[type="file"] {
