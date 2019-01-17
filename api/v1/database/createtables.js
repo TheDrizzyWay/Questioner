@@ -60,7 +60,7 @@ console.log('Creating tables...');
         id SERIAL PRIMARY KEY,
         userid INT NOT NULL,
         questionid INT NOT NULL,
-        vote VARCHAR(8) NOT NULL,
+        vote VARCHAR(10) NOT NULL,
         FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (questionid) REFERENCES questions (id) ON DELETE CASCADE)`);
   } catch (error) {
