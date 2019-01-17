@@ -15,8 +15,8 @@ export default {
   signUp: async (req, res) => {
     const user = new User(req.body);
 
-    user.firstname = convertName(user.firstname);
-    user.lastname = convertName(user.lastname);
+    user.firstname = convertName(user.firstname).trim();
+    user.lastname = convertName(user.lastname).trim();
     user.password = Hash.hashPassword(user.password);
 
     const userExists = await User.getUserByEmail(user.email);

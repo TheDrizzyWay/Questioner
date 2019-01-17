@@ -11,9 +11,9 @@ export default {
 
   createMeetup: async (req, res) => {
     const meetup = new Meetup(req.body);
-    meetup.topic = meetup.topic.replace(/([^a-zA-z0-9\s])/g, '');
-    meetup.location = meetup.location.replace(/([^a-zA-z\s])/g, '');
-    meetup.happeningon = meetup.happeningon.replace('T', ' by ');
+    meetup.topic = meetup.topic.replace(/([@#$%&<>*/\\\s])/g, '').trim();
+    meetup.location = meetup.location.replace(/([@#$%&<>*/\\\s])/g, '').trim();
+    meetup.happeningon = meetup.happeningon.replace('T', ' by ').trim();
 
     const result = await meetup.createMeetup();
 
@@ -49,6 +49,13 @@ export default {
     return successResponse(res, 200, 'Meetup Found.', result);
   },
 
+  /**
+   * @description Updates the details of a meetup
+   * @param  {Object} req - The request object
+   * @param  {object} res - The response object
+   * @returns status code, message and new meetup details
+   */
+
   updateMeetup: async (req, res) => {
     const { id } = req.params;
     const meetupExists = await Meetup.getMeetupById(id);
@@ -70,6 +77,13 @@ export default {
     return successResponse(res, 200, 'Meetup updated successfully', result);
   },
 
+  /**
+   * @description Gets all upcoming meetups
+   * @param  {Object} req - The request object
+   * @param  {object} res - The response object
+   * @returns status code, message and all upcoming meetups
+   */
+
   getUpcomingMeetups: async (req, res) => {
     const currentDate = new Date(Date.now());
     const result = await Meetup.getUpcomingMeetups(currentDate);
@@ -77,6 +91,13 @@ export default {
     if (result.length === 0) return successResponse(res, 200, 'No upcoming meetups found.', result);
     return successResponse(res, 200, 'Upcoming Meetups found.', result);
   },
+
+  /**
+   * @description Deletes a meetup
+   * @param  {Object} req - The request object
+   * @param  {object} res - The response object
+   * @returns status code and message
+   */
 
   deleteMeetup: async (req, res) => {
     const { id } = req.params;

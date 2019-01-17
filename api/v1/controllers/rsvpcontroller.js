@@ -3,6 +3,13 @@ import Meetup from '../models/Meetups';
 import { successResponse, errorResponse } from '../utils/responses';
 
 export default {
+  /**
+   * @description Adds a user to a meetup
+   * @param  {Object} req - The request object
+   * @param  {object} res - The response object
+   * @returns status code, message and the rsvp details
+   */
+
   joinMeetup: async (req, res) => {
     const meetupId = req.params.id;
     const userId = req.user.id;
@@ -21,6 +28,13 @@ export default {
     }
     return successResponse(res, 200, 'Response recorded.', result);
   },
+
+  /**
+   * @description Gets the meetups a user has joined
+   * @param  {Object} req - The request object
+   * @param  {object} res - The response object
+   * @returns status code, message and the joined meetups
+   */
 
   getJoinedMeetups: async (req, res) => {
     const { id } = req.user;
