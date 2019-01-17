@@ -7,7 +7,7 @@ import tryCatch from '../utils/trycatch';
 
 const {
   createMeetup, getAllMeetups, getMeetupById,
-  updateMeetup, getUpcomingMeetups,
+  updateMeetup, getUpcomingMeetups, deleteMeetup,
 } = meetupsController;
 
 const router = express.Router();
@@ -20,5 +20,6 @@ router.get('/:id', requireAuth, idValidation, tryCatch(getMeetupById));
 router.put('/:id', requireAuth, adminAuth, idValidation,
   MeetupValidation.validEdit, MeetupValidation.checkTags,
   MeetupValidation.checkDateEdit, tryCatch(updateMeetup));
+router.delete('/:id', requireAuth, adminAuth, tryCatch(deleteMeetup));
 
 export default router;

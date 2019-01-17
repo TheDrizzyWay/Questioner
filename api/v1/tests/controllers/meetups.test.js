@@ -5,6 +5,7 @@ import { correctLogin, userLogin } from '../mockdata/userdata';
 import {
   emptyMeetup, wrongDate, correctMeetup,
   invalidEdit, correctMeetup2, correctMeetup3,
+  correctMeetup4, correctMeetup5,
 } from '../mockdata/meetupdata';
 
 chai.use(chaiHttp);
@@ -71,6 +72,15 @@ describe('Meetups', () => {
         .post('/api/v1/meetups')
         .set({ Authorization: `Bearer ${adminToken}` })
         .send(correctMeetup);
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('data');
+    });
+
+    it('should return 201 for successfull creation', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/meetups')
+        .set({ Authorization: `Bearer ${adminToken}` })
+        .send(correctMeetup4);
       expect(res).to.have.status(201);
       expect(res.body).to.have.property('data');
     });
@@ -148,6 +158,15 @@ describe('Meetups', () => {
       expect(res).to.have.status(200);
       expect(res.body).to.have.property('data');
     });
+
+    it('should return 200 for successfull partial update', async () => {
+      const res = await chai.request(app)
+        .put('/api/v1/meetups/1')
+        .set({ Authorization: `Bearer ${adminToken}` })
+        .send(correctMeetup5);
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
   });
 
   describe('GET /upcoming', () => {
@@ -157,6 +176,24 @@ describe('Meetups', () => {
         .set({ Authorization: `Bearer ${userToken}` });
       expect(res).to.have.status(200);
       expect(res.body).to.have.property('data');
+    });
+  });
+
+  describe('DELETE /', () => {
+    it('should return 404 if meetup not found', async () => {
+      const res = await chai.request(app)
+        .delete('/api/v1/meetups/10')
+        .set({ Authorization: `Bearer ${adminToken}` });
+      expect(res).to.have.status(404);
+      expect(res.body.error).to.equal('Meetup not found.');
+    });
+
+    it('should return 200 on successfull delete', async () => {
+      const res = await chai.request(app)
+        .delete('/api/v1/meetups/2')
+        .set({ Authorization: `Bearer ${adminToken}` });
+      expect(res).to.have.status(200);
+      expect(res.body.data).to.equal(null);
     });
   });
 });

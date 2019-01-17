@@ -33,12 +33,26 @@ const correctMeetup2 = {
 };
 
 const correctMeetup3 = {
-  topic: 'Aspiring software developers meetup2',
-  location: 'The Bunker $%',
+  happeningon: '2020-01-13T22:00',
+  location: 'new location',
+  image: 'http://sampleimage/image2.jpg',
+};
+
+const correctMeetup5 = {
+  topic: 'new topic 2',
+  tags: ['abc', 'abc'],
+};
+
+const correctMeetup4 = {
+  topic: 'Sports fans meetup',
+  location: 'Emirates stadium',
+  happeningon: '2020-01-13T22:00',
   image: 'http://sampleimage/image.jpg',
+  tags: ['sports', 'soccer'],
 };
 
 export {
   emptyMeetup, correctMeetup, wrongDate,
   invalidEdit, correctMeetup2, correctMeetup3,
+  correctMeetup4, correctMeetup5,
 };
