@@ -11,7 +11,7 @@ export default {
 
   createMeetup: async (req, res) => {
     const meetup = new Meetup(req.body);
-    meetup.topic = meetup.topic.replace(/([@#$%&<>*/\\\s])/g, '').trim();
+    meetup.topic = meetup.topic.replace(/([@#$%&<>=*/\\])/g, '').trim();
     meetup.location = meetup.location.replace(/([@#$%&<>*/\\\s])/g, '').trim();
     meetup.happeningon = meetup.happeningon.replace('T', ' by ').trim();
 

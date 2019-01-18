@@ -15,8 +15,8 @@ export default {
     req.body.userid = id;
     const question = new Question(req.body);
 
-    question.title = question.title.replace(/([@#$%&<>*/\\\s])/g, '').trim();
-    question.body = question.body.replace(/([@#$%&<>*/\\\s])/g, '').trim();
+    question.title = question.title.replace(/([@#$%&=<>*/\\])/g, '').trim();
+    question.body = question.body.replace(/([@#$%&<>*=/\\])/g, '').trim();
 
     const meetupExists = await Meetup.getMeetupById(question.meetupid);
     if (!meetupExists) return errorResponse(res, 404, 'Meetup not found.');

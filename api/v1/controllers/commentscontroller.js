@@ -19,7 +19,7 @@ export default {
     newComment.title = questionExists.title;
     newComment.body = questionExists.body;
     newComment.userid = req.user.id;
-    newComment.comment = newComment.comment.replace(/([@#$%&<>*/\\\s])/g, '');
+    newComment.comment = newComment.comment.replace(/([@#$%&<>=*/\\])/g, '');
 
     const newCommentClass = new Comment(newComment);
     const result = await newCommentClass.createComment();
