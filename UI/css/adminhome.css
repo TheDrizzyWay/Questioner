@@ -93,6 +93,8 @@ section > p {
 .meet img {
   width: 250px;
   height: 150px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .meet a {

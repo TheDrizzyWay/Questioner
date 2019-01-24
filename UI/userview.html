@@ -2,11 +2,11 @@
 
 <html lang="en">
   <head>
-  	<title> Questioner - Admin View Page</title>
+  	<title> Questioner - User View Page</title>
   	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-  	<meta name="description" content="Questioner Admin View Page" />
+  	<meta name="description" content="Questioner User View Page" />
   	<link rel="stylesheet" href="css/adminview.css">
   </head>
   <body>
@@ -53,42 +53,8 @@
         </div>
       </div>
     </section>
-    <section class="buttons">
-      <button type="button" name="edit-button" id="modal-button"><img src="images/edit.png" alt="edit"></button>
-      <p>Edit Meetup</p>
-      <button type="button" name="delete-button"><img src="images/delete.png" alt="delete"></button>
-      <p>Delete Meetup</p>
-      <a href="adminhome.html"><button type="button" name="home-button"><img src="images/home.png" alt="home"></button></a>
-      <p>Home</p>
-    </section>
-    <div id="simple-modal" class="modal">
-      <div class="modal_content">
-        <span class="close_btn">&times;</span>
-        <div class="create_form">
-        <form>
-          <fieldset>
-            <legend>Edit meetup Form</legend>
-            <input type="text" name="topic" placeholder="Meetup Topic"/>
-            <textarea name="location" placeholder="Location"></textarea>
-            <label> Upload Location Image</label>
-            <input type="file" accept="image/*" name="image" multiple/>
-            <div class="tags-input" data-name="tags-input">
-              Add Tags Here
-            </div>
-            <label>Happening On: Select Date and Time Below</label>
-            <input type="datetime-local" name="date" min="2019-01-01" max="2025-01-01" id="date" />
-          </fieldset>
-          <input type="submit" value="Submit" />
-        </form>
-        </div>
-      </div>
-    </div>
     <footer>
       <div class="footer"></div>
     </footer>
-    <script type="text/javascript" src="scripts/createmodal.js">
-    </script>
-    <script type="text/javascript" src="scripts/tags.js">
-    </script>
   </body>
 </html>
