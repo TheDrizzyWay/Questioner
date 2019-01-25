@@ -16,7 +16,7 @@
     "devstart": "node_modules/.bin/nodemon api/app.js --exec babel-node --",
     "pretest": "npm run migrations && npm run seed",
     "test": "nyc --reporter=text mocha -c ./api/v1/tests/**/index.js --exit --require babel-core/register",
-    "heroku-postbuild" : "npm run pretest"
+    "heroku-postbuild": "npm run pretest"
   },
   "repository": {
     "type": "git",

@@ -193,7 +193,7 @@ describe('Meetups', () => {
         .delete('/api/v1/meetups/2')
         .set({ Authorization: `Bearer ${adminToken}` });
       expect(res).to.have.status(200);
-      expect(res.body.data).to.equal(null);
+      expect(res.body).to.have.property('data');
     });
   });
 });

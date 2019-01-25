@@ -4,7 +4,7 @@ import Jwt from '../utils/jwt';
 import convertName from '../utils/stringfunctions';
 import { successResponse, errorResponse } from '../utils/responses';
 
-export default {
+export default class UsersController {
   /**
    * @description Signs up a user
    * @param  {Object} req - The request object
@@ -12,7 +12,7 @@ export default {
    * @returns status code, message and user details
    */
 
-  signUp: async (req, res) => {
+  static async signUp(req, res) {
     const user = new User(req.body);
 
     user.firstname = convertName(user.firstname).trim();
@@ -27,7 +27,7 @@ export default {
 
     const newUser = await user.signUp();
     return successResponse(res, 201, 'You have signed up successfully', newUser);
-  },
+  }
 
   /**
    * @description Logs in an existing user
@@ -36,7 +36,7 @@ export default {
    * @returns status code, message and token
    */
 
-  logIn: async (req, res) => {
+  static async logIn(req, res) {
     const { email, password } = req.body;
 
     const result = await User.logIn(email);
@@ -53,7 +53,7 @@ export default {
     const { id, username, isadmin } = result;
     const token = await Jwt.generateToken({ id, username, isadmin });
     return successResponse(res, 200, 'You are logged in.', token);
-  },
+  }
 
   /**
    * @description Edits a user's details
@@ -61,7 +61,8 @@ export default {
    * @param  {object} res - The response object
    * @returns status code, message and user details
    */
-  editUser: async (req, res) => {
+
+  static async editUser(req, res) {
     const { id } = req.user;
     const userExists = await User.getUserById(id);
 
@@ -80,7 +81,7 @@ export default {
 
     const result = await User.updateUser(id, userExists);
     return successResponse(res, 200, 'Your details have been updated successfully', result);
-  },
+  }
 
   /**
    * @description Gets all users
@@ -89,8 +90,8 @@ export default {
    * @returns status code, message and a list of all users
    */
 
-  getAllUsers: async (req, res) => {
+  static async getAllUsers(req, res) {
     const result = await User.getAllUsers();
     return successResponse(res, 200, 'Users found.', result);
-  },
-};
+  }
+}

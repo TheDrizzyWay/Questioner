@@ -2,7 +2,7 @@ import Question from '../models/Questions';
 import Meetup from '../models/Meetups';
 import { successResponse, errorResponse } from '../utils/responses';
 
-export default {
+export default class QuestionsController {
   /**
    * @description Creates a question for a particular meetup
    * @param  {Object} req - The request object
@@ -10,8 +10,8 @@ export default {
    * @returns status code, message and question details
    */
 
-  createQuestion: async (req, res) => {
-    const { id } = req.user;
+  static async createQuestion(req, res) {
+    const { id, username } = req.user;
     req.body.userid = id;
     const question = new Question(req.body);
 
@@ -23,8 +23,9 @@ export default {
 
     const result = await question.createQuestion();
     result.topic = meetupExists.topic;
+    result.username = username;
     return successResponse(res, 201, 'Your question has been recorded.', result);
-  },
+  }
 
   /**
    * @description Upvotes a question
@@ -33,7 +34,7 @@ export default {
    * @returns status code, message and the upvoted question
    */
 
-  upvoteQuestion: async (req, res) => {
+  static async upvoteQuestion(req, res) {
     const questionid = req.params.id;
     const userid = req.user.id;
     const userAction = req.originalUrl;
@@ -50,12 +51,11 @@ export default {
       return errorResponse(res, 400, `You have already ${voted.vote} this question`);
     }
 
-    const userActionArray = userAction.split('/');
-    const vote = `${userActionArray[userActionArray.length - 1]}d`;
+    const vote = userAction.endsWith('upvote') ? 'upvoted' : 'downvoted';
     const result = await Question.upvoteQuestion(questionid);
     await Question.updateVotesTable(userid, questionid, vote);
     return successResponse(res, 200, `Question ${vote}.`, result);
-  },
+  }
 
   /**
    * @description Downvotes a question
@@ -64,7 +64,7 @@ export default {
    * @returns status code, message and the upvoted question
    */
 
-  downvoteQuestion: async (req, res) => {
+  static async downvoteQuestion(req, res) {
     const questionid = req.params.id;
     const userid = req.user.id;
     const userAction = req.originalUrl;
@@ -81,10 +81,9 @@ export default {
       return errorResponse(res, 400, `You have already ${voted.vote} this question`);
     }
 
-    const userActionArray = userAction.split('/');
-    const vote = `${userActionArray[userActionArray.length - 1]}d`;
+    const vote = userAction.endsWith('downvote') ? 'downvoted' : 'upvoted';
     const result = await Question.downvoteQuestion(questionid);
     await Question.updateVotesTable(userid, questionid, vote);
     return successResponse(res, 200, `Question ${vote}.`, result);
-  },
-};
+  }
+}
