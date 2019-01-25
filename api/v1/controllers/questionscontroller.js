@@ -1,5 +1,7 @@
 import Question from '../models/Questions';
 import Meetup from '../models/Meetups';
+import Rsvp from '../models/Rsvps';
+import { sanitizer } from '../utils/stringfunctions';
 import { successResponse, errorResponse } from '../utils/responses';
 
 export default class QuestionsController {
@@ -15,11 +17,14 @@ export default class QuestionsController {
     req.body.userid = id;
     const question = new Question(req.body);
 
-    question.title = question.title.replace(/([@#$%&=<>*/\\])/g, '').trim();
-    question.body = question.body.replace(/([@#$%&<>*=/\\])/g, '').trim();
+    question.title = sanitizer(question.title);
+    question.body = sanitizer(question.body);
 
     const meetupExists = await Meetup.getMeetupById(question.meetupid);
     if (!meetupExists) return errorResponse(res, 404, 'Meetup not found.');
+
+    const joinedMeetup = await Rsvp.getUserByRsvp(meetupExists.id, id);
+    if (!joinedMeetup) return errorResponse(res, 401, 'You have not joined this meetup.');
 
     const result = await question.createQuestion();
     result.topic = meetupExists.topic;
@@ -37,7 +42,6 @@ export default class QuestionsController {
   static async upvoteQuestion(req, res) {
     const questionid = req.params.id;
     const userid = req.user.id;
-    const userAction = req.originalUrl;
 
     const questionExists = await Question.getQuestionById(questionid);
     if (!questionExists) return errorResponse(res, 404, 'Question not found.');
@@ -51,7 +55,7 @@ export default class QuestionsController {
       return errorResponse(res, 400, `You have already ${voted.vote} this question`);
     }
 
-    const vote = userAction.endsWith('upvote') ? 'upvoted' : 'downvoted';
+    const vote = 'upvoted';
     const result = await Question.upvoteQuestion(questionid);
     await Question.updateVotesTable(userid, questionid, vote);
     return successResponse(res, 200, `Question ${vote}.`, result);
@@ -67,7 +71,6 @@ export default class QuestionsController {
   static async downvoteQuestion(req, res) {
     const questionid = req.params.id;
     const userid = req.user.id;
-    const userAction = req.originalUrl;
 
     const questionExists = await Question.getQuestionById(questionid);
     if (!questionExists) return errorResponse(res, 404, 'Question not found.');
@@ -81,7 +84,7 @@ export default class QuestionsController {
       return errorResponse(res, 400, `You have already ${voted.vote} this question`);
     }
 
-    const vote = userAction.endsWith('downvote') ? 'downvoted' : 'upvoted';
+    const vote = 'downvoted';
     const result = await Question.downvoteQuestion(questionid);
     await Question.updateVotesTable(userid, questionid, vote);
     return successResponse(res, 200, `Question ${vote}.`, result);
