@@ -1,3 +1,9 @@
+const today = new Date();
+const tomorrow = new Date();
+tomorrow.setDate(today.getDate() + 1);
+const tomorrowString = tomorrow.toISOString();
+const tomorrowFormat = tomorrowString.substring(0, 16);
+
 const emptyMeetup = {
   topic: '',
   location: '',
@@ -7,7 +13,7 @@ const emptyMeetup = {
 const correctMeetup = {
   topic: 'Aspiring software developers meetup',
   location: 'The Bunker $%',
-  happeningon: '2025-01-16T22:00',
+  happeningon: tomorrowFormat,
   image: 'http://sampleimage/image.jpg',
   tags: ['123', '123'],
 };
@@ -27,13 +33,13 @@ const invalidEdit = {
 const correctMeetup2 = {
   topic: 'Aspiring software developers meetup',
   location: 'The Bunker $%',
-  happeningon: '2025-01-13T22:00',
+  happeningon: tomorrowFormat,
   image: 'http://sampleimage/image.jpg',
   tags: ['123', '123'],
 };
 
 const correctMeetup3 = {
-  happeningon: '2020-01-13T22:00',
+  happeningon: tomorrowFormat,
   location: 'new location',
   image: 'http://sampleimage/image2.jpg',
 };
@@ -46,7 +52,7 @@ const correctMeetup5 = {
 const correctMeetup4 = {
   topic: 'Sports fans meetup',
   location: 'Emirates stadium',
-  happeningon: '2020-01-13T22:00',
+  happeningon: tomorrowFormat,
   image: 'http://sampleimage/image.jpg',
   tags: ['sports', 'soccer'],
 };

@@ -2,7 +2,7 @@ import Rsvp from '../models/Rsvps';
 import Meetup from '../models/Meetups';
 import { successResponse, errorResponse } from '../utils/responses';
 
-export default {
+export default class RsvpController {
   /**
    * @description Adds a user to a meetup
    * @param  {Object} req - The request object
@@ -10,7 +10,7 @@ export default {
    * @returns status code, message and the rsvp details
    */
 
-  joinMeetup: async (req, res) => {
+  static async joinMeetup(req, res) {
     const meetupId = req.params.id;
     const userId = req.user.id;
     const userResponse = req.body.response;
@@ -27,7 +27,7 @@ export default {
       return successResponse(res, 200, `You have joined ${meetupExists.topic}.`, result);
     }
     return successResponse(res, 200, 'Response recorded.', result);
-  },
+  }
 
   /**
    * @description Gets the meetups a user has joined
@@ -36,12 +36,12 @@ export default {
    * @returns status code, message and the joined meetups
    */
 
-  getJoinedMeetups: async (req, res) => {
+  static async getJoinedMeetups(req, res) {
     const { id } = req.user;
     const response = 'yes';
 
     const result = await Rsvp.getJoinedMeetups(id, response);
     if (result.length === 0) return successResponse(res, 200, 'You have not joined any meetups yet.', result);
     return successResponse(res, 200, 'Joined meetups found.', result);
-  },
-};
+  }
+}

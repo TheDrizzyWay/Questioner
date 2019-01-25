@@ -255,7 +255,7 @@ span {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	background-color: #e8eeef;
-	color:#8a97a0;
+	color:#000000;
 	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
 	box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
 	margin-bottom: 30px;
@@ -271,18 +271,19 @@ span {
 	padding: 10px 20px 10px 20px;
 	color: #ffffff;
 	margin: 0 auto;
-	background: #000000;
+	background: #00bfff;
 	font-size: 20px;
 	text-align: center;
 	font-style: normal;
 	width: 100%;
-	border: 1px solid #555555;
+	border: 1px solid #ffffff;
 	border-width: 1px 1px 3px;
 	margin-bottom: 10px;
 }
 
 .create_form input[type="submit"]:hover {
-	background: #777777;
+	background: #ffffff;
+  color: #00bfff;
 }
 
 @media (max-width:600px) {

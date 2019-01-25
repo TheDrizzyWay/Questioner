@@ -22,7 +22,13 @@ const invalidmeetup = {
   body: 'body',
 };
 
+const wrongMeetup = {
+  meetupid: '3',
+  title: 'title',
+  body: 'body',
+};
+
 export {
   missing, correct, invalidmeetup,
-  correct2,
+  correct2, wrongMeetup,
 };

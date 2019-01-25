@@ -1,10 +1,10 @@
 import User from '../models/Users';
 import Hash from '../utils/passwords';
 import Jwt from '../utils/jwt';
-import convertName from '../utils/stringfunctions';
+import { convertName } from '../utils/stringfunctions';
 import { successResponse, errorResponse } from '../utils/responses';
 
-export default {
+export default class UsersController {
   /**
    * @description Signs up a user
    * @param  {Object} req - The request object
@@ -12,11 +12,11 @@ export default {
    * @returns status code, message and user details
    */
 
-  signUp: async (req, res) => {
+  static async signUp(req, res) {
     const user = new User(req.body);
 
-    user.firstname = convertName(user.firstname).trim();
-    user.lastname = convertName(user.lastname).trim();
+    user.firstname = convertName(user.firstname);
+    user.lastname = convertName(user.lastname);
     user.password = Hash.hashPassword(user.password);
 
     const userExists = await User.getUserByEmail(user.email);
@@ -27,7 +27,7 @@ export default {
 
     const newUser = await user.signUp();
     return successResponse(res, 201, 'You have signed up successfully', newUser);
-  },
+  }
 
   /**
    * @description Logs in an existing user
@@ -36,7 +36,7 @@ export default {
    * @returns status code, message and token
    */
 
-  logIn: async (req, res) => {
+  static async logIn(req, res) {
     const { email, password } = req.body;
 
     const result = await User.logIn(email);
@@ -53,7 +53,7 @@ export default {
     const { id, username, isadmin } = result;
     const token = await Jwt.generateToken({ id, username, isadmin });
     return successResponse(res, 200, 'You are logged in.', token);
-  },
+  }
 
   /**
    * @description Edits a user's details
@@ -61,7 +61,8 @@ export default {
    * @param  {object} res - The response object
    * @returns status code, message and user details
    */
-  editUser: async (req, res) => {
+
+  static async editUser(req, res) {
     const { id } = req.user;
     const userExists = await User.getUserById(id);
 
@@ -69,18 +70,18 @@ export default {
       firstname, lastname, username, email, password, phonenumber,
     } = req.body;
 
-    userExists.firstname = firstname || userExists.firstname;
-    userExists.lastname = lastname || userExists.lastname;
-    userExists.username = username || userExists.username;
+    userExists.firstname = firstname ? convertName(firstname) : userExists.firstname;
+    userExists.lastname = lastname ? convertName(lastname) : userExists.lastname;
+    userExists.username = username ? username.trim() : userExists.username;
     userExists.email = email || userExists.email;
     if (password) {
       userExists.password = Hash.hashPassword(password);
     }
-    userExists.phonenumber = phonenumber || userExists.phonenumber;
+    userExists.phonenumber = phonenumber ? phonenumber.trim() : userExists.phonenumber;
 
     const result = await User.updateUser(id, userExists);
     return successResponse(res, 200, 'Your details have been updated successfully', result);
-  },
+  }
 
   /**
    * @description Gets all users
@@ -89,8 +90,8 @@ export default {
    * @returns status code, message and a list of all users
    */
 
-  getAllUsers: async (req, res) => {
+  static async getAllUsers(req, res) {
     const result = await User.getAllUsers();
     return successResponse(res, 200, 'Users found.', result);
-  },
-};
+  }
+}

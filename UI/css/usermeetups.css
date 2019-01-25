@@ -106,10 +106,18 @@ span {
 
 .actions img {
   padding-top: 5px;
-  padding-left: 80px;
+  padding-left: 10px;
   width: 35px;
   height: 35px;
   cursor: pointer;
+}
+
+.actions span {
+  color: #ffffff;
+  font-family: Tahoma;
+  font-size: 1.2em;
+  padding-top: 10px;
+  padding-left: 20px;
 }
 
 .next {
