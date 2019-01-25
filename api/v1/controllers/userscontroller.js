@@ -1,7 +1,7 @@
 import User from '../models/Users';
 import Hash from '../utils/passwords';
 import Jwt from '../utils/jwt';
-import convertName from '../utils/stringfunctions';
+import { convertName } from '../utils/stringfunctions';
 import { successResponse, errorResponse } from '../utils/responses';
 
 export default class UsersController {
@@ -15,8 +15,8 @@ export default class UsersController {
   static async signUp(req, res) {
     const user = new User(req.body);
 
-    user.firstname = convertName(user.firstname).trim();
-    user.lastname = convertName(user.lastname).trim();
+    user.firstname = convertName(user.firstname);
+    user.lastname = convertName(user.lastname);
     user.password = Hash.hashPassword(user.password);
 
     const userExists = await User.getUserByEmail(user.email);
@@ -70,14 +70,14 @@ export default class UsersController {
       firstname, lastname, username, email, password, phonenumber,
     } = req.body;
 
-    userExists.firstname = firstname || userExists.firstname;
-    userExists.lastname = lastname || userExists.lastname;
-    userExists.username = username || userExists.username;
+    userExists.firstname = firstname ? convertName(firstname) : userExists.firstname;
+    userExists.lastname = lastname ? convertName(lastname) : userExists.lastname;
+    userExists.username = username ? username.trim() : userExists.username;
     userExists.email = email || userExists.email;
     if (password) {
       userExists.password = Hash.hashPassword(password);
     }
-    userExists.phonenumber = phonenumber || userExists.phonenumber;
+    userExists.phonenumber = phonenumber ? phonenumber.trim() : userExists.phonenumber;
 
     const result = await User.updateUser(id, userExists);
     return successResponse(res, 200, 'Your details have been updated successfully', result);

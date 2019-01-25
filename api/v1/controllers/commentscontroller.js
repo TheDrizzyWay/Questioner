@@ -1,6 +1,7 @@
 import Comment from '../models/Comments';
 import Question from '../models/Questions';
 import { successResponse, errorResponse } from '../utils/responses';
+import { sanitizer } from '../utils/stringfunctions';
 
 export default class CommentsController {
   /**
@@ -20,7 +21,7 @@ export default class CommentsController {
     newComment.title = questionExists.title;
     newComment.body = questionExists.body;
     newComment.userid = req.user.id;
-    newComment.comment = newComment.comment.replace(/([@#$%&<>=*/\\])/g, '');
+    newComment.comment = sanitizer(newComment.comment);
 
     const newCommentClass = new Comment(newComment);
     const result = await newCommentClass.createComment();

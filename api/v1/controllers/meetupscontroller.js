@@ -1,5 +1,6 @@
 import Meetup from '../models/Meetups';
 import { successResponse, errorResponse } from '../utils/responses';
+import { sanitizer } from '../utils/stringfunctions';
 
 export default class MeetupsController {
   /**
@@ -11,8 +12,8 @@ export default class MeetupsController {
 
   static async createMeetup(req, res) {
     const meetup = new Meetup(req.body);
-    meetup.topic = meetup.topic.replace(/([@#$%&<>=*/\\])/g, '').trim();
-    meetup.location = meetup.location.replace(/([@#$%&<>*/\\\s])/g, '').trim();
+    meetup.topic = sanitizer(meetup.topic);
+    meetup.location = sanitizer(meetup.location);
     meetup.happeningon = meetup.happeningon.replace('T', ' by ').trim();
 
     const result = await meetup.createMeetup();
@@ -62,8 +63,8 @@ export default class MeetupsController {
 
     const newMeetup = req.body;
 
-    if (newMeetup.topic) newMeetup.topic = newMeetup.topic.replace(/([@#$%&<>=*/\\])/g, '').trim();
-    if (newMeetup.location) newMeetup.location = newMeetup.location.replace(/([@#$%&<>=*/\\])/g, '').trim();
+    if (newMeetup.topic) newMeetup.topic = sanitizer(newMeetup.topic);
+    if (newMeetup.location) newMeetup.location = sanitizer(newMeetup.location);
     if (newMeetup.happeningon) newMeetup.happeningon = newMeetup.happeningon.replace('T', ' by ');
 
     meetupExists.topic = newMeetup.topic || meetupExists.topic;
