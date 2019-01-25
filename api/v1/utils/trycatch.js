@@ -1,5 +1,6 @@
 import { errorResponse } from './responses';
 
+/* istanbul ignore next */
 const tryCatch = controller => async (req, res) => {
   try {
     await controller(req, res);

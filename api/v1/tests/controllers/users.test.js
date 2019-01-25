@@ -1,6 +1,8 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
+import sinon from 'sinon';
 import app from '../../../app';
+import User from '../../models/Users';
 import {
   correctLogin, correctEdit, invalidEdit,
   correctEdit2, userLogin,
@@ -99,6 +101,19 @@ describe('Users', () => {
         .set({ Authorization: `Bearer ${adminToken}` });
       expect(res).to.have.status(200);
       expect(res.body).to.have.property('data');
+    });
+
+    it('should return 500 for database error', async () => {
+      const expectedError = new Error('database error');
+      const userStub = sinon.stub(User, 'getAllUsers');
+      userStub.throws(expectedError);
+      const response = await chai.request(app)
+        .get('/api/v1/users')
+        .set({ Authorization: `Bearer ${adminToken}` });
+
+      expect(response).to.have.status(500);
+      expect(response.body).to.have.property('error');
+      userStub.restore();
     });
   });
 });

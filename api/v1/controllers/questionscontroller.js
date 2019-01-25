@@ -1,5 +1,6 @@
 import Question from '../models/Questions';
 import Meetup from '../models/Meetups';
+import Rsvp from '../models/Rsvps';
 import { sanitizer } from '../utils/stringfunctions';
 import { successResponse, errorResponse } from '../utils/responses';
 
@@ -21,6 +22,9 @@ export default class QuestionsController {
 
     const meetupExists = await Meetup.getMeetupById(question.meetupid);
     if (!meetupExists) return errorResponse(res, 404, 'Meetup not found.');
+
+    const joinedMeetup = await Rsvp.getUserByRsvp(meetupExists.id, id);
+    if (!joinedMeetup) return errorResponse(res, 401, 'You have not joined this meetup.');
 
     const result = await question.createQuestion();
     result.topic = meetupExists.topic;

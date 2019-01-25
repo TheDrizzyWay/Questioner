@@ -4,7 +4,7 @@ import app from '../../../app';
 import { correctLogin, userLogin } from '../mockdata/userdata';
 import {
   missing, correct, invalidmeetup,
-  correct2,
+  correct2, wrongMeetup,
 } from '../mockdata/questiondata';
 
 chai.use(chaiHttp);
@@ -68,6 +68,16 @@ describe('Questions', () => {
         .send(invalidmeetup);
 
       expect(res).to.have.status(404);
+      expect(res.body).to.have.property('error');
+    });
+
+    it('it should return 401 if user has not joined meetup', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/questions')
+        .set({ Authorization: `Bearer ${userToken}` })
+        .send(wrongMeetup);
+
+      expect(res).to.have.status(401);
       expect(res.body).to.have.property('error');
     });
 
