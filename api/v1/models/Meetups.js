@@ -55,4 +55,12 @@ export default class Meetup {
     const result = await pool.query(queryString, values);
     return result;
   }
+
+  static async getTopQuestions(meetupid) {
+    const queryString = `SELECT * FROM questions WHERE meetupid = $1 ORDER BY
+    (upvotes - downvotes) DESC LIMIT 5`;
+    const values = [meetupid];
+    const { rows } = await pool.query(queryString, values);
+    return rows;
+  }
 }

@@ -1,6 +1,9 @@
 import User from '../models/Users';
 import Hash from '../utils/passwords';
 import Jwt from '../utils/jwt';
+import Rsvp from '../models/Rsvps';
+import Question from '../models/Questions';
+import Comment from '../models/Comments';
 import { convertName } from '../utils/stringfunctions';
 import { successResponse, errorResponse } from '../utils/responses';
 
@@ -93,5 +96,26 @@ export default class UsersController {
   static async getAllUsers(req, res) {
     const result = await User.getAllUsers();
     return successResponse(res, 200, 'Users found.', result);
+  }
+
+  static async getProfile(req, res) {
+    const { id } = req.user;
+    const response = 'yes';
+    const detailsResult = await User.getUserDetails(id);
+    const joinedMeetups = await Rsvp.getJoinedMeetups(id, response);
+    const questionsPosted = await Question.getMyQuestions(id);
+    const commented = await Comment.getMyCommentedQuestions(id);
+    const allComments = await Comment.getMyComments(id);
+
+    const finalResult = {};
+    finalResult.firstname = detailsResult.firstname;
+    finalResult.lastname = detailsResult.lastname;
+    finalResult.username = detailsResult.username;
+    finalResult.joinedMeetups = joinedMeetups.length || 0;
+    finalResult.questionsPosted = questionsPosted.length || 0;
+    finalResult.commentedOn = commented.length || 0;
+    finalResult.allComments = allComments.length || 0;
+
+    return successResponse(res, 200, 'Profile Details found', [finalResult]);
   }
 }

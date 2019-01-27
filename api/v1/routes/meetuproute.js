@@ -10,6 +10,7 @@ import tryCatch from '../utils/trycatch';
 const {
   createMeetup, getAllMeetups, getMeetupById,
   updateMeetup, getUpcomingMeetups, deleteMeetup,
+  getTopQuestions,
 } = MeetupsController;
 const {
   validCreate, checkTags, checkDate, validEdit, checkDateEdit,
@@ -28,5 +29,6 @@ router.get('/:id', requireAuth, idValidation, tryCatch(getMeetupById));
 router.put('/:id', requireAuth, adminAuth, idValidation, validEdit, checkTags, checkDateEdit, tryCatch(updateMeetup));
 router.delete('/:id', requireAuth, adminAuth, idValidation, tryCatch(deleteMeetup));
 router.post('/:id/rsvps', requireAuth, idValidation, validRsvp, tryCatch(joinMeetup));
+router.get('/:id/top', requireAuth, adminAuth, idValidation, tryCatch(getTopQuestions));
 
 export default router;
