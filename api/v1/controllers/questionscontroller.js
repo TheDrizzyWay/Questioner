@@ -23,8 +23,10 @@ export default class QuestionsController {
     const meetupExists = await Meetup.getMeetupById(question.meetupid);
     if (!meetupExists) return errorResponse(res, 404, 'Meetup not found.');
 
-    const joinedMeetup = await Rsvp.getUserByRsvp(meetupExists.id, id);
-    if (!joinedMeetup) return errorResponse(res, 401, 'You have not joined this meetup.');
+    const ifJoined = await Rsvp.getUserByRsvp(meetupExists.id, id);
+    if (!ifJoined || ifJoined.response === 'no' || ifJoined.response === 'maybe') {
+      return errorResponse(res, 401, 'You have not joined this meetup.');
+    }
 
     const result = await question.createQuestion();
     result.topic = meetupExists.topic;

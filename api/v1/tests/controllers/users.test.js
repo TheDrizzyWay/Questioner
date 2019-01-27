@@ -116,4 +116,14 @@ describe('Users', () => {
       userStub.restore();
     });
   });
+
+  describe('GET /users/profile', () => {
+    it('should get a user\'s profile', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/users/profile')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+  });
 });

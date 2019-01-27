@@ -64,4 +64,12 @@ export default class User {
     const { rows } = await pool.query(queryString);
     return rows;
   }
+
+  static async getUserDetails(id) {
+    const queryString = `SELECT firstname, lastname, username FROM users
+    WHERE id = $1`;
+    const values = [id];
+    const { rows } = await pool.query(queryString, values);
+    return rows[0];
+  }
 }

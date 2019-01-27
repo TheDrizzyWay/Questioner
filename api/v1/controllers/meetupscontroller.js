@@ -30,7 +30,7 @@ export default class MeetupsController {
   static async getAllMeetups(req, res) {
     const result = await Meetup.getAllMeetups();
 
-    if (result.length === 0) return successResponse(res, 200, 'No meetups found.', result);
+    if (result.length === 0) return successResponse(res, 200, 'No meetups found.', []);
     return successResponse(res, 200, 'Meetups found.', result);
   }
 
@@ -101,10 +101,22 @@ export default class MeetupsController {
 
   static async deleteMeetup(req, res) {
     const { id } = req.params;
-    const meetupExists = await Meetup.getMeetupById(id);
 
+    const meetupExists = await Meetup.getMeetupById(id);
     if (!meetupExists) return errorResponse(res, 404, 'Meetup not found.');
+
     await Meetup.deleteMeetup(id);
     return successResponse(res, 200, 'Meetup deleted successfully.', []);
+  }
+
+  static async getTopQuestions(req, res) {
+    const { id } = req.params;
+
+    const meetupExists = await Meetup.getMeetupById(id);
+    if (!meetupExists) return errorResponse(res, 404, 'Meetup not found.');
+
+    const result = await Meetup.getTopQuestions(id);
+    if (result.length === 0) return successResponse(res, 200, 'No questions found.', []);
+    return successResponse(res, 200, 'Top questions found.', result);
   }
 }

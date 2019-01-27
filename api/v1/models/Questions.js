@@ -51,4 +51,11 @@ export default class Question {
     const { rows } = await pool.query(queryString, values);
     return rows[0];
   }
+
+  static async getMyQuestions(id) {
+    const queryString = 'SELECT id FROM questions WHERE userid = $1';
+    const values = [id];
+    const { rows } = await pool.query(queryString, values);
+    return rows;
+  }
 }
