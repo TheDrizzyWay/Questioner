@@ -13,7 +13,8 @@ export default class User {
   async signUp() {
     const queryString = `INSERT INTO users (firstname, lastname,
       username, email, password,  phonenumber)
-      VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+      VALUES ($1, $2, $3, $4, $5, $6) RETURNING firstname, lastname,
+        username, email, phonenumber`;
     const values = [this.firstname, this.lastname, this.username,
       this.email, this.password, this.phonenumber];
     const { rows } = await pool.query(queryString, values);
@@ -53,7 +54,8 @@ export default class User {
       firstname, lastname, username, email, password, phonenumber,
     } = user;
     const queryString = `UPDATE users SET firstname = $1, lastname = $2, username = $3,
-     email = $4, password = $5, phonenumber =$6 WHERE id = $7 RETURNING *`;
+     email = $4, password = $5, phonenumber =$6 WHERE id = $7 RETURNING firstname, lastname,
+       username, email, phonenumber`;
     const values = [firstname, lastname, username, email, password, phonenumber, id];
     const { rows } = await pool.query(queryString, values);
     return rows[0];

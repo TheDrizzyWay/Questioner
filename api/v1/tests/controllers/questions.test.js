@@ -121,13 +121,22 @@ describe('Questions', () => {
       expect(res.body).to.have.property('data');
     });
 
-    it('it should return 400 if user tries to vote twice', async () => {
+    it('it should return 400 if user downvotes after upvoting', async () => {
+      const res = await chai.request(app)
+        .patch('/api/v1/questions/1/downvote')
+        .set({ Authorization: `Bearer ${adminToken}` });
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.have.property('error');
+    });
+
+    it('it should return 200 if user removes upvote', async () => {
       const res = await chai.request(app)
         .patch('/api/v1/questions/1/upvote')
         .set({ Authorization: `Bearer ${adminToken}` });
 
-      expect(res).to.have.status(400);
-      expect(res.body.error).to.equal('You have already upvoted this question');
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
     });
   });
 
@@ -150,13 +159,22 @@ describe('Questions', () => {
       expect(res.body).to.have.property('data');
     });
 
-    it('it should return 400 if user tries to vote twice', async () => {
+    it('it should return 400 if user upvotes after downvoting', async () => {
       const res = await chai.request(app)
-        .patch('/api/v1/questions/2/downvote')
-        .set({ Authorization: `Bearer ${userToken}` });
+        .patch('/api/v1/questions/2/upvote')
+        .set({ Authorization: `Bearer ${adminToken}` });
 
       expect(res).to.have.status(400);
-      expect(res.body.error).to.equal('You have already downvoted this question');
+      expect(res.body).to.have.property('error');
+    });
+
+    it('it should return 200 if user removes downvote', async () => {
+      const res = await chai.request(app)
+        .patch('/api/v1/questions/1/upvote')
+        .set({ Authorization: `Bearer ${adminToken}` });
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
     });
   });
 });

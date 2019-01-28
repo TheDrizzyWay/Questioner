@@ -107,14 +107,15 @@ export default class UsersController {
     const commented = await Comment.getMyCommentedQuestions(id);
     const allComments = await Comment.getMyComments(id);
 
-    const finalResult = {};
-    finalResult.firstname = detailsResult.firstname;
-    finalResult.lastname = detailsResult.lastname;
-    finalResult.username = detailsResult.username;
-    finalResult.joinedMeetups = joinedMeetups.length || 0;
-    finalResult.questionsPosted = questionsPosted.length || 0;
-    finalResult.commentedOn = commented.length || 0;
-    finalResult.allComments = allComments.length || 0;
+    const finalResult = {
+      firstname: detailsResult.firstname,
+      lastname: detailsResult.lastname,
+      username: detailsResult.username,
+      joinedMeetups: joinedMeetups.length || 0,
+      questionsPosted: questionsPosted.length || 0,
+      commentedOn: commented.length || 0,
+      allComments: allComments.length || 0,
+    };
 
     return successResponse(res, 200, 'Profile Details found', [finalResult]);
   }
