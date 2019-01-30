@@ -74,7 +74,6 @@ const fetchSignup = async (e) => {
     .then((data) => {
       submitBtn.value = 'Signup';
       submitBtn.disabled = false;
-      console.log(windowUrl);
 
       if (data.error) {
         if (data.status === 400) {
@@ -102,7 +101,11 @@ const fetchSignup = async (e) => {
       }
       return true;
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      submitBtn.disabled = false;
+      submitBtn.value = 'Sign up';
+    });
 };
 
 const signupForm = document.querySelector('#signup_form');
