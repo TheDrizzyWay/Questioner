@@ -1,5 +1,7 @@
-const baseUrl = 'https://drizzyquestioner.herokuapp.com/api/v1';
-const localUrl = 'http://localhost:3000/api/v1';
+const windowUrlArray = window.location.href.split('/');
+windowUrlArray.pop();
+const windowUrl = windowUrlArray.join('/');
+const apiUrl = 'https://drizzyquestioner.herokuapp.com/api/v1';
 const firstnameInput = document.querySelector('#firstname');
 const lastnameInput = document.querySelector('#lastname');
 const emailInput = document.querySelector('#email');
@@ -26,7 +28,7 @@ const inputErrorHandler = (errorArray, errorData) => {
     const checkFieldError = inputFields.find(field => field.id === errorId);
     removeClass(`.${errorId}`);
     checkFieldError.insertAdjacentHTML('afterend', `
-    <p class="${errorId}">${errorData[errorId][0]}</p><br>
+    <p class="${errorId}" id="red">${errorData[errorId][0]}</p><br>
     `);
   });
 };
@@ -34,14 +36,14 @@ const inputErrorHandler = (errorArray, errorData) => {
 const emailErrorHandler = (errorData) => {
   removeClass('.emailerror');
   emailInput.insertAdjacentHTML('afterend', `
-  <p class="emailerror">${errorData}</p><br>
+  <p class="emailerror" id="red">${errorData}</p><br>
   `);
 };
 
 const usernameErrorHandler = (errorData) => {
   removeClass('.usernameerror');
   usernameInput.insertAdjacentHTML('afterend', `
-  <p class="usernameerror">${errorData}</p><br>
+  <p class="usernameerror" id="red">${errorData}</p><br>
   `);
 };
 
@@ -62,7 +64,7 @@ const fetchSignup = async (e) => {
     firstname, lastname, username, email, password, password_confirmation: passwordConf, phonenumber,
   };
 
-  await fetch(`${localUrl}/auth/signup`, {
+  await fetch(`${apiUrl}/auth/signup`, {
     method: 'POST',
     mode: 'cors',
     body: JSON.stringify(userObject),
@@ -72,6 +74,7 @@ const fetchSignup = async (e) => {
     .then((data) => {
       submitBtn.value = 'Signup';
       submitBtn.disabled = false;
+      console.log(windowUrl);
 
       if (data.error) {
         if (data.status === 400) {
@@ -85,6 +88,19 @@ const fetchSignup = async (e) => {
           return usernameErrorHandler(errorData);
         }
       }
+      if (data.status === 201) {
+        submitBtn.disabled = false;
+        const wrapper = document.getElementById('wrapper');
+        wrapper.insertAdjacentHTML('afterbegin', `
+        <div class="signin-message">
+        <p> You have successfully signed up. You will be redirected to the login page.</p>
+        </div>
+        `);
+        setTimeout(() => {
+          window.location.href = `${windowUrl}/signin.html`;
+        }, 5000);
+      }
+      return true;
     })
     .catch(err => console.log(err));
 };
