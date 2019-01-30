@@ -55,7 +55,7 @@ export default class UsersController {
 
     const { id, username, isadmin } = result;
     const token = await Jwt.generateToken({ id, username, isadmin });
-    return successResponse(res, 200, 'You are logged in.', token);
+    return successResponse(res, 200, 'You are logged in.', [{ token, isadmin }]);
   }
 
   /**

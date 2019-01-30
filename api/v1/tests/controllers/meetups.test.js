@@ -19,14 +19,14 @@ describe('Meetups', () => {
       .post('/api/v1/auth/login')
       .send(correctLogin);
 
-    adminToken = response.body.data;
+    adminToken = response.body.data[0].token;
 
     const userResponse = await chai
       .request(app)
       .post('/api/v1/auth/login')
       .send(userLogin);
 
-    userToken = userResponse.body.data;
+    userToken = userResponse.body.data[0].token;
   });
   describe('GET /', () => {
     it('should return an empty array if no meetups exist', async () => {
