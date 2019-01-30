@@ -202,6 +202,17 @@ span {
   color: #00bfff;
 }
 
+.signin-message {
+  background: #ffffff;
+  color: #00bfff;
+}
+
+#red {
+  font-size:12px;
+  font-weight: bolder;
+  color:red;
+}
+
 a {
   position: absolute;
   width: 150px;

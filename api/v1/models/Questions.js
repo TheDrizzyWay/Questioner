@@ -30,8 +30,22 @@ export default class Question {
     return rows[0];
   }
 
+  static async changeUpvoteQuestion(id) {
+    const queryString = 'UPDATE questions SET upvotes = upvotes - 1 WHERE id = $1 RETURNING *';
+    const values = [id];
+    const { rows } = await pool.query(queryString, values);
+    return rows[0];
+  }
+
   static async downvoteQuestion(id) {
     const queryString = 'UPDATE questions SET downvotes = downvotes + 1 WHERE id = $1 RETURNING *';
+    const values = [id];
+    const { rows } = await pool.query(queryString, values);
+    return rows[0];
+  }
+
+  static async changeDownvoteQuestion(id) {
+    const queryString = 'UPDATE questions SET downvotes = downvotes - 1 WHERE id = $1 RETURNING *';
     const values = [id];
     const { rows } = await pool.query(queryString, values);
     return rows[0];
@@ -41,6 +55,13 @@ export default class Question {
     const queryString = `INSERT INTO votes (userid, questionid, vote) VALUES
     ($1, $2, $3)`;
     const values = [userid, questionid, vote];
+    const result = await pool.query(queryString, values);
+    return result;
+  }
+
+  static async changeVotesTable(userid, questionid) {
+    const queryString = 'DELETE FROM votes WHERE userid = $1 AND questionid = $2';
+    const values = [userid, questionid];
     const result = await pool.query(queryString, values);
     return result;
   }

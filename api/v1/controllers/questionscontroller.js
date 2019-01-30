@@ -54,7 +54,14 @@ export default class QuestionsController {
 
     const voted = await Question.ifVoted(userid, questionid);
     if (voted) {
-      return errorResponse(res, 400, `You have already ${voted.vote} this question`);
+      if (voted.vote === 'downvoted') {
+        const upvoteErrorMessage = 'You have downvoted this question. Click on the'
+        + ' downvote button again to remove your downvote.';
+        return errorResponse(res, 400, upvoteErrorMessage);
+      }
+      await Question.changeVotesTable(userid, questionid);
+      const changeVote = await Question.changeUpvoteQuestion(questionid);
+      return successResponse(res, 200, 'You have removed your upvote.', changeVote);
     }
 
     const vote = 'upvoted';
@@ -83,7 +90,14 @@ export default class QuestionsController {
 
     const voted = await Question.ifVoted(userid, questionid);
     if (voted) {
-      return errorResponse(res, 400, `You have already ${voted.vote} this question`);
+      if (voted.vote === 'upvoted') {
+        const downvoteErrorMessage = 'You have upvoted this question. Click on the'
+        + ' upvote button again to remove your upvote.';
+        return errorResponse(res, 400, downvoteErrorMessage);
+      }
+      await Question.changeVotesTable(userid, questionid);
+      const changeVote = await Question.changeDownvoteQuestion(questionid);
+      return successResponse(res, 200, 'You have removed your downvote.', changeVote);
     }
 
     const vote = 'downvoted';
