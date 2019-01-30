@@ -14,7 +14,7 @@ describe('Comments', () => {
       .post('/api/v1/auth/login')
       .send(userLogin);
 
-    userToken = userResponse.body.data;
+    userToken = userResponse.body.data[0].token;
   });
 
   describe('GET /:id', () => {

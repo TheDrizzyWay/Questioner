@@ -19,14 +19,14 @@ describe('Users', () => {
       .post('/api/v1/auth/login')
       .send(correctLogin);
 
-    adminToken = response.body.data;
+    adminToken = response.body.data[0].token;
 
     const userResponse = await chai
       .request(app)
       .post('/api/v1/auth/login')
       .send(userLogin);
 
-    userToken = userResponse.body.data;
+    userToken = userResponse.body.data[0].token;
   });
   describe('PUT /', () => {
     it('should return 401 if no token is received', async () => {
@@ -114,6 +114,16 @@ describe('Users', () => {
       expect(response).to.have.status(500);
       expect(response.body).to.have.property('error');
       userStub.restore();
+    });
+  });
+
+  describe('GET /users/profile', () => {
+    it('should get a user\'s profile', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/users/profile')
+        .set({ Authorization: `Bearer ${userToken}` });
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
     });
   });
 });

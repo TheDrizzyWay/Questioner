@@ -1,6 +1,9 @@
 import User from '../models/Users';
 import Hash from '../utils/passwords';
 import Jwt from '../utils/jwt';
+import Rsvp from '../models/Rsvps';
+import Question from '../models/Questions';
+import Comment from '../models/Comments';
 import { convertName } from '../utils/stringfunctions';
 import { successResponse, errorResponse } from '../utils/responses';
 
@@ -52,7 +55,7 @@ export default class UsersController {
 
     const { id, username, isadmin } = result;
     const token = await Jwt.generateToken({ id, username, isadmin });
-    return successResponse(res, 200, 'You are logged in.', token);
+    return successResponse(res, 200, 'You are logged in.', [{ token, isadmin }]);
   }
 
   /**
@@ -93,5 +96,27 @@ export default class UsersController {
   static async getAllUsers(req, res) {
     const result = await User.getAllUsers();
     return successResponse(res, 200, 'Users found.', result);
+  }
+
+  static async getProfile(req, res) {
+    const { id } = req.user;
+    const response = 'yes';
+    const detailsResult = await User.getUserDetails(id);
+    const joinedMeetups = await Rsvp.getJoinedMeetups(id, response);
+    const questionsPosted = await Question.getMyQuestions(id);
+    const commented = await Comment.getMyCommentedQuestions(id);
+    const allComments = await Comment.getMyComments(id);
+
+    const finalResult = {
+      firstname: detailsResult.firstname,
+      lastname: detailsResult.lastname,
+      username: detailsResult.username,
+      joinedMeetups: joinedMeetups.length || 0,
+      questionsPosted: questionsPosted.length || 0,
+      commentedOn: commented.length || 0,
+      allComments: allComments.length || 0,
+    };
+
+    return successResponse(res, 200, 'Profile Details found', [finalResult]);
   }
 }

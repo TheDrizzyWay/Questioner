@@ -23,4 +23,18 @@ export default class Comment {
     const { rows } = await pool.query(queryString, values);
     return rows;
   }
+
+  static async getMyCommentedQuestions(id) {
+    const queryString = 'SELECT DISTINCT questionid FROM comments WHERE userid = $1';
+    const values = [id];
+    const { rows } = await pool.query(queryString, values);
+    return rows;
+  }
+
+  static async getMyComments(id) {
+    const queryString = 'SELECT questionid FROM comments WHERE userid = $1';
+    const values = [id];
+    const { rows } = await pool.query(queryString, values);
+    return rows;
+  }
 }

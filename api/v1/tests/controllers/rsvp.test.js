@@ -14,14 +14,14 @@ describe('Rsvps', () => {
       .post('/api/v1/auth/login')
       .send(correctLogin);
 
-    adminToken = response.body.data;
+    adminToken = response.body.data[0].token;
 
     const userResponse = await chai
       .request(app)
       .post('/api/v1/auth/login')
       .send(userLogin);
 
-    userToken = userResponse.body.data;
+    userToken = userResponse.body.data[0].token;
   });
 
   describe('GET /rsvps', () => {
@@ -71,9 +71,18 @@ describe('Rsvps', () => {
       expect(res.body).to.have.property('data');
     });
 
-    it('should return 200 for successfull negative response', async () => {
+    it('should return 200 for successfull response', async () => {
       const res = await chai.request(app)
         .post('/api/v1/meetups/1/rsvps')
+        .set({ Authorization: `Bearer ${adminToken}` })
+        .send({ response: 'Yes' });
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+
+    it('should return 200 for successfull negative response', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/meetups/3/rsvps')
         .set({ Authorization: `Bearer ${adminToken}` })
         .send({ response: 'No' });
       expect(res).to.have.status(200);

@@ -23,8 +23,10 @@ export default class QuestionsController {
     const meetupExists = await Meetup.getMeetupById(question.meetupid);
     if (!meetupExists) return errorResponse(res, 404, 'Meetup not found.');
 
-    const joinedMeetup = await Rsvp.getUserByRsvp(meetupExists.id, id);
-    if (!joinedMeetup) return errorResponse(res, 401, 'You have not joined this meetup.');
+    const ifJoined = await Rsvp.getUserByRsvp(meetupExists.id, id);
+    if (!ifJoined || ifJoined.response === 'no' || ifJoined.response === 'maybe') {
+      return errorResponse(res, 401, 'You have not joined this meetup.');
+    }
 
     const result = await question.createQuestion();
     result.topic = meetupExists.topic;
@@ -52,7 +54,14 @@ export default class QuestionsController {
 
     const voted = await Question.ifVoted(userid, questionid);
     if (voted) {
-      return errorResponse(res, 400, `You have already ${voted.vote} this question`);
+      if (voted.vote === 'downvoted') {
+        const upvoteErrorMessage = 'You have downvoted this question. Click on the'
+        + ' downvote button again to remove your downvote.';
+        return errorResponse(res, 400, upvoteErrorMessage);
+      }
+      await Question.changeVotesTable(userid, questionid);
+      const changeVote = await Question.changeUpvoteQuestion(questionid);
+      return successResponse(res, 200, 'You have removed your upvote.', changeVote);
     }
 
     const vote = 'upvoted';
@@ -81,7 +90,14 @@ export default class QuestionsController {
 
     const voted = await Question.ifVoted(userid, questionid);
     if (voted) {
-      return errorResponse(res, 400, `You have already ${voted.vote} this question`);
+      if (voted.vote === 'upvoted') {
+        const downvoteErrorMessage = 'You have upvoted this question. Click on the'
+        + ' upvote button again to remove your upvote.';
+        return errorResponse(res, 400, downvoteErrorMessage);
+      }
+      await Question.changeVotesTable(userid, questionid);
+      const changeVote = await Question.changeDownvoteQuestion(questionid);
+      return successResponse(res, 200, 'You have removed your downvote.', changeVote);
     }
 
     const vote = 'downvoted';
