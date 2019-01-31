@@ -16,20 +16,22 @@
       </header>
     </div>
     <div id="wrapper">
-        <form action="adminhome.html" class="lower">
+        <form class="lower">
             <fieldset>
                 <legend>Login Form</legend>
                 <div>
-                    <input type="text" name="email" placeholder="Email" required />
+                    <input type="text" id="email" placeholder="Email" required />
                 </div>
                 <div>
-                    <input type="password" name="password" placeholder="Password" required />
+                    <input type="password" id="password" placeholder="Password" required />
                 </div>
-                <input type="submit" name="submit" value="Sign in"/>
+                <input type="submit" id="submit" value="Sign in"/>
             </fieldset>
         </form>
     </div>
     <span>Don't have an account? Sign up using the link below.</span>
       <a href="signup.html">Sign up</a>
+  <script type="text/javascript" src="scripts/fetchlogin.js">
+  </script>
   </body>
 </html>

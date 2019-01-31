@@ -88,7 +88,7 @@ const fetchSignup = async (e) => {
         }
       }
       if (data.status === 201) {
-        submitBtn.disabled = false;
+        submitBtn.disabled = true;
         const wrapper = document.getElementById('wrapper');
         wrapper.insertAdjacentHTML('afterbegin', `
         <div class="signin-message">
