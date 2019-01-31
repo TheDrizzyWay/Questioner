@@ -207,7 +207,18 @@ span {
   color: #00bfff;
 }
 
+.error_div {
+  background: #ffffff;
+  color: red;
+  padding-left: 10px;
+}
+
+.error_div ul {
+  list-style-type: none;
+}
+
 #red {
+  background: #ffffff;
   font-size:12px;
   font-weight: bolder;
   color:red;
