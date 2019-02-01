@@ -1,7 +1,10 @@
 const windowUrlArray = window.location.href.split('/');
 windowUrlArray.pop();
 const windowUrl = windowUrlArray.join('/');
-const apiUrl = 'https://drizzyquestioner.herokuapp.com/api/v1';
+let apiUrl = 'http://localhost:3000/api/v1';
+if (window.location.href.split('.').includes('github')) {
+  apiUrl = 'https://drizzyquestioner.herokuapp.com/api/v1';
+}
 const loginForm = document.querySelector('.lower');
 const emailInput = document.querySelector('#email');
 const passwordInput = document.querySelector('#password');

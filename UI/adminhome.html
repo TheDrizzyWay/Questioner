@@ -2,6 +2,7 @@
 
 <html lang="en">
   <head>
+    <script src="scripts/authorization.js"></script>
   	<title> Questioner - Admin Home</title>
   	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,12 +70,12 @@
             <input type="text" name="topic" placeholder="Meetup Topic *" required/>
             <textarea name="location" placeholder="Location *" required></textarea>
             <label> Upload Location Image</label>
-            <input type="file" accept="image/*" name="image" multiple/>
+            <input type="file" accept="image/*" name="image"/>
             <div class="tags-input" data-name="tags-input">
               Add Tags Here
             </div>
             <label>Happening On: Select Date and Time Below</label>
-            <input type="datetime-local" name="date" min="2019-01-01" max="2030-01-01" id="date" />
+            <input type="datetime-local" name="date" min="2019-01-01" max="2030-01-01" id="date" required/>
           </fieldset>
           <input type="submit" value="Submit" />
         </form>
@@ -89,9 +90,8 @@
       </div>
     </footer>
 
-    <script type="text/javascript" src="scripts/createmodal.js">
-    </script>
-    <script type="text/javascript" src="scripts/tags.js">
-    </script>
+    <script type="text/javascript" src="scripts/createmodal.js"></script>
+    <script type="text/javascript" src="scripts/tags.js"></script>
+    <script type="text/javascript" src="scripts/fetchadminhome.js"></script>
   </body>
 </html>
