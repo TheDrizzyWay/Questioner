@@ -5,6 +5,7 @@ let apiUrl = 'http://localhost:3000/api/v1';
 if (window.location.href.split('.').includes('github')) {
   apiUrl = 'https://drizzyquestioner.herokuapp.com/api/v1';
 }
+const signupForm = document.querySelector('#signup_form');
 const firstnameInput = document.querySelector('#firstname');
 const lastnameInput = document.querySelector('#lastname');
 const emailInput = document.querySelector('#email');
@@ -20,7 +21,8 @@ const inputFields = [
 const removeClass = (errorclass) => {
   const errorText = document.querySelector(errorclass);
   if (errorText) {
-    errorText.display.hidden = true;
+    errorText.previousSibling.remove();
+    errorText.nextSibling.remove();
     errorText.remove();
   }
 };
@@ -93,6 +95,7 @@ const fetchSignup = async (e) => {
       if (data.status === 201) {
         submitBtn.disabled = true;
         const wrapper = document.getElementById('wrapper');
+        signupForm.hidden = true;
         wrapper.insertAdjacentHTML('afterbegin', `
         <div class="signin-message">
         <p> You have successfully signed up. You will be redirected to the login page.</p>
@@ -111,5 +114,4 @@ const fetchSignup = async (e) => {
     });
 };
 
-const signupForm = document.querySelector('#signup_form');
 signupForm.addEventListener('submit', fetchSignup);

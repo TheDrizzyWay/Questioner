@@ -19,7 +19,7 @@ export default class Meetup {
   }
 
   static async getAllMeetups() {
-    const queryString = 'SELECT * FROM meetups';
+    const queryString = 'SELECT * FROM meetups ORDER BY id DESC';
     const { rows } = await pool.query(queryString);
     return rows;
   }
@@ -58,7 +58,7 @@ export default class Meetup {
 
   static async getTopQuestions(meetupid) {
     const queryString = `SELECT * FROM questions WHERE meetupid = $1 ORDER BY
-    (upvotes - downvotes) DESC LIMIT 5`;
+    (upvotes - downvotes) DESC LIMIT 3`;
     const values = [meetupid];
     const { rows } = await pool.query(queryString, values);
     return rows;

@@ -103,6 +103,7 @@ section > p {
 
 .meet p {
   padding-top: 5px;
+  word-wrap: break-word;
 }
 
 .meet button {

@@ -2,6 +2,7 @@
 
 <html lang="en">
   <head>
+    <script src="scripts/authorization.js"></script>
   	<title> Questioner - Admin View Page</title>
   	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,46 +18,16 @@
     </div>
     <main>
       <div class="main_div">
-        <p><span>ID:</span> 001</p>
-        <p><span>Topic:</span> Topic 001</p>
-        <p><span>Date:</span> 10/March/2019 10:00 AM</p>
-        <p><span>Location:</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum tempore eum,
-           mollitia in dolores nostrum placeat</p>
-        <div class="loc_image">
-          <p><span>Location Image:</span></p>
-          <img src="images/meeting2.jpg" alt="location.jpg">
-        </div>
-        <div class="tags">
-          <p><span>Tags:</span></p>
-          <div>
-            Tag1 Tag2 Tag3 Tag4
-          </div>
-        </div>
-        <p><span>Created on:</span> 5/March/2019</p>
-        <p><span>Respondents:</span> 10 users have joined this meetup</p>
       </div>
     </main>
     <section>
       <div class="top">
-        <p id="top">Top Questions</p>
-        <div class="question">
-          <p>Question: Lorem ipsum dolor sit amet consectetur adipisicing el</p>
-          <p>Posted by: user001</p>
-          <p>Upvotes: 5</p>
-          <p>Downvotes: 0</p>
-        </div>
-        <div class="question">
-          <p>Question: Lorem ipsum dolor sit amet consectetur adipisicing el</p>
-          <p>Posted by: user002</p>
-          <p>Upvotes: 5</p>
-          <p>Downvotes: 0</p>
-        </div>
       </div>
     </section>
     <section class="buttons">
-      <button type="button" name="edit-button" id="modal-button"><img src="images/edit.png" alt="edit"></button>
+      <button type="button" id="modal-button"><img src="images/edit.png" alt="edit"></button>
       <p>Edit Meetup</p>
-      <button type="button" name="delete-button"><img src="images/delete.png" alt="delete"></button>
+      <button type="button" id="delete-button"><img src="images/delete.png" alt="delete"></button>
       <p>Delete Meetup</p>
       <a href="adminhome.html"><button type="button" name="home-button"><img src="images/home.png" alt="home"></button></a>
       <p>Home</p>
@@ -86,9 +57,8 @@
     <footer>
       <div class="footer"></div>
     </footer>
-    <script type="text/javascript" src="scripts/createmodal.js">
-    </script>
-    <script type="text/javascript" src="scripts/tags.js">
-    </script>
+    <script type="text/javascript" src="scripts/createmodal.js"></script>
+    <script type="text/javascript" src="scripts/tags.js"></script>
+    <script type="text/javascript"src="scripts/fetchadminview.js"></script>
   </body>
 </html>
