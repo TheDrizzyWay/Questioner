@@ -101,6 +101,10 @@ section > p {
   align-self: center;
 }
 
+.meet p {
+  padding-top: 5px;
+}
+
 .meet button {
   background: #00bfff;
   border: none;
