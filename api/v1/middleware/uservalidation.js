@@ -20,7 +20,7 @@ export default class UserValidation {
       username: 'required|alpha_num|min:5|max:50',
       email: 'required|email|max:100',
       password: 'required|alpha_num|min:6|max:18',
-      password_confirmation: 'required_with:password',
+      password_confirmation: 'required_with:password|same:password',
       phonenumber: 'required|digits:11',
     };
 

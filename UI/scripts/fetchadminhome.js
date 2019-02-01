@@ -6,7 +6,6 @@ if (window.location.href.split('.').includes('github')) {
   apiUrl = 'https://drizzyquestioner.herokuapp.com/api/v1';
 }
 const meetContainer = document.querySelector('.meet_container');
-const meetupList = [];
 const logout = document.querySelector('.logout');
 const { body } = window.document;
 const createNode = (element, className) => {
@@ -18,7 +17,6 @@ const appendNewNode = (parent, element) => parent.insertBefore(element, parent.f
 
 const responses = {
   errors: (errorData) => {
-    console.log(errorData);
     if (errorData.includes('Unauthorized')
   || errorData.includes('Log')
   || errorData.includes('verifying')) {
@@ -28,12 +26,11 @@ const responses = {
   },
   success: (meetups) => {
     meetups.forEach((meetup) => {
-      meetupList.push(meetup);
       const meetupNode = createNode('div', 'meet');
       meetupNode.innerHTML = `<img src="images/meeting2.jpg" alt="location.jpg">
       <p>TOPIC: ${meetup.topic}</p>
       <p>DATE: ${meetup.happeningon}</p>
-      <a href="adminview.html"><button>View</button></a>`;
+      <a href="adminview.html?id=${meetup.id}"><button>View</button></a>`;
       appendNewNode(meetContainer, meetupNode);
     });
   },
@@ -60,6 +57,7 @@ const fetchMeetups = async () => {
         const meetups = data.data;
         return responses.success(meetups);
       }
+      return true;
     })
     .catch(err => console.log(err));
 };

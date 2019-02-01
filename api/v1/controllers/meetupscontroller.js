@@ -1,4 +1,5 @@
 import Meetup from '../models/Meetups';
+import Rsvp from '../models/Rsvps';
 import { successResponse, errorResponse } from '../utils/responses';
 import { sanitizer } from '../utils/stringfunctions';
 
@@ -44,8 +45,10 @@ export default class MeetupsController {
   static async getMeetupById(req, res) {
     const { id } = req.params;
     const result = await Meetup.getMeetupById(id);
+    const joinedUsers = await Rsvp.getJoinedUsers(id);
 
     if (!result) return errorResponse(res, 404, 'Meetup not found');
+    result.joinedUsers = joinedUsers.count;
     return successResponse(res, 200, 'Meetup Found.', result);
   }
 

@@ -24,6 +24,15 @@ header {
   font-size: 3.0em;
 }
 
+.notfound {
+  background: #ffffff;
+  color: #00bfff;
+  margin-top: 10px;
+  padding: 10px 10px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
 .main_div {
   width: 60%;
   height: 60%;
