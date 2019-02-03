@@ -19,7 +19,7 @@ export default class Meetup {
   }
 
   static async getAllMeetups() {
-    const queryString = 'SELECT * FROM meetups ORDER BY id DESC';
+    const queryString = 'SELECT * FROM meetups ORDER BY id ASC';
     const { rows } = await pool.query(queryString);
     return rows;
   }
