@@ -167,6 +167,21 @@ section > p {
   cursor: pointer;
 }
 
+.error_div {
+  background: #ffffff;
+  color: red;
+  padding-left: 10px;
+}
+
+.success {
+  background: #ffffff;
+  color: #00bfff;
+  font-size: 1.5em;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 .modal {
   display: none;
   position: fixed;

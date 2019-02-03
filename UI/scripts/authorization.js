@@ -2,6 +2,18 @@ const windowArray = window.location.href.split('/');
 const currentPage = windowArray.pop();
 const newWindowUrl = windowArray.join('/');
 
+const checkSignup = () => {
+  const token = localStorage.getItem('token');
+  const isadmin = localStorage.getItem('isadmin');
+  if (token && isadmin) {
+    if (isadmin === 'true') {
+      window.location.href = `${newWindowUrl}/adminhome.html`;
+    } else {
+      window.location.href = `${newWindowUrl}/userhome.html`;
+    }
+  }
+};
+
 const checkLogin = () => {
   const token = localStorage.getItem('token');
   const userRole = localStorage.getItem('isadmin');
@@ -40,6 +52,9 @@ switch (currentPage) {
     break;
   case 'userview.html':
     checkLogin();
+    break;
+  case 'signup.html':
+    checkSignup();
     break;
   default:
     break;
