@@ -179,6 +179,15 @@ describe('Meetups', () => {
   });
 
   describe('GET /upcoming', () => {
+    it('joins a meetup just to test if splice functionality works fine.', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/meetups/2/rsvps')
+        .set({ Authorization: `Bearer ${userToken}` })
+        .send({ response: 'Yes' });
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+
     it('should return a list of upcoming meetups', async () => {
       const res = await chai.request(app)
         .get('/api/v1/meetups/upcoming')
