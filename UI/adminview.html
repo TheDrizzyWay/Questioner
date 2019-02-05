@@ -36,24 +36,33 @@
       <div class="modal_content">
         <span class="close_btn">&times;</span>
         <div class="create_form">
-        <form>
+        <form id="edit-form">
           <fieldset>
             <legend>Edit meetup Form</legend>
-            <input type="text" name="topic" placeholder="Meetup Topic"/>
-            <textarea name="location" placeholder="Location"></textarea>
+            <input type="text" name="topic" id="topic" placeholder="Meetup Topic"/>
+            <textarea name="location" id="location" placeholder="Location"></textarea>
             <label> Upload Location Image</label>
-            <input type="file" accept="image/*" name="image" multiple/>
-            <div class="tags-input" data-name="tags-input">
+            <input type="file" accept="image/*" name="image" id="image"/>
+            <div class="tags-input" data-name="tags-input" id="tags">
               Add Tags Here
             </div>
             <label>Happening On: Select Date and Time Below</label>
             <input type="datetime-local" name="date" min="2019-01-01" max="2025-01-01" id="date" />
           </fieldset>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" id="submit"/>
         </form>
         </div>
       </div>
     </div>
+<div class="overlay" id="dialog-container">
+  <div class="popup">
+    <p>Are you sure you want to delete this meetup?</p>
+    <div class="text-right">
+      <button class="dialog-btn btn-cancel" id="cancel">NO</button>
+      <button class="dialog-btn btn-primary" id="confirm">YES</button>
+    </div>
+  </div>
+</div>
     <footer>
       <div class="footer"></div>
     </footer>

@@ -14,6 +14,27 @@ const mainDiv = document.querySelector('.main_div');
 const editBtn = document.querySelector('#modal-button');
 const deleteBtn = document.querySelector('#delete-button');
 const topDiv = document.querySelector('.top');
+const simpleModal = document.getElementById('simple-modal');
+const modalBtn = document.getElementById('modal-button');
+const closeBtn = document.querySelector('.close_btn');
+const editForm = document.querySelector('#edit-form');
+const topicInput = document.querySelector('#topic');
+const locationInput = document.querySelector('#location');
+const imageInput = document.querySelector('#image');
+const tagInput = document.querySelector('#tags');
+const tagNames = document.querySelector('input[name="tags-input"]');
+const dateInput = document.querySelector('#date');
+const submitBtn = document.querySelector('#submit');
+const overlayMe = document.querySelector('#dialog-container');
+const confirmBtn = document.querySelector('#confirm');
+const cancelBtn = document.querySelector('#cancel');
+const icons = document.querySelectorAll('img');
+mainDiv.hidden = true;
+editBtn.hidden = true;
+deleteBtn.hidden = true;
+const inputFields = [
+  topicInput, locationInput, imageInput, tagInput, dateInput,
+];
 
 const processTags = (tagsArray) => {
   let tagsList = ' ';
@@ -38,14 +59,36 @@ const convertDate = (createdon) => {
   return formattedDate;
 };
 
+const createNode = (element, className) => {
+  const newElement = document.createElement(element);
+  newElement.setAttribute('class', className);
+  return newElement;
+};
+
+function openModal(e) {
+  simpleModal.style.display = 'block';
+  editForm.setAttribute('data-id', e.target.dataset.id);
+  populateEditForm(e.target.dataset.id);
+}
+
+function closeModal() {
+  simpleModal.style.display = 'none';
+}
+
+const openDeleteModal = (e) => {
+  overlayMe.style.display = 'block';
+  confirmBtn.setAttribute('data-id', e.target.dataset.id);
+};
+
+const closeDeleteModal = () => {
+  overlayMe.style.display = 'none';
+};
+
 const responses = {
   tokenerrors: (errorData) => {
     checkTokenError(errorData);
   },
   notfound: (errorData) => {
-    mainDiv.hidden = true;
-    editBtn.hidden = true;
-    deleteBtn.hidden = true;
     headerDiv.insertAdjacentHTML('afterend', `
     <div class="notfound">
     <p>${errorData}</p>
@@ -68,7 +111,7 @@ const responses = {
       <div>${allTags}</div>
     </div>
     <p><span>Created on:</span> ${createdDate}</p>
-    <p><span>Respondents:</span> ${meetup.joinedUsers} users have joined this meetup</p>
+    <p><span>Respondents:</span> ${meetup.joinedUsers} user(s) have joined this meetup</p>
     `);
     fetchTopQuestions();
   },
@@ -132,9 +175,122 @@ const fetchTopQuestions = async () => {
           </div>
           `);
         });
+        mainDiv.hidden = false;
+        editBtn.hidden = false;
+        deleteBtn.hidden = false;
+        editBtn.setAttribute('data-id', meetupId);
+        deleteBtn.setAttribute('data-id', meetupId);
+        icons.forEach((icon) => {
+          icon.setAttribute('data-id', meetupId);
+        });
+      }
+    })
+    .catch(err => console.log(err));
+};
+
+const populateEditForm = async (id) => {
+  await fetch(`${apiUrl}/meetups/${id}`, {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(res => res.json())
+    .then((data) => {
+      if (data.status === 200) {
+        const meetup = data.data;
+        const resultKeys = Object.keys(meetup);
+        resultKeys.forEach((key) => {
+          const keyString = key.toString();
+          const keyInput = inputFields.find(field => field.id === keyString);
+          if (keyInput) keyInput.placeholder = meetup[key];
+        });
+      }
+    })
+    .catch(err => console.log(err));
+};
+
+const fetchEditMeetup = async (e) => {
+  e.preventDefault();
+  submitBtn.value = 'Editing...';
+  submitBtn.disabled = true;
+  const topic = topicInput.value ? topicInput.value : null;
+  const location = locationInput.value ? locationInput.value : null;
+  const image = imageInput.value ? imageInput.value : null;
+  const tags = tagNames.value ? tagNames.value.split(',') : null;
+  const happeningon = dateInput.value ? dateInput.value : null;
+  const meetupObject = {
+    topic, location, image, tags, happeningon,
+  };
+
+
+  await fetch(`${apiUrl}/meetups/${e.target.dataset.id}`, {
+    method: 'PUT',
+    mode: 'cors',
+    body: JSON.stringify(meetupObject),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(res => res.json())
+    .then((data) => {
+      if (data.error) {
+        const errorData = data.error;
+        submitBtn.disabled = false;
+        submitBtn.value = 'Submit';
+        const errorDivSelect = document.querySelector('.error_div');
+        if (errorDivSelect) {
+          errorDivSelect.remove();
+        }
+        const errorDiv = createNode('div', 'error_div');
+        errorDiv.innerHTML = errorData;
+        editForm.insertBefore(errorDiv, editForm.firstChild);
+      }
+      if (data.status === 200) {
+        while (editForm.firstChild) editForm.removeChild(editForm.firstChild);
+        editForm.innerHTML = `<div class="notfound">
+        <p>Meetup Edited Successfully.</p></div>`;
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      submitBtn.disabled = false;
+      submitBtn.value = 'Submit';
+    });
+};
+
+const fetchDeleteMeetup = async (e) => {
+  await fetch(`${apiUrl}/meetups/${e.target.dataset.id}`, {
+    method: 'DELETE',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(res => res.json())
+    .then((data) => {
+      if (data.status === 200) {
+        overlayMe.innerHTML = `<div class="popup">
+          <p>Meetup Deleted Successfully</p></div>`;
+        setTimeout(() => {
+          window.location.href = `${windowUrl}/adminhome.html`;
+        }, 2000);
       }
     })
     .catch(err => console.log(err));
 };
 
 body.addEventListener('load', fetchOneMeetup());
+modalBtn.addEventListener('click', openModal);
+closeBtn.addEventListener('click', closeModal);
+editForm.addEventListener('submit', fetchEditMeetup);
+deleteBtn.addEventListener('click', openDeleteModal);
+cancelBtn.addEventListener('click', closeDeleteModal);
+confirmBtn.addEventListener('click', fetchDeleteMeetup);
