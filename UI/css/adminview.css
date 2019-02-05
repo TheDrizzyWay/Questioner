@@ -307,6 +307,51 @@ span {
     padding: 0.5em 0.1em;
 }
 
+.popup {
+  width: 60%;
+  padding: 15px;
+  left: 0;
+  margin-left: 5%;
+  border: 1px solid rgb(1,82,73);
+  border-radius: 10px;
+  color: #00bfff;
+  background: white;
+  font-size: 1.5em;
+  position: absolute;
+  top: 15%;
+  box-shadow: 5px 5px 5px #000000;
+  z-index: 10001;
+  font-weight: 700;
+  text-align: center;
+}
+
+.overlay {
+  position: fixed;
+  width: 90%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,.85);
+  z-index: 10000;
+  display :none;
+}
+
+.dialog-btn {
+background-color:#00bfff;
+color: white;
+font-weight: 700;
+border: 1px solid #00bfff;
+border-radius: 10px;
+height: 30px;
+width: 20%;
+margin-top: 10px;
+}
+.dialog-btn:hover {
+background-color:#4169ef;
+cursor: pointer;
+}
+
 @media (max-width:600px) {
   .main_div {
     width:80%;
@@ -334,4 +379,23 @@ span {
   #date {
     width: 150px;
   }
+}
+
+@media (min-width: 768px) {
+.popup {
+  width: 66.66666666%;
+  margin-left: 16.666666%;
+ }
+}
+@media (min-width: 992px) {
+.popup {
+  width: 70%;
+  margin-left: 25%;
+ }
+}
+@media (min-width: 1200px) {
+.popup {
+  width: 33.33333%;
+  margin-left: 33.33333%;
+ }
 }
