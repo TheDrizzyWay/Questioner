@@ -89,7 +89,17 @@ export default class MeetupsController {
 
   static async getUpcomingMeetups(req, res) {
     const currentDate = new Date(Date.now());
+    const { id } = req.user;
     const result = await Meetup.getUpcomingMeetups(currentDate);
+    const getResponses = await Rsvp.getAllUserResponses(id);
+
+    if (getResponses.length > 0) {
+      getResponses.forEach((response) => {
+        const foundIndex = result.findIndex(index => index.id === response.meetupid);
+        /* istanbul ignore next */
+        if (foundIndex !== -1) result.splice(foundIndex, 1);
+      });
+    }
 
     if (result.length === 0) return successResponse(res, 200, 'No upcoming meetups found.', result);
     return successResponse(res, 200, 'Upcoming Meetups found.', result);

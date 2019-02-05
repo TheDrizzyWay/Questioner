@@ -26,9 +26,16 @@ export default class Rsvp {
     return rows[0];
   }
 
+  static async getAllUserResponses(id) {
+    const queryString = 'SELECT * FROM rsvps WHERE userid = $1';
+    const values = [id];
+    const { rows } = await pool.query(queryString, values);
+    return rows;
+  }
+
   static async getJoinedUsers(meetupId) {
     const response = 'yes';
-    const queryString = `SELECT COUNT (CASE WHEN r.meetupid = $1 AND r.response = $2 THEN 1 END) 
+    const queryString = `SELECT COUNT (CASE WHEN r.meetupid = $1 AND r.response = $2 THEN 1 END)
     FROM rsvps r`;
     const values = [meetupId, response];
     const { rows } = await pool.query(queryString, values);
