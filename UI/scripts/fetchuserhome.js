@@ -36,22 +36,35 @@ const responses = {
         <p>Location: ${meetup.location}</p>
         <div class="rsvp">
           <span>RSVP: </span>
-          <button class="rsvp_btn" data-id="${meetup.id}">Yes</button>
-          <button class="rsvp_btn" data-id="${meetup.id}">No</button>
-          <button class="rsvp_btn" data-id="${meetup.id}">Maybe</button>
+          <button class="rsvp_yes" data-id="${meetup.id}">Yes</button>
+          <button class="rsvp_no" data-id="${meetup.id}">No</button>
+          <button class="rsvp_maybe" data-id="${meetup.id}">Maybe</button>
         </div>`;
         const newMeetupsLength = newMeetups.children.length;
         newMeetups.insertBefore(meetupNode, newMeetups.children[newMeetupsLength - 1]);
       });
+      const rsvpYes = document.querySelectorAll('.rsvp_yes');
+      const rsvpNo = document.querySelectorAll('.rsvp_no');
+      const rsvpMaybe = document.querySelectorAll('.rsvp_maybe');
+      rsvpYes.forEach((btn) => {
+        btn.addEventListener('click', fetchRsvp);
+      });
+      rsvpNo.forEach((btn) => {
+        btn.addEventListener('click', fetchRsvp);
+      });
+      rsvpMaybe.forEach((btn) => {
+        btn.addEventListener('click', fetchRsvp);
+      });
     } else {
       const meetupNode = createNode('div', 'new_one');
+      meetupNode.style.marginBottom = '10px';
       meetupNode.innerHTML = '<p> No upcoming meetups found </p>';
-      newMeetups.insertBefore(meetupNode, newMeetups.children[2]);
+      newMeetups.insertBefore(meetupNode, newMeetups.children[1]);
     }
     fetchJoinedMeetups();
   },
   joined: (meetups) => {
-    meetups.forEach((meetup) => {
+    meetups.reverse().forEach((meetup) => {
       fetchOneMeetup(meetup.meetupid);
     });
   },
@@ -59,7 +72,7 @@ const responses = {
     const joinedNode = createNode('div', 'new_one');
     joinedNode.innerHTML = `<p>TOPIC: ${result.topic}</p>
     <p>DATE: ${result.happeningon}</p>
-    <p>${result.joinedUsers} users have joined this meetup.</p>
+    <p>${result.joinedUsers} user(s) have joined this meetup.</p>
     <div class="rsvp">
       <a href="userview.html?id=${result.id}"><button>Meetup Details</button></a>
       <a href="usermeetups.html?id=${result.id}"><button>Questions</button></a>
@@ -104,7 +117,7 @@ const fetchJoinedMeetups = async () => {
     .then(res => res.json())
     .then((data) => {
       if (data.status === 200) {
-        const meetups = data.data;
+        const meetups = data.data.reverse();
         return responses.joined(meetups);
       }
       return true;
@@ -128,6 +141,36 @@ const fetchOneMeetup = async (id) => {
         return responses.one(result);
       }
       return true;
+    })
+    .catch(err => console.log(err));
+};
+
+const fetchRsvp = async (e) => {
+  const { id } = e.target.dataset;
+  const response = e.target.className.split('_')[1];
+  const responseObject = { response };
+
+  await fetch(`${apiUrl}/meetups/${id}/rsvps`, {
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify(responseObject),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(res => res.json())
+    .then((data) => {
+      if (data.status === 200) {
+        const rsvpNode = createNode('div', 'new_one');
+        rsvpNode.style.marginTop = '5px';
+        rsvpNode.style.textAlign = 'center';
+        rsvpNode.innerHTML = `<p> ${data.message} </p>`;
+        body.insertBefore(rsvpNode, body.children[1]);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
     })
     .catch(err => console.log(err));
 };
