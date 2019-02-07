@@ -2,6 +2,7 @@
 
 <html lang="en">
   <head>
+    <script src="scripts/authorization.js"></script>
     <title> Questioner - User Meetups</title>
   	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,45 +21,9 @@
       <p>Post a new question</p>
     </div>
     <main>
-      <p>Topic 001</p>
+      <p id="topic-span">Topic 001</p>
       <p>QUESTIONS</p>
       <div class="container">
-        <div class="questions">
-          <p><span>Question: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p><span>Upvotes: </span>5</p>
-          <p><span>Downvotes: </span>0</p>
-          <p><span>Posted By: </span>user001</p>
-          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
-          <div class="actions">
-            <span>Upvote</span><img src="images/upvoteicon.png" alt="upvote">
-            <span>Downvote</span><img src="images/downvoteicon.png" alt="downvote">
-            <span>Comments</span><a href="usercomments.html"><img src="images/edit.png" alt="comments"></a>
-          </div>
-        </div>
-        <div class="questions">
-          <p><span>Question: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p><span>Upvotes: </span>5</p>
-          <p><span>Downvotes: </span>0</p>
-          <p><span>Posted By: </span>user001</p>
-          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
-          <div class="actions">
-            <span>Upvote</span><img src="images/upvoteicon.png" alt="upvote">
-            <span>Downvote</span><img src="images/downvoteicon.png" alt="downvote">
-            <span>Comments</span><a href="usercomments.html"><img src="images/edit.png" alt="comments"></a>
-          </div>
-        </div>
-        <div class="questions">
-          <p><span>Question: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p><span>Upvotes: </span>5</p>
-          <p><span>Downvotes: </span>0</p>
-          <p><span>Posted By: </span>user001</p>
-          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
-          <div class="actions">
-            <span>Upvote</span><img src="images/upvoteicon.png" alt="upvote">
-            <span>Downvote</span><img src="images/downvoteicon.png" alt="downvote">
-            <span>Comments</span><a href="usercomments.html"><img src="images/edit.png" alt="comments"></a>
-          </div>
-        </div>
         <p id="lower">Showing 3 of 5 questions</p>
         <div class="next">
           <a href="#">&laquo;</a>
@@ -91,7 +56,6 @@
       <div class="footer">
       </div>
     </footer>
-    <script type="text/javascript" src="scripts/createmodal.js">
-    </script>
+    <script type="text/javascript" src="scripts/fetchusermeetups.js"></script>
   </body>
 </html>

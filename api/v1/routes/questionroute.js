@@ -5,12 +5,15 @@ import idValidation from '../middleware/idvalidation';
 import { requireAuth } from '../middleware/authentication';
 import tryCatch from '../utils/trycatch';
 
-const { createQuestion, upvoteQuestion, downvoteQuestion } = QuestionsController;
+const {
+  createQuestion, upvoteQuestion, downvoteQuestion, getQuestionsByMeetup,
+} = QuestionsController;
 const { validCreate } = QuestionValidation;
 
 const router = express.Router();
 
 router.post('/', requireAuth, validCreate, tryCatch(createQuestion));
+router.get('/:id', requireAuth, idValidation, tryCatch(getQuestionsByMeetup));
 router.patch('/:id/upvote', requireAuth, idValidation, tryCatch(upvoteQuestion));
 router.patch('/:id/downvote', requireAuth, idValidation, tryCatch(downvoteQuestion));
 
