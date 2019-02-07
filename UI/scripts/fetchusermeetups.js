@@ -8,7 +8,21 @@ const token = localStorage.getItem('token');
 const postDiv = document.querySelector('.add');
 const container = document.querySelector('.container');
 const topicSpan = document.querySelector('#topic-span');
+const simpleModal = document.getElementById('simple-modal');
+const modalBtn = document.getElementById('modal-button');
+const closeBtn = document.querySelector('.close_btn');
+const questionForm = document.querySelector('#question-form');
+const titleInput = document.querySelector('#title');
+const questionInput = document.querySelector('#question');
+const submitBtn = document.querySelector('#submit');
+questionForm.setAttribute('data-id', meetupId);
 const { body } = window.document;
+
+const createNode = (element, className) => {
+  const newElement = document.createElement(element);
+  newElement.setAttribute('class', className);
+  return newElement;
+};
 
 const convertDate = (createdon) => {
   const dateObject = new Date(createdon);
@@ -23,6 +37,13 @@ const convertDate = (createdon) => {
   return formattedDate;
 };
 
+function openModal() {
+  simpleModal.style.display = 'block';
+}
+
+function closeModal() {
+  simpleModal.style.display = 'none';
+}
 
 const responses = {
   notfound: (errorData) => {
@@ -31,6 +52,17 @@ const responses = {
     <p>${errorData}</p>
     </div>
     `);
+  },
+  createErrors: (errorData) => {
+    submitBtn.disabled = false;
+    const errorDivSelect = document.querySelector('.error_div');
+    if (errorDivSelect) {
+      errorDivSelect.remove();
+    }
+    const errorKeys = Object.keys(errorData);
+    const errorDiv = createNode('div', 'error_div');
+    errorDiv.innerHTML = errorData[errorKeys[0]];
+    questionForm.insertBefore(errorDiv, questionForm.children[1]);
   },
   success: (questions) => {
     if (questions.length === 0) {
@@ -44,6 +76,7 @@ const responses = {
       const newDate = convertDate(question.createdon);
       container.insertAdjacentHTML('afterbegin', `
       <div class="questions">
+        <p><span>Title: </span>${question.title}</p>
         <p><span>Question: </span>${question.body}</p>
         <p><span>Upvotes: </span>${question.upvotes}</p>
         <p><span>Downvotes: </span>${question.downvotes}</p>
@@ -58,6 +91,10 @@ const responses = {
       </div>
       `);
     });
+  },
+  created: () => {
+    closeModal();
+    window.location.reload();
   },
 };
 
@@ -85,5 +122,40 @@ const fetchQuestions = async () => {
     .catch(err => console.log(err));
 };
 
+const fetchPostQuestion = async (e) => {
+  e.preventDefault();
+  submitBtn.disabled = true;
+  const title = titleInput.value;
+  const question = questionInput.value;
+  const questionObject = {
+    title, body: question, meetupid: e.target.dataset.id,
+  };
+
+  await fetch(`${apiUrl}/questions`, {
+    method: 'POST',
+    mode: 'cors',
+    body: JSON.stringify(questionObject),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(res => res.json())
+    .then((data) => {
+      if (data.error) {
+        const errorData = data.error;
+        return responses.createErrors(errorData);
+      }
+      if (data.status === 201) return responses.created();
+      return true;
+    })
+    .catch((err) => {
+      console.log(err);
+      submitBtn.disabled = false;
+    });
+};
 
 body.addEventListener('load', fetchQuestions());
+modalBtn.addEventListener('click', openModal);
+closeBtn.addEventListener('click', closeModal);
+questionForm.addEventListener('submit', fetchPostQuestion);
