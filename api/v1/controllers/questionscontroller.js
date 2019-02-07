@@ -45,6 +45,7 @@ export default class QuestionsController {
 
     const resultsLength = results.length;
     let counter = 0;
+    /* istanbul ignore next */
     results.forEach(async (result) => {
       const user = await User.getUserById(result.userid);
       results[counter].postedby = user.username;

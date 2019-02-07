@@ -177,4 +177,15 @@ describe('Questions', () => {
       expect(res.body).to.have.property('data');
     });
   });
+
+  describe('GET /questions/:id', () => {
+    it('should return 200 if questions are found', async () => {
+      const res = await chai.request(app)
+        .get('/api/v1/questions/1')
+        .set({ Authorization: `Bearer ${userToken}` });
+
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('data');
+    });
+  });
 });
