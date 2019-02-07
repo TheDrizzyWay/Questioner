@@ -98,10 +98,10 @@ main > p {
 
 .questions p {
   background: #ffffff;
-  line-height: 1.0;
+  line-height: 0.7;
   font-family: Tahoma;
   font-size: 1.2em;
-  padding: 10px 10px;
+  padding: 10px 20px;
   color: #00bfff;
 }
 
@@ -164,6 +164,14 @@ span {
 #lower {
   text-align: center;
   color: #ffffff;
+}
+
+.error_div {
+  background: #ffffff;
+  color: red;
+  font-size: 1.5em;
+  padding-left: 10px;
+  margin-bottom: 10px;
 }
 
 .modal {

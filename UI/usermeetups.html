@@ -21,7 +21,7 @@
       <p>Post a new question</p>
     </div>
     <main>
-      <p id="topic-span">Topic 001</p>
+      <p id="topic-span"></p>
       <p>QUESTIONS</p>
       <div class="container">
         <p id="lower">Showing 3 of 5 questions</p>
@@ -38,13 +38,13 @@
       <div class="modal_content">
         <span class="close_btn">&times;</span>
         <div class="create_form">
-        <form>
+        <form id="question-form">
           <fieldset>
             <legend>Add a Question</legend>
-            <input type="text" name="title" placeholder="Question Title" maxlength="300" required />
-            <textarea name="question" rows="3" cols="60" placeholder="Post Question Here..." maxlength="300" required></textarea>
+            <input type="text" id="title" placeholder="Question Title" maxlength="300" required />
+            <textarea id="question" rows="3" cols="60" placeholder="Post Question Here..." maxlength="300" required></textarea>
           </fieldset>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" id="submit"/>
         </form>
         </div>
       </div>
