@@ -23,6 +23,13 @@ export default class Question {
     return rows[0];
   }
 
+  static async getQuestionsByMeetup(id) {
+    const queryString = 'SELECT * FROM questions WHERE meetupid = $1 ORDER BY createdon';
+    const values = [id];
+    const { rows } = await pool.query(queryString, values);
+    return rows;
+  }
+
   static async upvoteQuestion(id) {
     const queryString = 'UPDATE questions SET upvotes = upvotes + 1 WHERE id = $1 RETURNING *';
     const values = [id];

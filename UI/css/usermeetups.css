@@ -51,6 +51,18 @@ header {
   cursor: pointer;
 }
 
+.notfound {
+  background: #ffffff;
+  color: #00bfff;
+  width: 80%;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px 10px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
 main {
   margin-top: 15px;
   margin-left: auto;
@@ -110,6 +122,10 @@ span {
   width: 35px;
   height: 35px;
   cursor: pointer;
+}
+
+.actions img:hover {
+  opacity: 0.6;
 }
 
 .actions span {
