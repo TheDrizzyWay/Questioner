@@ -32,6 +32,7 @@ console.log('Creating tables...');
         upvotes INT DEFAULT 0,
         downvotes INT DEFAULT 0,
         userid INT NOT NULL,
+        postedby VARCHAR(50) NOT NULL,
         createdon TIMESTAMPTZ DEFAULT NOW(),
         FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (meetupid) REFERENCES meetups (id) ON DELETE CASCADE)`);

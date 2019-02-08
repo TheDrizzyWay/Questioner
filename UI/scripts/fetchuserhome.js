@@ -75,9 +75,13 @@ const responses = {
     <p>${result.joinedUsers} user(s) have joined this meetup.</p>
     <div class="rsvp">
       <a href="userview.html?id=${result.id}"><button>Meetup Details</button></a>
-      <a href="usermeetups.html?id=${result.id}"><button>Questions</button></a>
+      <a href="usermeetups.html?id=${result.id}" data-id="${result.id}"><button>Questions</button></a>
     </div>`;
     newJoined.insertBefore(joinedNode, newJoined.children[1]);
+    const questionBtn = document.querySelector(`a[data-id="${result.id}"]`);
+    questionBtn.addEventListener('click', () => {
+      localStorage.setItem('meetuptopic', result.topic);
+    });
   },
 };
 

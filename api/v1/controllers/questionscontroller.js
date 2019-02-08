@@ -1,7 +1,6 @@
 import Question from '../models/Questions';
 import Meetup from '../models/Meetups';
 import Rsvp from '../models/Rsvps';
-import User from '../models/Users';
 import { sanitizer } from '../utils/stringfunctions';
 import { successResponse, errorResponse } from '../utils/responses';
 
@@ -16,6 +15,7 @@ export default class QuestionsController {
   static async createQuestion(req, res) {
     const { id, username } = req.user;
     req.body.userid = id;
+    req.body.postedby = username;
     const question = new Question(req.body);
 
     question.title = sanitizer(question.title);
@@ -31,7 +31,6 @@ export default class QuestionsController {
 
     const result = await question.createQuestion();
     result.topic = meetupExists.topic;
-    result.username = username;
     return successResponse(res, 201, 'Your question has been recorded.', result);
   }
 
@@ -43,18 +42,7 @@ export default class QuestionsController {
     const results = await Question.getQuestionsByMeetup(meetupId);
     if (results.length === 0) return successResponse(res, 200, 'No questions found for this meetup.', results);
 
-    const resultsLength = results.length;
-    let counter = 0;
-    /* istanbul ignore next */
-    results.forEach(async (result) => {
-      const user = await User.getUserById(result.userid);
-      results[counter].postedby = user.username;
-      results[counter].topic = meetupExists.topic;
-      counter += 1;
-      if (counter === resultsLength) return successResponse(res, 200, 'Questions found.', results);
-      return true;
-    });
-    return true;
+    return successResponse(res, 200, 'Questions found.', results);
   }
 
   /**

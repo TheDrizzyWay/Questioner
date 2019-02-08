@@ -49,9 +49,10 @@ const responses = {
   },
   200: (loginData) => {
     submitBtn.disabled = true;
-    const { token, isadmin } = loginData;
+    const { token, isadmin, id } = loginData;
     localStorage.setItem('token', token);
     localStorage.setItem('isadmin', isadmin);
+    localStorage.setItem('id', id);
     const defaultPage = loginData.isadmin ? 'adminhome.html' : 'userhome.html';
     window.location.href = `${windowUrl}/${defaultPage}`;
   },

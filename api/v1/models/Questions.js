@@ -6,12 +6,13 @@ export default class Question {
     this.title = question.title;
     this.body = question.body;
     this.userid = question.userid;
+    this.postedby = question.postedby;
   }
 
   async createQuestion() {
-    const queryString = `INSERT INTO questions (meetupid, title, body, userid)
-    VALUES ($1, $2, $3, $4) RETURNING *`;
-    const values = [this.meetupid, this.title, this.body, this.userid];
+    const queryString = `INSERT INTO questions (meetupid, title, body, userid, postedby)
+    VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+    const values = [this.meetupid, this.title, this.body, this.userid, this.postedby];
     const { rows } = await pool.query(queryString, values);
     return rows[0];
   }
