@@ -62,7 +62,7 @@ export default class User {
   }
 
   static async getAllUsers() {
-    const queryString = 'SELECT * FROM users';
+    const queryString = 'SELECT * FROM users ORDER BY id';
     const { rows } = await pool.query(queryString);
     return rows;
   }

@@ -1,8 +1,12 @@
 const today = new Date();
 const tomorrow = new Date();
+const dayAfter = new Date();
 tomorrow.setDate(today.getDate() + 1);
 const tomorrowString = tomorrow.toISOString();
 const tomorrowFormat = tomorrowString.substring(0, 16);
+dayAfter.setDate(today.getDate() + 3);
+const dayAfterString = dayAfter.toISOString();
+const dayAfterFormat = dayAfterString.substring(0, 16);
 
 const emptyMeetup = {
   topic: '',
@@ -33,7 +37,7 @@ const invalidEdit = {
 const correctMeetup2 = {
   topic: 'Aspiring software developers meetup',
   location: 'The Bunker $%',
-  happeningon: tomorrowFormat,
+  happeningon: dayAfterFormat,
   image: 'http://sampleimage/image.jpg',
   tags: ['123', '123'],
 };

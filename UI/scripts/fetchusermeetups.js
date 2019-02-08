@@ -1,10 +1,12 @@
 const meetupId = parseInt(window.location.href.split('=')[1], 10);
+const userId = localStorage.getItem('id');
 let apiUrl = 'http://localhost:3000/api/v1';
 if (window.location.href.split('.').includes('github')) {
   apiUrl = 'https://drizzyquestioner.herokuapp.com/api/v1';
 }
 
 const token = localStorage.getItem('token');
+const meetupTopic = localStorage.getItem('meetuptopic');
 const postDiv = document.querySelector('.add');
 const container = document.querySelector('.container');
 const topicSpan = document.querySelector('#topic-span');
@@ -64,6 +66,17 @@ const responses = {
     errorDiv.innerHTML = errorData[errorKeys[0]];
     questionForm.insertBefore(errorDiv, questionForm.children[1]);
   },
+  voteErrors: (errorData, e) => {
+    const errorDivSelect = document.querySelector('.error_div');
+    if (errorDivSelect) {
+      errorDivSelect.remove();
+    }
+    const voteError = createNode('div', 'error_div');
+    voteError.style.marginTop = '10px';
+    voteError.style.marginLeft = '10px';
+    voteError.innerHTML = errorData;
+    e.target.parentElement.appendChild(voteError);
+  },
   success: (questions) => {
     if (questions.length === 0) {
       container.insertAdjacentHTML('afterbegin', `
@@ -71,25 +84,52 @@ const responses = {
       </div>`);
       return;
     }
-    topicSpan.innerHTML = questions[0].topic;
+    topicSpan.innerHTML = meetupTopic;
     questions.forEach((question) => {
       const newDate = convertDate(question.createdon);
-      container.insertAdjacentHTML('afterbegin', `
-      <div class="questions">
-        <p><span>Title: </span>${question.title}</p>
-        <p><span>Question: </span>${question.body}</p>
-        <p><span>Upvotes: </span>${question.upvotes}</p>
-        <p><span>Downvotes: </span>${question.downvotes}</p>
-        <p><span>Posted By: </span>${question.postedby}</p>
-        <p><span>Posted On: </span>${newDate}</p>
-        <div class="actions">
-          <span>Upvote</span><img src="images/upvoteicon.png" alt="upvote" data-id="${question.id}">
-          <span>Downvote</span><img src="images/downvoteicon.png" alt="downvote" data-id="${question.id}">
-          <span>Comments</span><a href="usercomments.html?id=${question.id}">
-          <img src="images/edit.png" alt="comments"></a>
+      if (question.userid === parseInt(userId, 10)) {
+        container.insertAdjacentHTML('afterbegin', `
+        <div class="questions">
+          <p><span>Title: </span>${question.title}</p>
+          <p><span>Question: </span>${question.body}</p>
+          <p><span>Upvotes: </span>${question.upvotes}</p>
+          <p><span>Downvotes: </span>${question.downvotes}</p>
+          <p><span>Posted By: </span>${question.postedby}</p>
+          <p><span>Posted On: </span>${newDate}</p>
+          <div class="actions">
+            <span>Comments</span><a href="usercomments.html?id=${question.id}">
+            <img src="images/edit.png" alt="comments"></a>
+          </div>
         </div>
-      </div>
-      `);
+        `);
+      } else {
+        container.insertAdjacentHTML('afterbegin', `
+        <div class="questions">
+          <p><span>Title: </span>${question.title}</p>
+          <p><span>Question: </span>${question.body}</p>
+          <p><span>Upvotes: </span>${question.upvotes}</p>
+          <p><span>Downvotes: </span>${question.downvotes}</p>
+          <p><span>Posted By: </span>${question.postedby}</p>
+          <p><span>Posted On: </span>${newDate}</p>
+          <div class="actions">
+            <span>Upvote</span><img src="images/upvoteicon.png"
+            alt="upvote" id="up" data-id="${question.id}">
+            <span>Downvote</span><img src="images/downvoteicon.png"
+            alt="downvote" id="down" data-id="${question.id}">
+            <span>Comments</span><a href="usercomments.html?id=${question.id}">
+            <img src="images/edit.png" alt="comments"></a>
+          </div>
+        </div>
+        `);
+      }
+    });
+    const upvote = document.querySelectorAll('#up');
+    const downvote = document.querySelectorAll('#down');
+    upvote.forEach((btn) => {
+      btn.addEventListener('click', fetchUpvote);
+    });
+    downvote.forEach((btn) => {
+      btn.addEventListener('click', fetchDownvote);
     });
   },
   created: () => {
@@ -153,6 +193,54 @@ const fetchPostQuestion = async (e) => {
       console.log(err);
       submitBtn.disabled = false;
     });
+};
+
+const fetchUpvote = async (e) => {
+  const { id } = e.target.dataset;
+  await fetch(`${apiUrl}/questions/${id}/upvote`, {
+    method: 'PATCH',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(res => res.json())
+    .then((data) => {
+      if (data.status === 400) {
+        const errorData = data.error;
+        return responses.voteErrors(errorData, e);
+      }
+      if (data.status === 200) {
+        window.location.reload();
+      }
+      return true;
+    })
+    .catch(err => console.log(err));
+};
+
+const fetchDownvote = async (e) => {
+  const { id } = e.target.dataset;
+  await fetch(`${apiUrl}/questions/${id}/downvote`, {
+    method: 'PATCH',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then(res => res.json())
+    .then((data) => {
+      if (data.status === 400) {
+        const errorData = data.error;
+        return responses.voteErrors(errorData, e);
+      }
+      if (data.status === 200) {
+        window.location.reload();
+      }
+      return true;
+    })
+    .catch(err => console.log(err));
 };
 
 body.addEventListener('load', fetchQuestions());

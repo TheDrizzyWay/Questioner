@@ -93,6 +93,15 @@ describe('Meetups', () => {
       expect(res).to.have.status(201);
       expect(res.body).to.have.property('data');
     });
+
+    it('should return 201 for successfull creation', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/meetups')
+        .set({ Authorization: `Bearer ${adminToken}` })
+        .send(correctMeetup2);
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('data');
+    });
   });
 
   describe('GET /', () => {
@@ -179,7 +188,7 @@ describe('Meetups', () => {
   });
 
   describe('GET /upcoming', () => {
-    it('joins a meetup just to test if splice functionality works fine.', async () => {
+    it('should join a meetup to test splice functionality', async () => {
       const res = await chai.request(app)
         .post('/api/v1/meetups/2/rsvps')
         .set({ Authorization: `Bearer ${userToken}` })
