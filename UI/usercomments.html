@@ -2,6 +2,7 @@
 
 <html lang="en">
   <head>
+    <script src="scripts/authorization.js"></script>
     <title> Questioner - User Comments</title>
   	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,29 +21,9 @@
       <p>Add a comment</p>
     </div>
     <main>
-      <p>Topic 001</p>
-      <p>QUESTION: Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <p id="topic-span">Topic 001</p>
+      <p id="question-span">QUESTION: Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
       <div class="container">
-        <div class="questions">
-          <p><span>Comment: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p><span>Posted By: </span>user001</p>
-          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
-        </div>
-        <div class="questions">
-          <p><span>Comment: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p><span>Posted By: </span>user001</p>
-          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
-        </div>
-        <div class="questions">
-          <p><span>Comment: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p><span>Posted By: </span>user001</p>
-          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
-        </div>
-        <div class="questions">
-          <p><span>Comment: </span>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          <p><span>Posted By: </span>user001</p>
-          <p><span>Posted On: </span>10/March/2019 10:00 AM</p>
-        </div>
         <p id="lower">Showing 4 of 10 comments</p>
         <div class="next">
           <a href="#">&laquo;</a>
@@ -57,12 +38,12 @@
       <div class="modal_content">
         <span class="close_btn">&times;</span>
         <div class="create_form">
-        <form>
+        <form id="comment-form">
           <fieldset>
             <legend>Post Comment Below</legend>
-            <textarea name="question" rows="3" cols="60" maxlength="300" required></textarea>
+            <textarea id="comment" rows="5" cols="60" maxlength="300" required></textarea>
           </fieldset>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" id="submit"/>
         </form>
         </div>
       </div>
@@ -74,7 +55,6 @@
       <div class="footer">
       </div>
     </footer>
-    <script type="text/javascript" src="scripts/createmodal.js">
-    </script>
+    <script type="text/javascript" src="scripts/fetchusercomments.js"></script>
   </body>
 </html>

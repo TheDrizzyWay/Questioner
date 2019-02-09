@@ -2,6 +2,7 @@ const meetupId = parseInt(window.location.href.split('=')[1], 10);
 const windowUrlArray = window.location.href.split('/');
 windowUrlArray.pop();
 const windowUrl = windowUrlArray.join('/');
+if (!meetupId) window.location.href = `${windowUrl}/adminhome.html`;
 let apiUrl = 'http://localhost:3000/api/v1';
 if (window.location.href.split('.').includes('github')) {
   apiUrl = 'https://drizzyquestioner.herokuapp.com/api/v1';

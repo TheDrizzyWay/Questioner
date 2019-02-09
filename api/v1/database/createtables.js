@@ -53,6 +53,7 @@ console.log('Creating tables...');
         body TEXT NOT NULL,
         comment TEXT NOT NULL,
         userid INT NOT NULL,
+        postedby VARCHAR(50) NOT NULL,
         createdon TIMESTAMPTZ DEFAULT NOW(),
         FOREIGN KEY (userid) REFERENCES users (id) ON DELETE CASCADE,
         FOREIGN KEY (questionid) REFERENCES questions (id) ON DELETE CASCADE)`);
