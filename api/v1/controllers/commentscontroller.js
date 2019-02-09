@@ -22,10 +22,10 @@ export default class CommentsController {
     newComment.body = questionExists.body;
     newComment.userid = req.user.id;
     newComment.comment = sanitizer(newComment.comment);
+    newComment.postedby = username;
 
     const newCommentClass = new Comment(newComment);
     const result = await newCommentClass.createComment();
-    result.username = username;
     return successResponse(res, 201, 'Comment posted.', result);
   }
 

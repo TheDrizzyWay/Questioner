@@ -7,12 +7,13 @@ export default class Comment {
     this.body = usercomment.body;
     this.comment = usercomment.comment;
     this.userid = usercomment.userid;
+    this.postedby = usercomment.postedby;
   }
 
   async createComment() {
-    const queryString = `INSERT INTO comments (questionid, title, body, comment, userid)
-    VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-    const values = [this.questionid, this.title, this.body, this.comment, this.userid];
+    const queryString = `INSERT INTO comments (questionid, title, body, comment, userid, postedby)
+    VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+    const values = [this.questionid, this.title, this.body, this.comment, this.userid, this.postedby];
     const { rows } = await pool.query(queryString, values);
     return rows[0];
   }

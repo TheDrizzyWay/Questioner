@@ -1,4 +1,8 @@
 const meetupId = parseInt(window.location.href.split('=')[1], 10);
+const windowUrlArray = window.location.href.split('/');
+windowUrlArray.pop();
+const windowUrl = windowUrlArray.join('/');
+if (!meetupId) window.location.href = `${windowUrl}/userhome.html`;
 const userId = localStorage.getItem('id');
 let apiUrl = 'http://localhost:3000/api/v1';
 if (window.location.href.split('.').includes('github')) {
@@ -94,8 +98,7 @@ const responses = {
           <p><span>Question: </span>${question.body}</p>
           <p><span>Upvotes: </span>${question.upvotes}</p>
           <p><span>Downvotes: </span>${question.downvotes}</p>
-          <p><span>Posted By: </span>${question.postedby}</p>
-          <p><span>Posted On: </span>${newDate}</p>
+          <p><span>Posted By: </span>${question.postedby} <span>On </span>${newDate}</p>
           <div class="actions">
             <span>Comments</span><a href="usercomments.html?id=${question.id}">
             <img src="images/edit.png" alt="comments"></a>
@@ -109,8 +112,7 @@ const responses = {
           <p><span>Question: </span>${question.body}</p>
           <p><span>Upvotes: </span>${question.upvotes}</p>
           <p><span>Downvotes: </span>${question.downvotes}</p>
-          <p><span>Posted By: </span>${question.postedby}</p>
-          <p><span>Posted On: </span>${newDate}</p>
+          <p><span>Posted By: </span>${question.postedby} <span> On </span>${newDate}</p>
           <div class="actions">
             <span>Upvote</span><img src="images/upvoteicon.png"
             alt="upvote" id="up" data-id="${question.id}">
@@ -131,6 +133,17 @@ const responses = {
     downvote.forEach((btn) => {
       btn.addEventListener('click', fetchDownvote);
     });
+    const xcord = parseInt(localStorage.getItem('xcord'), 10);
+    const ycord = parseInt(localStorage.getItem('ycord'), 10);
+    if (xcord && ycord && ycord > 400) {
+      window.scrollTo({
+        top: ycord,
+        left: xcord,
+        behavior: 'smooth',
+      });
+      localStorage.removeItem('xcord');
+      localStorage.removeItem('ycord');
+    }
   },
   created: () => {
     closeModal();
@@ -212,6 +225,9 @@ const fetchUpvote = async (e) => {
         return responses.voteErrors(errorData, e);
       }
       if (data.status === 200) {
+        const position = e.target.parentElement.getBoundingClientRect();
+        localStorage.setItem('xcord', `${position.left}`);
+        localStorage.setItem('ycord', `${position.top}`);
         window.location.reload();
       }
       return true;
@@ -236,6 +252,9 @@ const fetchDownvote = async (e) => {
         return responses.voteErrors(errorData, e);
       }
       if (data.status === 200) {
+        const position = e.target.parentElement.getBoundingClientRect();
+        localStorage.setItem('xcord', `${position.left}`);
+        localStorage.setItem('ycord', `${position.top}`);
         window.location.reload();
       }
       return true;
