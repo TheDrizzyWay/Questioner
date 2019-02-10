@@ -27,7 +27,8 @@ router.get('/', requireAuth, tryCatch(getAllMeetups));
 router.get('/upcoming', requireAuth, tryCatch(getUpcomingMeetups));
 router.get('/rsvps', requireAuth, tryCatch(getJoinedMeetups));
 router.get('/:id', requireAuth, idValidation, tryCatch(getMeetupById));
-router.put('/:id', requireAuth, adminAuth, idValidation, validEdit, checkTags, checkDateEdit, tryCatch(updateMeetup));
+router.put('/:id', requireAuth, adminAuth, idValidation, imageUpload,
+  validEdit, checkTags, checkDateEdit, tryCatch(updateMeetup));
 router.delete('/:id', requireAuth, adminAuth, idValidation, tryCatch(deleteMeetup));
 router.post('/:id/rsvps', requireAuth, idValidation, validRsvp, tryCatch(joinMeetup));
 router.get('/:id/top', requireAuth, idValidation, tryCatch(getTopQuestions));

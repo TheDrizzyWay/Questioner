@@ -34,18 +34,18 @@
       <div class="modal_content">
         <span class="close_btn">&times;</span>
         <div class="create_form">
-        <form>
+        <form id="profile-form">
           <fieldset>
             <legend>Edit your Personal Details</legend>
-            <input type="text" name="first_name" placeholder="First Name" maxlength="24" />
-            <input type="text" name="last_name" placeholder="Last Name" maxlength="24" />
-            <input type="text" name="username" placeholder="Username" maxlength="24" />
-            <input type="text" name="newpassword" placeholder="New Password" maxlength="24"/>
-            <input type="text" name="confpassword" placeholder="Confirm New Password" maxlength="24"/>
+            <input type="text" name="firstname" id="firstname" placeholder="First Name" maxlength="24" />
+            <input type="text" name="lastname" id="lastname" placeholder="Last Name" maxlength="24" />
+            <input type="text" name="username" id="username" placeholder="Username" maxlength="24" />
+            <input type="text" name="password" placeholder="New Password" maxlength="24"/>
+            <input type="text" name="password_confirmation" placeholder="Confirm New Password" maxlength="24"/>
             <label> Upload Profile Picture</label>
             <input type="file" accept="image/*" name="image" />
           </fieldset>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" id="submit"/>
         </form>
         </div>
       </div>
