@@ -23,7 +23,6 @@ const topicInput = document.querySelector('#topic');
 const locationInput = document.querySelector('#location');
 const imageInput = document.querySelector('#image');
 const tagInput = document.querySelector('#tags');
-const tagNames = document.querySelector('input[name="tags-input"]');
 const dateInput = document.querySelector('#date');
 const submitBtn = document.querySelector('#submit');
 const overlayMe = document.querySelector('#dialog-container');
@@ -97,7 +96,8 @@ const responses = {
     `);
   },
   success: (meetup) => {
-    const allTags = processTags(meetup.tags);
+    const allTags = meetup.tags ? processTags(meetup.tags) : '';
+    const imageSource = meetup.image ? meetup.image : 'images/No_image.svg.png';
     const createdDate = convertDate(meetup.createdon);
     mainDiv.insertAdjacentHTML('afterbegin', `
     <p><span>Topic:</span> ${meetup.topic}</p>
@@ -105,7 +105,7 @@ const responses = {
     <p><span>Location:</span> ${meetup.location}</p>
     <div class="loc_image">
       <p><span>Location Image:</span></p>
-      <img src="images/meeting2.jpg" alt="location.jpg">
+      <img src="${imageSource}" alt="location.jpg">
     </div>
     <div class="tags">
       <p><span>Tags:</span></p>
@@ -139,7 +139,7 @@ const fetchOneMeetup = async () => {
     .then(res => res.json())
     .then((data) => {
       const { status } = data;
-      if (status === 401 || status === 403) return responses.tokenerrors(data.error);
+      if (status === 401 || status === 403 || status === 500) return responses.tokenerrors(data.error);
       if (status === 422 || status === 404) return responses.notfound(data.error);
       if (status === 200) {
         const meetup = data.data;
@@ -217,22 +217,21 @@ const fetchEditMeetup = async (e) => {
   e.preventDefault();
   submitBtn.value = 'Editing...';
   submitBtn.disabled = true;
-  const topic = topicInput.value ? topicInput.value : null;
-  const location = locationInput.value ? locationInput.value : null;
-  const image = imageInput.value ? imageInput.value : null;
-  const tags = tagNames.value ? tagNames.value.split(',') : null;
-  const happeningon = dateInput.value ? dateInput.value : null;
-  const meetupObject = {
-    topic, location, image, tags, happeningon,
-  };
 
+  const formData = new FormData(e.target);
+  const editTags = formData.getAll('tags-input')[0].split(',');
+  if (editTags) {
+    formData.delete('tags-input');
+    editTags.forEach((tag) => {
+      formData.append('tags[]', tag);
+    });
+  }
 
   await fetch(`${apiUrl}/meetups/${e.target.dataset.id}`, {
     method: 'PUT',
     mode: 'cors',
-    body: JSON.stringify(meetupObject),
+    body: formData,
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
   })

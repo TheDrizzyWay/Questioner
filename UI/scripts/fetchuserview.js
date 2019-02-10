@@ -50,7 +50,8 @@ const responses = {
   },
   success: (meetup) => {
     mainDiv.hidden = false;
-    const allTags = processTags(meetup.tags);
+    const allTags = meetup.tags ? processTags(meetup.tags) : '';
+    const imageSource = meetup.image ? meetup.image : 'images/No_image.svg.png';
     const createdDate = convertDate(meetup.createdon);
     mainDiv.insertAdjacentHTML('afterbegin', `
     <p><span>Topic:</span> ${meetup.topic}</p>
@@ -58,7 +59,7 @@ const responses = {
     <p><span>Location:</span> ${meetup.location}</p>
     <div class="loc_image">
       <p><span>Location Image:</span></p>
-      <img src="images/meeting2.jpg" alt="location.jpg">
+      <img src="${imageSource}" alt="location.jpg">
     </div>
     <div class="tags">
       <p><span>Tags:</span></p>

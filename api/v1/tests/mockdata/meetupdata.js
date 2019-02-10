@@ -18,7 +18,6 @@ const correctMeetup = {
   topic: 'Aspiring software developers meetup',
   location: 'The Bunker $%',
   happeningon: tomorrowFormat,
-  image: 'http://sampleimage/image.jpg',
   tags: ['123', '123'],
 };
 
@@ -38,14 +37,12 @@ const correctMeetup2 = {
   topic: 'Aspiring software developers meetup',
   location: 'The Bunker $%',
   happeningon: dayAfterFormat,
-  image: 'http://sampleimage/image.jpg',
   tags: ['123', '123'],
 };
 
 const correctMeetup3 = {
   happeningon: tomorrowFormat,
   location: 'new location',
-  image: 'http://sampleimage/image2.jpg',
 };
 
 const correctMeetup5 = {
@@ -57,7 +54,6 @@ const correctMeetup4 = {
   topic: 'Sports fans meetup',
   location: 'Emirates stadium',
   happeningon: tomorrowFormat,
-  image: 'http://sampleimage/image.jpg',
   tags: ['sports', 'soccer'],
 };
 

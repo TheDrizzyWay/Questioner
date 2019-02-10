@@ -2,6 +2,7 @@
 
 <html lang="en">
   <head>
+    <script src="scripts/authorization.js"></script>
   	<title> Questioner - User Profile</title>
   	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,10 +21,6 @@
         <img src="images/imagesuser2.png" alt="user icon">
       </div>
       <div class="user_details">
-        <p>First Name: user first name</p>
-        <p>Last Name: user last name</p>
-        <p>Username: username</p>
-        <button id="modal-button">Edit Details</button>
       </div>
     </div>
     <div class="activity">
@@ -31,45 +28,24 @@
         <p>Activity Log</p>
       </div>
       <div class="activities">
-        <p>Number of questions posted: <span>5</span></p>
-        <p>Number of questions commented on: <span>5</span></p>
-        <p>Total number of comments posted: <span>10</span></p>
       </div>
     </div>
-    <section>
-      <div class="top">
-        <p id="top">Top Questions From Joined Meetups</p>
-        <div class="question">
-          <p>Question: Lorem ipsum dolor sit amet consectetur adipisicing el</p>
-          <p>Posted by: user001</p>
-          <p>Upvotes: 5</p>
-          <p>Downvotes: 0</p>
-        </div>
-        <div class="question">
-          <p>Question: Lorem ipsum dolor sit amet consectetur adipisicing el</p>
-          <p>Posted by: user002</p>
-          <p>Upvotes: 3</p>
-          <p>Downvotes: 0</p>
-        </div>
-      </div>
-    </section>
     <div id="simple-modal" class="modal">
       <div class="modal_content">
         <span class="close_btn">&times;</span>
         <div class="create_form">
-        <form>
+        <form id="profile-form">
           <fieldset>
             <legend>Edit your Personal Details</legend>
-            <input type="text" name="first_name" placeholder="First Name" maxlength="24" />
-            <input type="text" name="last_name" placeholder="Last Name" maxlength="24" />
-            <input type="text" name="username" placeholder="Username" maxlength="24" />
-            <input type="text" name="password" placeholder="Old Password" maxlength="24"/>
-            <input type="text" name="newpassword" placeholder="New Password" maxlength="24"/>
-            <input type="text" name="confpassword" placeholder="Confirm New Password" maxlength="24"/>
+            <input type="text" name="firstname" id="firstname" placeholder="First Name" maxlength="24" />
+            <input type="text" name="lastname" id="lastname" placeholder="Last Name" maxlength="24" />
+            <input type="text" name="username" id="username" placeholder="Username" maxlength="24" />
+            <input type="text" name="password" placeholder="New Password" maxlength="24"/>
+            <input type="text" name="password_confirmation" placeholder="Confirm New Password" maxlength="24"/>
             <label> Upload Profile Picture</label>
             <input type="file" accept="image/*" name="image" />
           </fieldset>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" id="submit"/>
         </form>
         </div>
       </div>
@@ -80,7 +56,7 @@
     <footer>
       <div class="footer"></div>
     </footer>
-    <script type="text/javascript" src="scripts/createmodal.js">
+    <script type="text/javascript" src="scripts/fetchprofile.js">
     </script>
   </body>
 </html>

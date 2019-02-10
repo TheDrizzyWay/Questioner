@@ -17,6 +17,9 @@ const commentForm = document.querySelector('#comment-form');
 const commentInput = document.querySelector('#comment');
 const submitBtn = document.querySelector('#submit');
 commentForm.setAttribute('data-id', questionId);
+const backBtn = document.querySelector('#back');
+const js = 'javascript';
+backBtn.href = `${js}:history.go(-1)`;
 const { body } = window.document;
 
 const convertDate = (createdon) => {

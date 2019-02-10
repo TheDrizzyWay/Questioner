@@ -10,7 +10,6 @@ export default class MeetupValidation {
       topic: 'required|string|min:1|max:255',
       location: 'required|string|min:1',
       happeningon: ['required', 'date', 'regex:/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}/'],
-      images: 'url',
       tags: 'array|min:1|max:10',
       'tags.*': 'alpha_num',
     };
@@ -50,7 +49,6 @@ export default class MeetupValidation {
       topic: 'string|min:1|max:255',
       location: 'string|min:1',
       happeningon: ['date', 'regex:/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}/'],
-      images: 'url',
       tags: 'array|min:1|max:10',
       'tags.*': 'alpha_num',
     };

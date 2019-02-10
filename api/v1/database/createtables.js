@@ -20,7 +20,7 @@ console.log('Creating tables...');
         topic VARCHAR(255) NOT NULL,
         location TEXT NOT NULL,
         happeningon VARCHAR(20) NOT NULL,
-        image VARCHAR(50),
+        image VARCHAR(100),
         tags TEXT[],
         createdon TIMESTAMPTZ DEFAULT NOW())`);
 
