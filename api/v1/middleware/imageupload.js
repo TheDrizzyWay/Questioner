@@ -21,9 +21,16 @@ const storage = cloudinaryStorage({
 
 const upload = multer({
   storage,
-  limits: {
-    fileSize: 1000000,
-  },
+  limits: { fileSize: 1000000 },
 }).single('image');
 
-export default upload;
+const imageUpload = (req, res, next) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return errorResponse(res, 400, err.message);
+    }
+    return next();
+  });
+};
+
+export default imageUpload;

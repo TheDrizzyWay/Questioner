@@ -3,7 +3,7 @@ import MeetupsController from '../controllers/meetupscontroller';
 import RsvpController from '../controllers/rsvpcontroller';
 import MeetupValidation from '../middleware/meetupvalidation';
 import RsvpValidation from '../middleware/rsvpvalidation';
-import upload from '../middleware/imageupload';
+import imageUpload from '../middleware/imageupload';
 import idValidation from '../middleware/idvalidation';
 import { requireAuth, adminAuth } from '../middleware/authentication';
 import tryCatch from '../utils/trycatch';
@@ -22,7 +22,7 @@ const { validRsvp } = RsvpValidation;
 
 const router = express.Router();
 
-router.post('/', requireAuth, adminAuth, upload, validCreate, checkTags, checkDate, tryCatch(createMeetup));
+router.post('/', requireAuth, adminAuth, imageUpload, validCreate, checkTags, checkDate, tryCatch(createMeetup));
 router.get('/', requireAuth, tryCatch(getAllMeetups));
 router.get('/upcoming', requireAuth, tryCatch(getUpcomingMeetups));
 router.get('/rsvps', requireAuth, tryCatch(getJoinedMeetups));

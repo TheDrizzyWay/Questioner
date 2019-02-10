@@ -12,7 +12,7 @@ export default class MeetupsController {
    */
 
   static async createMeetup(req, res) {
-    req.body.image = req.file ? req.file.url : null;
+    if (req.file) req.body.image = req.file.url;
     const meetup = new Meetup(req.body);
     meetup.topic = sanitizer(meetup.topic);
     meetup.location = sanitizer(meetup.location);

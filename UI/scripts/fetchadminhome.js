@@ -55,7 +55,8 @@ const responses = {
   success: (meetups) => {
     meetups.forEach((meetup) => {
       const meetupNode = createNode('div', 'meet');
-      meetupNode.innerHTML = `<img src="${meetup.image}" alt="location image">
+      const imageSource = meetup.image ? meetup.image : 'images/No_image.svg.png';
+      meetupNode.innerHTML = `<img src="${imageSource}" alt="location image">
       <p>TOPIC: ${meetup.topic}</p>
       <p>DATE: ${meetup.happeningon}</p>
       <a href="adminview.html?id=${meetup.id}" data-id="${meetup.id}"><button>View</button></a>`;
