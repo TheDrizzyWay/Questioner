@@ -139,7 +139,7 @@ const fetchOneMeetup = async () => {
     .then(res => res.json())
     .then((data) => {
       const { status } = data;
-      if (status === 401 || status === 403) return responses.tokenerrors(data.error);
+      if (status === 401 || status === 403 || status === 500) return responses.tokenerrors(data.error);
       if (status === 422 || status === 404) return responses.notfound(data.error);
       if (status === 200) {
         const meetup = data.data;
