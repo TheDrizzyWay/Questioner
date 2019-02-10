@@ -58,7 +58,7 @@ const responses = {
     <p><span>Location:</span> ${meetup.location}</p>
     <div class="loc_image">
       <p><span>Location Image:</span></p>
-      <img src="images/meeting2.jpg" alt="location.jpg">
+      <img src="${meetup.image}" alt="location.jpg">
     </div>
     <div class="tags">
       <p><span>Tags:</span></p>

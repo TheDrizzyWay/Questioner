@@ -115,29 +115,6 @@ span {
   font-size: 1.2em;
 }
 
-.top {
-  width: 60%;
-  margin: auto auto;
-  padding: 20px 20px;
-  background: #00bfff;
-  color: #ffffff;
-  line-height: 1.5;
-}
-
-#top {
-  font-family: Georgia, sans-serif;
-  font-size: 1.2em;
-  font-weight: bold;
-  text-align: center;
-}
-
-.question {
-  background: #ffffff;
-  color: #00bfff;
-  font-size: 1.2em;
-  padding-left: 10px;
-}
-
 .footer {
   height:30px;
   margin-top: 40px;

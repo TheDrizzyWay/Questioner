@@ -12,11 +12,6 @@ const modalBtn = document.getElementById('modal-button');
 const closeBtn = document.querySelector('.close_btn');
 const topDiv = document.querySelector('.create');
 const meetupForm = document.querySelector('#meetup-form');
-const topicInput = document.querySelector('#topic');
-const locationInput = document.querySelector('#location');
-const imageInput = document.querySelector('#file');
-const tagNames = document.querySelector('input[name="tags-input"]');
-const dateInput = document.querySelector('#date');
 const submitBtn = document.querySelector('#submit');
 const { body } = window.document;
 
@@ -47,24 +42,20 @@ const responses = {
   createErrors: (errorData) => {
     submitBtn.disabled = false;
     submitBtn.value = 'Submit';
+    const errorKeys = Object.keys(errorData);
+    console.log(errorData);
     const errorDivSelect = document.querySelector('.error_div');
     if (errorDivSelect) {
       errorDivSelect.remove();
     }
     const errorDiv = createNode('div', 'error_div');
-    errorDiv.innerHTML = errorData;
+    errorDiv.innerHTML = errorData[errorKeys[0]];
     meetupForm.insertBefore(errorDiv, meetupForm.firstChild);
   },
   success: (meetups) => {
     meetups.forEach((meetup) => {
-      let imageSource;
-      if (meetup.id % 2 === 0) {
-        imageSource = 'images/meeting2.jpg';
-      } else {
-        imageSource = 'images/meetings2.jpg';
-      }
       const meetupNode = createNode('div', 'meet');
-      meetupNode.innerHTML = `<img src="${imageSource}" alt="location.jpg">
+      meetupNode.innerHTML = `<img src="${meetup.image}" alt="location image">
       <p>TOPIC: ${meetup.topic}</p>
       <p>DATE: ${meetup.happeningon}</p>
       <a href="adminview.html?id=${meetup.id}" data-id="${meetup.id}"><button>View</button></a>`;
@@ -115,21 +106,17 @@ const createMeetup = async (e) => {
   submitBtn.value = 'Creating...';
   submitBtn.disabled = true;
   const token = localStorage.getItem('token');
-  const topic = topicInput.value;
-  const location = locationInput.value;
-  const image = imageInput.value;
-  const tags = tagNames.value.split(',');
-  const happeningon = dateInput.value;
-  const meetupObject = {
-    topic, location, image, tags, happeningon,
-  };
-
+  const formData = new FormData(e.target);
+  const tags = formData.getAll('tags-input')[0].split(',');
+  formData.delete('tags-input');
+  tags.forEach((tag) => {
+    formData.append('tags[]', tag);
+  });
   await fetch(`${apiUrl}/meetups`, {
     method: 'POST',
     mode: 'cors',
-    body: JSON.stringify(meetupObject),
+    body: formData,
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
   })

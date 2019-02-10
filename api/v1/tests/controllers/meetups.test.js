@@ -1,3 +1,4 @@
+import fs from 'fs';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../app';
@@ -94,133 +95,138 @@ describe('Meetups', () => {
       expect(res.body).to.have.property('data');
     });
 
-    it('should return 201 for successfull creation', async () => {
+    it('should return 201 for successfull creation with image', async () => {
       const res = await chai.request(app)
         .post('/api/v1/meetups')
         .set({ Authorization: `Bearer ${adminToken}` })
-        .send(correctMeetup2);
+        .field('Content-type', 'multipart/form-data')
+        .field('topic', 'topic with image')
+        .field('location', 'location with image')
+        .field('happeningon', '2019-02-13T22:00')
+        .attach('image', Buffer.from(`${process.cwd}/UI/images/home.png`));
+
       expect(res).to.have.status(201);
       expect(res.body).to.have.property('data');
     });
-  });
 
-  describe('GET /', () => {
-    it('should return a list of all meetups', async () => {
-      const res = await chai.request(app)
-        .get('/api/v1/meetups')
-        .set({ Authorization: `Bearer ${userToken}` });
-      expect(res).to.have.status(200);
-      expect(res.body).to.have.property('data');
-    });
-  });
-
-  describe('GET /:id', () => {
-    it('should return 404 if id does not exist', async () => {
-      const res = await chai.request(app)
-        .get('/api/v1/meetups/10')
-        .set({ Authorization: `Bearer ${userToken}` });
-      expect(res).to.have.status(404);
-      expect(res.body).to.have.property('error');
+    describe('GET /', () => {
+      it('should return a list of all meetups', async () => {
+        const res = await chai.request(app)
+          .get('/api/v1/meetups')
+          .set({ Authorization: `Bearer ${userToken}` });
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+      });
     });
 
-    it('should return 422 if id is invalid', async () => {
-      const res = await chai.request(app)
-        .get('/api/v1/meetups/abc')
-        .set({ Authorization: `Bearer ${userToken}` });
-      expect(res).to.have.status(422);
-      expect(res.body).to.have.property('error');
+    describe('GET /:id', () => {
+      it('should return 404 if id does not exist', async () => {
+        const res = await chai.request(app)
+          .get('/api/v1/meetups/10')
+          .set({ Authorization: `Bearer ${userToken}` });
+        expect(res).to.have.status(404);
+        expect(res.body).to.have.property('error');
+      });
+
+      it('should return 422 if id is invalid', async () => {
+        const res = await chai.request(app)
+          .get('/api/v1/meetups/abc')
+          .set({ Authorization: `Bearer ${userToken}` });
+        expect(res).to.have.status(422);
+        expect(res.body).to.have.property('error');
+      });
+
+      it('should return 200 if id exists', async () => {
+        const res = await chai.request(app)
+          .get('/api/v1/meetups/1')
+          .set({ Authorization: `Bearer ${userToken}` });
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+      });
     });
 
-    it('should return 200 if id exists', async () => {
-      const res = await chai.request(app)
-        .get('/api/v1/meetups/1')
-        .set({ Authorization: `Bearer ${userToken}` });
-      expect(res).to.have.status(200);
-      expect(res.body).to.have.property('data');
-    });
-  });
+    describe('PUT /:id', () => {
+      it('should return 400 if fields contain invalid details', async () => {
+        const res = await chai.request(app)
+          .put('/api/v1/meetups/1')
+          .set({ Authorization: `Bearer ${adminToken}` })
+          .send(invalidEdit);
+        expect(res).to.have.status(400);
+        expect(res.body).to.have.property('error');
+      });
 
-  describe('PUT /:id', () => {
-    it('should return 400 if fields contain invalid details', async () => {
-      const res = await chai.request(app)
-        .put('/api/v1/meetups/1')
-        .set({ Authorization: `Bearer ${adminToken}` })
-        .send(invalidEdit);
-      expect(res).to.have.status(400);
-      expect(res.body).to.have.property('error');
-    });
+      it('should return 400 if meetup date is past', async () => {
+        const res = await chai.request(app)
+          .put('/api/v1/meetups/1')
+          .set({ Authorization: `Bearer ${adminToken}` })
+          .send(wrongDate);
+        expect(res).to.have.status(400);
+        expect(res.body).to.have.property('error');
+      });
 
-    it('should return 400 if meetup date is past', async () => {
-      const res = await chai.request(app)
-        .put('/api/v1/meetups/1')
-        .set({ Authorization: `Bearer ${adminToken}` })
-        .send(wrongDate);
-      expect(res).to.have.status(400);
-      expect(res.body).to.have.property('error');
-    });
+      it('should return 200 for successfull update', async () => {
+        const res = await chai.request(app)
+          .put('/api/v1/meetups/1')
+          .set({ Authorization: `Bearer ${adminToken}` })
+          .send(correctMeetup2);
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+      });
 
-    it('should return 200 for successfull update', async () => {
-      const res = await chai.request(app)
-        .put('/api/v1/meetups/1')
-        .set({ Authorization: `Bearer ${adminToken}` })
-        .send(correctMeetup2);
-      expect(res).to.have.status(200);
-      expect(res.body).to.have.property('data');
-    });
+      it('should return 200 for successfull partial update', async () => {
+        const res = await chai.request(app)
+          .put('/api/v1/meetups/1')
+          .set({ Authorization: `Bearer ${adminToken}` })
+          .send(correctMeetup3);
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+      });
 
-    it('should return 200 for successfull partial update', async () => {
-      const res = await chai.request(app)
-        .put('/api/v1/meetups/1')
-        .set({ Authorization: `Bearer ${adminToken}` })
-        .send(correctMeetup3);
-      expect(res).to.have.status(200);
-      expect(res.body).to.have.property('data');
-    });
-
-    it('should return 200 for successfull partial update', async () => {
-      const res = await chai.request(app)
-        .put('/api/v1/meetups/1')
-        .set({ Authorization: `Bearer ${adminToken}` })
-        .send(correctMeetup5);
-      expect(res).to.have.status(200);
-      expect(res.body).to.have.property('data');
-    });
-  });
-
-  describe('GET /upcoming', () => {
-    it('should join a meetup to test splice functionality', async () => {
-      const res = await chai.request(app)
-        .post('/api/v1/meetups/2/rsvps')
-        .set({ Authorization: `Bearer ${userToken}` })
-        .send({ response: 'Yes' });
-      expect(res).to.have.status(200);
-      expect(res.body).to.have.property('data');
+      it('should return 200 for successfull partial update', async () => {
+        const res = await chai.request(app)
+          .put('/api/v1/meetups/1')
+          .set({ Authorization: `Bearer ${adminToken}` })
+          .send(correctMeetup5);
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+      });
     });
 
-    it('should return a list of upcoming meetups', async () => {
-      const res = await chai.request(app)
-        .get('/api/v1/meetups/upcoming')
-        .set({ Authorization: `Bearer ${userToken}` });
-      expect(res).to.have.status(200);
-      expect(res.body).to.have.property('data');
-    });
-  });
+    describe('GET /upcoming', () => {
+      it('should join a meetup to test splice functionality', async () => {
+        const res = await chai.request(app)
+          .post('/api/v1/meetups/2/rsvps')
+          .set({ Authorization: `Bearer ${userToken}` })
+          .send({ response: 'Yes' });
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+      });
 
-  describe('DELETE /', () => {
-    it('should return 404 if meetup not found', async () => {
-      const res = await chai.request(app)
-        .delete('/api/v1/meetups/10')
-        .set({ Authorization: `Bearer ${adminToken}` });
-      expect(res).to.have.status(404);
-      expect(res.body.error).to.equal('Meetup not found.');
+      it('should return a list of upcoming meetups', async () => {
+        const res = await chai.request(app)
+          .get('/api/v1/meetups/upcoming')
+          .set({ Authorization: `Bearer ${userToken}` });
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+      });
     });
 
-    it('should return 200 on successfull delete', async () => {
-      const res = await chai.request(app)
-        .delete('/api/v1/meetups/2')
-        .set({ Authorization: `Bearer ${adminToken}` });
-      expect(res).to.have.status(200);
-      expect(res.body).to.have.property('data');
+    describe('DELETE /', () => {
+      it('should return 404 if meetup not found', async () => {
+        const res = await chai.request(app)
+          .delete('/api/v1/meetups/10')
+          .set({ Authorization: `Bearer ${adminToken}` });
+        expect(res).to.have.status(404);
+        expect(res.body.error).to.equal('Meetup not found.');
+      });
+
+      it('should return 200 on successfull delete', async () => {
+        const res = await chai.request(app)
+          .delete('/api/v1/meetups/2')
+          .set({ Authorization: `Bearer ${adminToken}` });
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+      });
     });
   });
 });

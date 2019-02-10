@@ -135,7 +135,7 @@ const responses = {
     });
     const xcord = parseInt(localStorage.getItem('xcord'), 10);
     const ycord = parseInt(localStorage.getItem('ycord'), 10);
-    if (xcord && ycord && ycord > 400) {
+    if (xcord && ycord && ycord > 450) {
       window.scrollTo({
         top: ycord,
         left: xcord,
@@ -225,9 +225,10 @@ const fetchUpvote = async (e) => {
         return responses.voteErrors(errorData, e);
       }
       if (data.status === 200) {
-        const position = e.target.parentElement.getBoundingClientRect();
-        localStorage.setItem('xcord', `${position.left}`);
-        localStorage.setItem('ycord', `${position.top}`);
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        localStorage.setItem('xcord', `${mouseX}`);
+        localStorage.setItem('ycord', `${mouseY}`);
         window.location.reload();
       }
       return true;
@@ -252,9 +253,10 @@ const fetchDownvote = async (e) => {
         return responses.voteErrors(errorData, e);
       }
       if (data.status === 200) {
-        const position = e.target.parentElement.getBoundingClientRect();
-        localStorage.setItem('xcord', `${position.left}`);
-        localStorage.setItem('ycord', `${position.top}`);
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        localStorage.setItem('xcord', `${mouseX}`);
+        localStorage.setItem('ycord', `${mouseY}`);
         window.location.reload();
       }
       return true;
