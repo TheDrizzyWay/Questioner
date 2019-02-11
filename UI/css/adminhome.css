@@ -177,7 +177,9 @@ section > p {
 .success {
   background: #ffffff;
   color: #00bfff;
+  width: 80%;
   font-size: 2.0em;
+  margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
   text-align: center;

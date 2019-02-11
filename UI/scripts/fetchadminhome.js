@@ -64,15 +64,16 @@ const responses = {
     });
   },
   created: () => {
+    submitBtn.value = 'Submit';
+    submitBtn.disabled = false;
     closeModal();
+    while (meetContainer.firstChild) meetContainer.removeChild(meetContainer.firstChild);
     topDiv.insertAdjacentHTML('afterend', `
-    <div class="success">
-    <p>Meetup created successfully.</p>
-    </div>
+    <div class="success"><p>Meetup created successfully.</p></div>
     `);
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
+    const message = document.querySelector('.success');
+    fetchMeetups();
+    setTimeout(() => message.remove(), 2000);
   },
 };
 
