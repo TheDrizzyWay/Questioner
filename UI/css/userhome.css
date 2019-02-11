@@ -24,11 +24,15 @@ header {
   font-size: 3.0em;
 }
 
+.low_links {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .profile {
-  position: absolute;
   width: 150px;
   margin-top: 5px;
-  left: 50%;
   text-align: center;
   transform: translate(-50%, 0);
   color: white;
@@ -165,10 +169,8 @@ span {
 }
 
 .logout {
-  position: absolute;
   width: 150px;
   margin-top: 5px;
-  left: 50%;
   text-align: center;
   transform: translate(-50%, 0);
   color: white;

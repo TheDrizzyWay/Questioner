@@ -100,7 +100,7 @@ const responses = {
           <p><span>Downvotes: </span>${question.downvotes}</p>
           <p><span>Posted By: </span>${question.postedby} <span>On </span>${newDate}</p>
           <div class="actions">
-            <span>Comments</span><a href="usercomments.html?id=${question.id}">
+            <span>${question.numbercomments} Comment(s)</span><a href="usercomments.html?id=${question.id}">
             <img src="images/edit.png" alt="comments"></a>
           </div>
         </div>

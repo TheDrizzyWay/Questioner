@@ -1,6 +1,7 @@
 import Question from '../models/Questions';
 import Meetup from '../models/Meetups';
 import Rsvp from '../models/Rsvps';
+import Comment from '../models/Comments';
 import { sanitizer } from '../utils/stringfunctions';
 import { successResponse, errorResponse } from '../utils/responses';
 
@@ -42,7 +43,17 @@ export default class QuestionsController {
     const results = await Question.getQuestionsByMeetup(meetupId);
     if (results.length === 0) return successResponse(res, 200, 'No questions found for this meetup.', results);
 
-    return successResponse(res, 200, 'Questions found.', results);
+    const newResults = Array.from(results);
+    let counter = 0;
+    /* istanbul ignore next */
+    results.map(async (result) => {
+      const comments = await Comment.getCommentsByQuestion(result.id);
+      newResults[counter].numbercomments = comments.length;
+      counter += 1;
+      if (counter === newResults.length) return successResponse(res, 200, 'Questions found.', newResults);
+      return true;
+    });
+    return true;
   }
 
   /**

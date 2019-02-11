@@ -64,9 +64,16 @@ const responses = {
     fetchJoinedMeetups();
   },
   joined: (meetups) => {
-    meetups.reverse().forEach((meetup) => {
-      fetchOneMeetup(meetup.meetupid);
-    });
+    if (meetups.length > 0) {
+      meetups.reverse().forEach((meetup) => {
+        fetchOneMeetup(meetup.meetupid);
+      });
+    } else {
+      const joinedNode = createNode('div', 'new_one');
+      joinedNode.style.marginBottom = '10px';
+      joinedNode.innerHTML = '<p> You have not joined any meetups yet. </p>';
+      newJoined.insertBefore(joinedNode, newJoined.children[1]);
+    }
   },
   one: (result) => {
     const joinedNode = createNode('div', 'new_one');
