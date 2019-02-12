@@ -46,9 +46,7 @@ function closeModal() {
 const responses = {
   notfound: (errorData) => {
     postDiv.insertAdjacentHTML('afterend', `
-    <div class="notfound">
-    <p>${errorData}</p>
-    </div>
+    <div class="notfound"><p>${errorData}</p></div>
     `);
   },
   success: (comments) => {
@@ -71,8 +69,15 @@ const responses = {
     });
   },
   created: () => {
+    const notFound = document.querySelector('.notfound');
+    if (notFound) notFound.remove();
+    commentForm.reset();
+    submitBtn.disabled = false;
+    submitBtn.value = 'Submit';
     closeModal();
-    window.location.reload();
+    const commentsDiv = document.querySelectorAll('.questions');
+    commentsDiv.forEach(cdiv => cdiv.remove());
+    fetchComments();
   },
 };
 

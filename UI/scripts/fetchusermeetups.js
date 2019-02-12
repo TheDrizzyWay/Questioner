@@ -118,7 +118,7 @@ const responses = {
             alt="upvote" id="up" data-id="${question.id}">
             <span>Downvote</span><img src="images/downvoteicon.png"
             alt="downvote" id="down" data-id="${question.id}">
-            <span>Comments</span><a href="usercomments.html?id=${question.id}">
+            <span>${question.numbercomments} Comment(s)</span><a href="usercomments.html?id=${question.id}">
             <img src="images/edit.png" alt="comments"></a>
           </div>
         </div>
@@ -146,8 +146,20 @@ const responses = {
     }
   },
   created: () => {
+    const notFound = document.querySelector('.notfound');
+    if (notFound) notFound.remove();
+    questionForm.reset();
+    submitBtn.disabled = false;
+    submitBtn.value = 'Submit';
     closeModal();
-    window.location.reload();
+    const questionsDiv = document.querySelectorAll('.questions');
+    questionsDiv.forEach(qdiv => qdiv.remove());
+    postDiv.insertAdjacentHTML('afterend', `
+    <div class="notfound"><p>Question Posted Successfully.</p></div>
+    `);
+    const message = document.querySelector('.notfound');
+    fetchQuestions();
+    setTimeout(() => message.remove(), 2000);
   },
 };
 
