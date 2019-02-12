@@ -51,6 +51,15 @@ function closeModal() {
   simpleModal.style.display = 'none';
 }
 
+const loadSpinner = (element) => {
+  const spinner = document.querySelector('.spinner');
+  if (spinner) {
+    spinner.remove();
+    return;
+  }
+  element.insertAdjacentHTML('beforebegin', '<div class="spinner"></div>');
+};
+
 const responses = {
   notfound: (errorData) => {
     postDiv.insertAdjacentHTML('afterend', `
@@ -100,7 +109,7 @@ const responses = {
           <p><span>Downvotes: </span>${question.downvotes}</p>
           <p><span>Posted By: </span>${question.postedby} <span>On </span>${newDate}</p>
           <div class="actions">
-            <span>Comments</span><a href="usercomments.html?id=${question.id}">
+            <span>${question.numbercomments} Comment(s)</span><a href="usercomments.html?id=${question.id}">
             <img src="images/edit.png" alt="comments"></a>
           </div>
         </div>
@@ -118,7 +127,7 @@ const responses = {
             alt="upvote" id="up" data-id="${question.id}">
             <span>Downvote</span><img src="images/downvoteicon.png"
             alt="downvote" id="down" data-id="${question.id}">
-            <span>Comments</span><a href="usercomments.html?id=${question.id}">
+            <span>${question.numbercomments} Comment(s)</span><a href="usercomments.html?id=${question.id}">
             <img src="images/edit.png" alt="comments"></a>
           </div>
         </div>
@@ -146,12 +155,26 @@ const responses = {
     }
   },
   created: () => {
+    loadSpinner();
+    const notFound = document.querySelector('.notfound');
+    if (notFound) notFound.remove();
+    questionForm.reset();
+    submitBtn.disabled = false;
+    submitBtn.value = 'Submit';
     closeModal();
-    window.location.reload();
+    const questionsDiv = document.querySelectorAll('.questions');
+    questionsDiv.forEach(qdiv => qdiv.remove());
+    postDiv.insertAdjacentHTML('afterend', `
+    <div class="notfound"><p>Question Posted Successfully.</p></div>
+    `);
+    const message = document.querySelector('.notfound');
+    fetchQuestions();
+    setTimeout(() => message.remove(), 2000);
   },
 };
 
 const fetchQuestions = async () => {
+  loadSpinner(postDiv);
   await fetch(`${apiUrl}/questions/${meetupId}`, {
     method: 'GET',
     mode: 'cors',
@@ -163,20 +186,26 @@ const fetchQuestions = async () => {
     .then(res => res.json())
     .then((data) => {
       if (data.error) {
+        loadSpinner();
         const errorData = data.error;
         return responses.notfound(errorData);
       }
       if (data.status === 200) {
+        loadSpinner();
         const questions = data.data;
         return responses.success(questions);
       }
       return true;
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      loadSpinner();
+      console.log(err);
+    });
 };
 
 const fetchPostQuestion = async (e) => {
   e.preventDefault();
+  loadSpinner(submitBtn);
   submitBtn.disabled = true;
   const title = titleInput.value;
   const question = questionInput.value;
@@ -196,6 +225,7 @@ const fetchPostQuestion = async (e) => {
     .then(res => res.json())
     .then((data) => {
       if (data.error) {
+        loadSpinner();
         const errorData = data.error;
         return responses.createErrors(errorData);
       }
@@ -203,6 +233,7 @@ const fetchPostQuestion = async (e) => {
       return true;
     })
     .catch((err) => {
+      loadSpinner();
       console.log(err);
       submitBtn.disabled = false;
     });

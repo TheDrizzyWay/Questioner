@@ -4,8 +4,10 @@
 }
 
 body {
+  background: url("../images/colleagues-1437.jpg");
+  background-size: cover;
   width: 100%;
-  height: 100%;
+  height: auto;
   transition: all 0.2s ease-in;
 }
 
@@ -14,19 +16,13 @@ body {
 }
 
 header {
-	background: url("../images/colleagues-1437.jpg");
 	width: 100%;
-	height: 700px;
+	height: 200px;
 	text-align: center;
-	background-size: cover;
 	position: relative;
-	overflow: hidden;
-	border-radius: 0 0 90% 90% / 30%;
 }
 
 .header_div {
-	width: 100%;
-	height: 100%;
 	padding: 30px;
 	color: #ffffff;
 }
@@ -70,31 +66,28 @@ h1 {
 }
 
 footer {
+  position: fixed;
+  background: #ffffff;
+  left: 35%;
+  bottom: 0;
+  height: 30px;
+  padding: 10px 10px;
 	text-align: center;
-	color: #1e90ff;
-  font-weight: bold;
+	color: #00bfff;
+  font-weight: bolder;
 	font-size: 25px;
-	margin-top: 10px;
-}
-
-.footer-wrap {
-	background-color: transparent;
 }
 
 @media(max-width:600px) {
-  header {
-    background: #ffffff;
-    height: 500px;
-  }
   .header_div {
     padding: 10px;
   }
   h1 {
-    color: #00bfff;
+    color: #fffaf0;
     font-size: 2.0em;
   }
   .details p {
-    color: #00bfff;
+    color: #fffaf0;
   }
   .details button {
     background: #ffffff;
@@ -104,5 +97,8 @@ footer {
   .details button:hover {
     background: #00bfff;
     color: #ffffff;
+  }
+  footer {
+    left: 0;
   }
 }

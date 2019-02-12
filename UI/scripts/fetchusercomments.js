@@ -43,12 +43,19 @@ function closeModal() {
   simpleModal.style.display = 'none';
 }
 
+const loadSpinner = (element) => {
+  const spinner = document.querySelector('.spinner');
+  if (spinner) {
+    spinner.remove();
+    return;
+  }
+  element.insertAdjacentHTML('beforebegin', '<div class="spinner"></div>');
+};
+
 const responses = {
   notfound: (errorData) => {
     postDiv.insertAdjacentHTML('afterend', `
-    <div class="notfound">
-    <p>${errorData}</p>
-    </div>
+    <div class="notfound"><p>${errorData}</p></div>
     `);
   },
   success: (comments) => {
@@ -71,12 +78,20 @@ const responses = {
     });
   },
   created: () => {
+    const notFound = document.querySelector('.notfound');
+    if (notFound) notFound.remove();
+    commentForm.reset();
+    submitBtn.disabled = false;
+    submitBtn.value = 'Submit';
     closeModal();
-    window.location.reload();
+    const commentsDiv = document.querySelectorAll('.questions');
+    commentsDiv.forEach(cdiv => cdiv.remove());
+    fetchComments();
   },
 };
 
 const fetchComments = async () => {
+  loadSpinner(postDiv);
   await fetch(`${apiUrl}/comments/${questionId}`, {
     method: 'GET',
     mode: 'cors',
@@ -88,20 +103,26 @@ const fetchComments = async () => {
     .then(res => res.json())
     .then((data) => {
       if (data.error) {
+        loadSpinner();
         const errorData = data.error;
         return responses.notfound(errorData);
       }
       if (data.status === 200) {
+        loadSpinner();
         const comments = data.data;
         return responses.success(comments);
       }
       return true;
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      loadSpinner();
+      console.log(err);
+    });
 };
 
 const fetchPostComment = async (e) => {
   e.preventDefault();
+  loadSpinner(submitBtn);
   submitBtn.disabled = true;
   submitBtn.value = 'Please wait...';
   const comment = commentInput.value;
@@ -120,10 +141,12 @@ const fetchPostComment = async (e) => {
   })
     .then(res => res.json())
     .then((data) => {
+      loadSpinner();
       if (data.status === 201) return responses.created();
       return true;
     })
     .catch((err) => {
+      loadSpinner();
       console.log(err);
       submitBtn.disabled = false;
     });

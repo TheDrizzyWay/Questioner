@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../../app';
@@ -67,6 +69,20 @@ describe('Meetups', () => {
       expect(res.body).to.have.property('error');
     });
 
+    it('should return 400 if image is too large', async () => {
+      const res = await chai.request(app)
+        .post('/api/v1/meetups')
+        .set({ Authorization: `Bearer ${adminToken}` })
+        .field('Content-type', 'multipart/form-data')
+        .field('topic', 'topic with image')
+        .field('location', 'location with image')
+        .field('happeningon', '2019-02-13T22:00')
+        .attach('image', fs.createReadStream(path.join(__dirname, '../../../../UI/images', 'colleagues-1437.jpg')));
+
+      expect(res).to.have.status(400);
+      expect(res.body).to.have.property('error');
+    });
+
     it('should return 201 for successfull creation', async () => {
       const res = await chai.request(app)
         .post('/api/v1/meetups')
@@ -95,6 +111,7 @@ describe('Meetups', () => {
     });
 
     it('should return 201 for successfull creation with image', async () => {
+      const { request } = chai;
       const res = await chai.request(app)
         .post('/api/v1/meetups')
         .set({ Authorization: `Bearer ${adminToken}` })

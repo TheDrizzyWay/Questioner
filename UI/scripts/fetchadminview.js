@@ -23,6 +23,7 @@ const topicInput = document.querySelector('#topic');
 const locationInput = document.querySelector('#location');
 const imageInput = document.querySelector('#image');
 const tagInput = document.querySelector('#tags');
+const hiddenTags = document.querySelector('input[name="tags-input"]');
 const dateInput = document.querySelector('#date');
 const submitBtn = document.querySelector('#submit');
 const overlayMe = document.querySelector('#dialog-container');
@@ -84,11 +85,22 @@ const closeDeleteModal = () => {
   overlayMe.style.display = 'none';
 };
 
+const loadSpinner = (element) => {
+  const spinner = document.querySelector('.spinner');
+  if (spinner) {
+    spinner.remove();
+    return;
+  }
+  element.insertAdjacentHTML('beforebegin', '<div class="spinner"></div>');
+};
+
 const responses = {
   tokenerrors: (errorData) => {
+    loadSpinner();
     checkTokenError(errorData);
   },
   notfound: (errorData) => {
+    loadSpinner();
     headerDiv.insertAdjacentHTML('afterend', `
     <div class="notfound">
     <p>${errorData}</p>
@@ -100,7 +112,7 @@ const responses = {
     const imageSource = meetup.image ? meetup.image : 'images/No_image.svg.png';
     const createdDate = convertDate(meetup.createdon);
     mainDiv.insertAdjacentHTML('afterbegin', `
-    <p><span>Topic:</span> ${meetup.topic}</p>
+    <div id="result"><p><span>Topic:</span> ${meetup.topic}</p>
     <p><span>Date:</span> ${meetup.happeningon}</p>
     <p><span>Location:</span> ${meetup.location}</p>
     <div class="loc_image">
@@ -112,7 +124,7 @@ const responses = {
       <div>${allTags}</div>
     </div>
     <p><span>Created on:</span> ${createdDate}</p>
-    <p><span>Respondents:</span> ${meetup.joinedUsers} user(s) have joined this meetup</p>
+    <p><span>Respondents:</span> ${meetup.joinedUsers} user(s) have joined this meetup</p></div>
     `);
     fetchTopQuestions();
   },
@@ -128,6 +140,7 @@ const checkTokenError = (errorData) => {
 };
 
 const fetchOneMeetup = async () => {
+  loadSpinner(topDiv);
   await fetch(`${apiUrl}/meetups/${meetupId}`, {
     method: 'GET',
     mode: 'cors',
@@ -163,6 +176,7 @@ const fetchTopQuestions = async () => {
     .then((data) => {
       const { status } = data;
       if (status === 200) {
+        loadSpinner();
         const topQuestionsArray = data.data;
         if (topQuestionsArray.length === 0) topDiv.hidden = true;
         topDiv.insertAdjacentHTML('afterbegin', '<p id="top">Top Questions</p>');
@@ -170,7 +184,7 @@ const fetchTopQuestions = async () => {
           topDiv.insertAdjacentHTML('beforeend', `
           <div class="question">
           <p>Question: ${question.body}</p>
-          <p>Posted by: ${question.userid}</p>
+          <p>Posted by: ${question.postedby}</p>
           <p>Upvotes: ${question.upvotes}</p>
           <p>Downvotes: ${question.downvotes}</p>
           </div>
@@ -186,7 +200,10 @@ const fetchTopQuestions = async () => {
         });
       }
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      loadSpinner();
+      console.log(err);
+    });
 };
 
 const populateEditForm = async (id) => {
@@ -208,6 +225,7 @@ const populateEditForm = async (id) => {
           const keyInput = inputFields.find(field => field.id === keyString);
           if (keyInput) keyInput.placeholder = meetup[key];
         });
+        if (meetup.tags) hiddenTags.value = meetup.tags.join(',');
       }
     })
     .catch(err => console.log(err));
@@ -215,13 +233,14 @@ const populateEditForm = async (id) => {
 
 const fetchEditMeetup = async (e) => {
   e.preventDefault();
+  loadSpinner(submitBtn);
   submitBtn.value = 'Editing...';
   submitBtn.disabled = true;
 
   const formData = new FormData(e.target);
   const editTags = formData.getAll('tags-input')[0].split(',');
+  formData.delete('tags-input');
   if (editTags) {
-    formData.delete('tags-input');
     editTags.forEach((tag) => {
       formData.append('tags[]', tag);
     });
@@ -238,6 +257,7 @@ const fetchEditMeetup = async (e) => {
     .then(res => res.json())
     .then((data) => {
       if (data.error) {
+        loadSpinner();
         const errorData = data.error;
         submitBtn.disabled = false;
         submitBtn.value = 'Submit';
@@ -250,15 +270,24 @@ const fetchEditMeetup = async (e) => {
         editForm.insertBefore(errorDiv, editForm.firstChild);
       }
       if (data.status === 200) {
-        while (editForm.firstChild) editForm.removeChild(editForm.firstChild);
-        editForm.innerHTML = `<div class="notfound">
-        <p>Meetup Edited Successfully.</p></div>`;
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        loadSpinner();
+        editForm.reset();
+        submitBtn.disabled = false;
+        submitBtn.value = 'Submit';
+        closeModal();
+        const resultDiv = document.querySelector('#result');
+        while (resultDiv.firstChild) resultDiv.removeChild(resultDiv.firstChild);
+        while (topDiv.firstChild) topDiv.removeChild(topDiv.firstChild);
+        mainDiv.insertAdjacentHTML('beforebegin', `
+        <div class="notfound"><p>Meetup Edited Successfully.</p></div>
+        `);
+        const message = document.querySelector('.notfound');
+        fetchOneMeetup();
+        setTimeout(() => message.remove(), 2000);
       }
     })
     .catch((err) => {
+      loadSpinner();
       console.log(err);
       submitBtn.disabled = false;
       submitBtn.value = 'Submit';

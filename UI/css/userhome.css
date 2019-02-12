@@ -24,11 +24,43 @@ header {
   font-size: 3.0em;
 }
 
-.profile {
+.spinner {
+  height: 30px;
+  position: relative;
+  margin-top: 20px;
+}
+
+.spinner::before {
   position: absolute;
+  border: 3px solid #eeeeee;
+  content: '';
+  width: 30px;
+  height: 30px;
+  left: 50%;
+  top: 10%;
+  border-radius: 50%;
+  border-bottom-color: blue;
+  animation: 2s linear infinite spinner;
+}
+
+@keyframes spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+
+.low_links {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.profile {
   width: 150px;
   margin-top: 5px;
-  left: 50%;
   text-align: center;
   transform: translate(-50%, 0);
   color: white;
@@ -165,10 +197,8 @@ span {
 }
 
 .logout {
-  position: absolute;
   width: 150px;
   margin-top: 5px;
-  left: 50%;
   text-align: center;
   transform: translate(-50%, 0);
   color: white;
