@@ -100,7 +100,6 @@ const responses = {
     questionBtn.addEventListener('click', () => {
       localStorage.setItem('meetuptopic', result.topic);
     });
-    loadSpinner();
   },
 };
 
@@ -121,6 +120,7 @@ const fetchUpcomingMeetups = async () => {
         return responses.errors(errorData);
       }
       if (data.status === 200) {
+        loadSpinner();
         const meetups = data.data;
         return responses.upcoming(meetups);
       }
