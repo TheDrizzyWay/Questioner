@@ -7,3 +7,4 @@ checks:
       threshold: 70
 exclude_patterns:
   - "**/UI/"
+  - "**/tests/"
