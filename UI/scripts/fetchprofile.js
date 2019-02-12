@@ -7,6 +7,7 @@ if (window.location.href.split('.').includes('github')) {
 }
 
 const token = localStorage.getItem('token');
+const header = document.querySelector('.details_wrapper');
 const detailsDiv = document.querySelector('.user_details');
 const activityDiv = document.querySelector('.activities');
 const simpleModal = document.getElementById('simple-modal');
@@ -28,8 +29,18 @@ function closeModal() {
   simpleModal.style.display = 'none';
 }
 
+const loadSpinner = (element) => {
+  const spinner = document.querySelector('.spinner');
+  if (spinner) {
+    spinner.remove();
+    return;
+  }
+  element.insertAdjacentHTML('beforebegin', '<div class="spinner"></div>');
+};
+
 const responses = {
   tokenerrors: (errorData) => {
+    loadSpinner();
     if (errorData.includes('Unauthorized')
   || errorData.includes('Log')
   || errorData.includes('verifying')) {
@@ -56,6 +67,7 @@ const responses = {
 };
 
 const fetchProfile = async () => {
+  loadSpinner(header);
   await fetch(`${apiUrl}/users/profile`, {
     method: 'GET',
     mode: 'cors',
@@ -69,12 +81,16 @@ const fetchProfile = async () => {
       const { status } = data;
       if (status === 401 || status === 500) return responses.tokenerrors(data.error);
       if (status === 200) {
+        loadSpinner();
         const profile = data.data;
         responses.success(profile);
       }
       return true;
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      loadSpinner();
+      console.log(err);
+    });
 };
 
 const populateEditModal = async () => {

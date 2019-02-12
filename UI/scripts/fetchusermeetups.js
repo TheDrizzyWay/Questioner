@@ -51,6 +51,15 @@ function closeModal() {
   simpleModal.style.display = 'none';
 }
 
+const loadSpinner = (element) => {
+  const spinner = document.querySelector('.spinner');
+  if (spinner) {
+    spinner.remove();
+    return;
+  }
+  element.insertAdjacentHTML('beforebegin', '<div class="spinner"></div>');
+};
+
 const responses = {
   notfound: (errorData) => {
     postDiv.insertAdjacentHTML('afterend', `
@@ -146,6 +155,7 @@ const responses = {
     }
   },
   created: () => {
+    loadSpinner();
     const notFound = document.querySelector('.notfound');
     if (notFound) notFound.remove();
     questionForm.reset();
@@ -164,6 +174,7 @@ const responses = {
 };
 
 const fetchQuestions = async () => {
+  loadSpinner(postDiv);
   await fetch(`${apiUrl}/questions/${meetupId}`, {
     method: 'GET',
     mode: 'cors',
@@ -175,20 +186,26 @@ const fetchQuestions = async () => {
     .then(res => res.json())
     .then((data) => {
       if (data.error) {
+        loadSpinner();
         const errorData = data.error;
         return responses.notfound(errorData);
       }
       if (data.status === 200) {
+        loadSpinner();
         const questions = data.data;
         return responses.success(questions);
       }
       return true;
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      loadSpinner();
+      console.log(err);
+    });
 };
 
 const fetchPostQuestion = async (e) => {
   e.preventDefault();
+  loadSpinner(submitBtn);
   submitBtn.disabled = true;
   const title = titleInput.value;
   const question = questionInput.value;
@@ -208,6 +225,7 @@ const fetchPostQuestion = async (e) => {
     .then(res => res.json())
     .then((data) => {
       if (data.error) {
+        loadSpinner();
         const errorData = data.error;
         return responses.createErrors(errorData);
       }
@@ -215,6 +233,7 @@ const fetchPostQuestion = async (e) => {
       return true;
     })
     .catch((err) => {
+      loadSpinner();
       console.log(err);
       submitBtn.disabled = false;
     });
