@@ -24,6 +24,34 @@ header {
   font-size: 3.0em;
 }
 
+.spinner {
+  height: 30px;
+  position: relative;
+  margin-top: 20px;
+}
+
+.spinner::before {
+  position: absolute;
+  border: 3px solid #eeeeee;
+  content: '';
+  width: 30px;
+  height: 30px;
+  left: 50%;
+  top: 10%;
+  border-radius: 50%;
+  border-bottom-color: blue;
+  animation: 2s linear infinite spinner;
+}
+
+@keyframes spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+
 .notfound {
   background: #ffffff;
   color: #00bfff;

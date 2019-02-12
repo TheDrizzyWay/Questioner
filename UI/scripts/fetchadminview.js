@@ -85,11 +85,22 @@ const closeDeleteModal = () => {
   overlayMe.style.display = 'none';
 };
 
+const loadSpinner = (element) => {
+  const spinner = document.querySelector('.spinner');
+  if (spinner) {
+    spinner.remove();
+    return;
+  }
+  element.insertAdjacentHTML('beforebegin', '<div class="spinner"></div>');
+};
+
 const responses = {
   tokenerrors: (errorData) => {
+    loadSpinner();
     checkTokenError(errorData);
   },
   notfound: (errorData) => {
+    loadSpinner();
     headerDiv.insertAdjacentHTML('afterend', `
     <div class="notfound">
     <p>${errorData}</p>
@@ -129,6 +140,7 @@ const checkTokenError = (errorData) => {
 };
 
 const fetchOneMeetup = async () => {
+  loadSpinner(topDiv);
   await fetch(`${apiUrl}/meetups/${meetupId}`, {
     method: 'GET',
     mode: 'cors',
@@ -164,6 +176,7 @@ const fetchTopQuestions = async () => {
     .then((data) => {
       const { status } = data;
       if (status === 200) {
+        loadSpinner();
         const topQuestionsArray = data.data;
         if (topQuestionsArray.length === 0) topDiv.hidden = true;
         topDiv.insertAdjacentHTML('afterbegin', '<p id="top">Top Questions</p>');
@@ -187,7 +200,10 @@ const fetchTopQuestions = async () => {
         });
       }
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      loadSpinner();
+      console.log(err);
+    });
 };
 
 const populateEditForm = async (id) => {
@@ -217,6 +233,7 @@ const populateEditForm = async (id) => {
 
 const fetchEditMeetup = async (e) => {
   e.preventDefault();
+  loadSpinner(submitBtn);
   submitBtn.value = 'Editing...';
   submitBtn.disabled = true;
 
@@ -240,6 +257,7 @@ const fetchEditMeetup = async (e) => {
     .then(res => res.json())
     .then((data) => {
       if (data.error) {
+        loadSpinner();
         const errorData = data.error;
         submitBtn.disabled = false;
         submitBtn.value = 'Submit';
@@ -252,6 +270,7 @@ const fetchEditMeetup = async (e) => {
         editForm.insertBefore(errorDiv, editForm.firstChild);
       }
       if (data.status === 200) {
+        loadSpinner();
         editForm.reset();
         submitBtn.disabled = false;
         submitBtn.value = 'Submit';
@@ -268,6 +287,7 @@ const fetchEditMeetup = async (e) => {
       }
     })
     .catch((err) => {
+      loadSpinner();
       console.log(err);
       submitBtn.disabled = false;
       submitBtn.value = 'Submit';

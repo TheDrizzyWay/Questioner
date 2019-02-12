@@ -26,6 +26,7 @@ const createErrorDiv = () => {
 
 const responses = {
   400: (dataError) => {
+    loadSpinner();
     submitBtn.disabled = false;
     submitBtn.value = 'Sign in';
     removeClass('.error_div');
@@ -40,6 +41,7 @@ const responses = {
     appendNode(loginForm, errorDiv);
   },
   401: (dataError) => {
+    loadSpinner();
     submitBtn.disabled = false;
     submitBtn.value = 'Sign in';
     removeClass('.error_div');
@@ -58,8 +60,18 @@ const responses = {
   },
 };
 
+const loadSpinner = (element) => {
+  const spinner = document.querySelector('.spinner');
+  if (spinner) {
+    spinner.remove();
+    return;
+  }
+  element.insertAdjacentHTML('beforebegin', '<div class="spinner"></div>');
+};
+
 const fetchLogin = async (e) => {
   e.preventDefault();
+  loadSpinner(submitBtn);
   const email = emailInput.value;
   const password = passwordInput.value;
   submitBtn.value = 'Logging in...';
@@ -77,6 +89,7 @@ const fetchLogin = async (e) => {
       if (data.status === 400) return responses[400](data.error);
       if (data.status === 401) return responses[401](data.error);
       if (data.status === 200) {
+        loadSpinner();
         const loginData = data.data[0];
         responses[200](loginData);
       }
@@ -84,6 +97,7 @@ const fetchLogin = async (e) => {
     })
     .catch((err) => {
       console.log(err);
+      loadSpinner();
       submitBtn.disabled = false;
       submitBtn.value = 'Sign in';
     });

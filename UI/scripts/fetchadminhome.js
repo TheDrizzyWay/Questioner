@@ -30,6 +30,15 @@ function closeModal() {
   simpleModal.style.display = 'none';
 }
 
+const loadSpinner = (element) => {
+  const spinner = document.querySelector('.spinner');
+  if (spinner) {
+    spinner.remove();
+    return;
+  }
+  element.insertAdjacentHTML('beforebegin', '<div class="spinner"></div>');
+};
+
 const responses = {
   errors: (errorData) => {
     if (errorData.includes('Unauthorized')
@@ -64,6 +73,7 @@ const responses = {
     });
   },
   created: () => {
+    loadSpinner();
     submitBtn.value = 'Submit';
     submitBtn.disabled = false;
     closeModal();
@@ -78,6 +88,7 @@ const responses = {
 };
 
 const fetchMeetups = async () => {
+  loadSpinner(topDiv);
   const token = localStorage.getItem('token');
 
   await fetch(`${apiUrl}/meetups`, {
@@ -91,20 +102,26 @@ const fetchMeetups = async () => {
     .then(res => res.json())
     .then((data) => {
       if (data.error) {
+        loadSpinner();
         const errorData = data.error;
         return responses.errors(errorData);
       }
       if (data.status === 200) {
+        loadSpinner();
         const meetups = data.data;
         return responses.success(meetups);
       }
       return true;
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      loadSpinner();
+      console.log(err);
+    });
 };
 
 const createMeetup = async (e) => {
   e.preventDefault();
+  loadSpinner(submitBtn);
   submitBtn.value = 'Creating...';
   submitBtn.disabled = true;
   const token = localStorage.getItem('token');
@@ -125,6 +142,7 @@ const createMeetup = async (e) => {
     .then(res => res.json())
     .then((data) => {
       if (data.error) {
+        loadSpinner();
         const errorData = data.error;
         return responses.createErrors(errorData);
       }
@@ -132,6 +150,7 @@ const createMeetup = async (e) => {
       return true;
     })
     .catch((err) => {
+      loadSpinner();
       console.log(err);
       submitBtn.disabled = false;
       submitBtn.value = 'Submit';

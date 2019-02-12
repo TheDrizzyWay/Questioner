@@ -8,6 +8,7 @@ if (window.location.href.split('.').includes('github')) {
 
 const token = localStorage.getItem('token');
 const { body } = window.document;
+const wrapper = document.querySelector('.wrapper');
 const newMeetups = document.querySelector('.new_meetups');
 const newJoined = document.querySelector('.joined');
 const logout = document.querySelector('.logout');
@@ -18,8 +19,18 @@ const createNode = (element, className) => {
   return newElement;
 };
 
+const loadSpinner = (element) => {
+  const spinner = document.querySelector('.spinner');
+  if (spinner) {
+    spinner.remove();
+    return;
+  }
+  element.insertAdjacentHTML('beforebegin', '<div class="spinner"></div>');
+};
+
 const responses = {
   errors: (errorData) => {
+    loadSpinner();
     if (errorData.includes('Unauthorized')
   || errorData.includes('Log')
   || errorData.includes('verifying')) {
@@ -89,10 +100,12 @@ const responses = {
     questionBtn.addEventListener('click', () => {
       localStorage.setItem('meetuptopic', result.topic);
     });
+    loadSpinner();
   },
 };
 
 const fetchUpcomingMeetups = async () => {
+  loadSpinner(wrapper);
   await fetch(`${apiUrl}/meetups/upcoming`, {
     method: 'GET',
     mode: 'cors',
@@ -113,7 +126,10 @@ const fetchUpcomingMeetups = async () => {
       }
       return true;
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      loadSpinner();
+      console.log(err);
+    });
 };
 
 const fetchJoinedMeetups = async () => {
@@ -157,6 +173,7 @@ const fetchOneMeetup = async (id) => {
 };
 
 const fetchRsvp = async (e) => {
+  loadSpinner(wrapper);
   const { id } = e.target.dataset;
   const response = e.target.className.split('_')[1];
   const responseObject = { response };
@@ -172,6 +189,7 @@ const fetchRsvp = async (e) => {
   })
     .then(res => res.json())
     .then((data) => {
+      loadSpinner();
       if (data.status === 200) {
         const rsvpNode = createNode('div', 'new_one');
         rsvpNode.style.marginTop = '5px';
@@ -183,7 +201,10 @@ const fetchRsvp = async (e) => {
         }, 2000);
       }
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      loadSpinner();
+      console.log(err);
+    });
 };
 
 body.addEventListener('load', fetchUpcomingMeetups());

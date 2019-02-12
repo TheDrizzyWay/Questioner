@@ -40,8 +40,18 @@ const convertDate = (createdon) => {
   return formattedDate;
 };
 
+const loadSpinner = (element) => {
+  const spinner = document.querySelector('.spinner');
+  if (spinner) {
+    spinner.remove();
+    return;
+  }
+  element.insertAdjacentHTML('beforebegin', '<div class="spinner"></div>');
+};
+
 const responses = {
   notfound: (errorData) => {
+    loadSpinner();
     headerDiv.insertAdjacentHTML('afterend', `
     <div class="notfound">
     <p>${errorData}</p>
@@ -73,6 +83,7 @@ const responses = {
 };
 
 const fetchOneMeetup = async () => {
+  loadSpinner(topDiv);
   await fetch(`${apiUrl}/meetups/${meetupId}`, {
     method: 'GET',
     mode: 'cors',
@@ -108,6 +119,7 @@ const fetchTopQuestions = async () => {
     .then((data) => {
       const { status } = data;
       if (status === 200) {
+        loadSpinner();
         const topQuestionsArray = data.data;
         if (topQuestionsArray.length === 0) topDiv.hidden = true;
         else {
@@ -126,7 +138,10 @@ const fetchTopQuestions = async () => {
         }
       }
     })
-    .catch(err => console.log(err));
+    .catch((err) => {
+      loadSpinner();
+      console.log(err);
+    });
 };
 
 body.addEventListener('load', fetchOneMeetup());

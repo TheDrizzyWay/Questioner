@@ -6,7 +6,6 @@ if (window.location.href.split('.').includes('github')) {
   apiUrl = 'https://drizzyquestioner.herokuapp.com/api/v1';
 }
 
-const header = document.querySelector('.header_container');
 const signupForm = document.querySelector('#signup_form');
 const firstnameInput = document.querySelector('#firstname');
 const lastnameInput = document.querySelector('#lastname');
@@ -55,17 +54,20 @@ const usernameErrorHandler = (errorData) => {
   `);
 };
 
-const loadSpinner = () => {
-  if (header.classList.contains('spinner')) {
-    header.classList.remove('spinner');
+const loadSpinner = (element) => {
+  const spinner = document.querySelector('.spinner');
+  if (spinner) {
+    spinner.remove();
     return;
   }
-  header.classList.add('spinner');
+  element.insertAdjacentHTML('beforebegin', '<div class="spinner"></div>');
 };
 
 const fetchSignup = async (e) => {
   e.preventDefault();
-  loadSpinner();
+  loadSpinner(submitBtn);
+  removeClass('.emailerror');
+  removeClass('.usernameerror');
   const firstname = firstnameInput.value;
   const lastname = lastnameInput.value;
   const email = emailInput.value;
@@ -123,6 +125,7 @@ const fetchSignup = async (e) => {
     })
     .catch((err) => {
       console.log(err);
+      loadSpinner();
       submitBtn.disabled = false;
       submitBtn.value = 'Sign up';
     });
