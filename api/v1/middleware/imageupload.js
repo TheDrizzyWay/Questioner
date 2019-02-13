@@ -24,6 +24,14 @@ const upload = multer({
   limits: { fileSize: 1000000 },
 }).single('image');
 
+/**
+ * @description Validates the file payload for creating a new meetup
+ * @param  {object} req - The request object
+ * @param  {object} res - The response object
+ * @param {object} next - The next middleware
+ * @returns Status code and error message or next()
+ */
+
 const imageUpload = (req, res, next) => {
   upload(req, res, (err) => {
     if (err) {

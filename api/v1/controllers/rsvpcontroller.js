@@ -5,9 +5,9 @@ import { successResponse, errorResponse } from '../utils/responses';
 export default class RsvpController {
   /**
    * @description Adds a user to a meetup
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and the rsvp details
+   * @returns {object} contains details of the user response
    */
 
   static async joinMeetup(req, res) {
@@ -31,9 +31,9 @@ export default class RsvpController {
 
   /**
    * @description Gets the meetups a user has joined
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and the joined meetups
+   * @returns {array} contains all meetups joined by the user
    */
 
   static async getJoinedMeetups(req, res) {

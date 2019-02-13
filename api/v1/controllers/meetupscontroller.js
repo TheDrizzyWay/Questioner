@@ -6,9 +6,9 @@ import { sanitizer } from '../utils/stringfunctions';
 export default class MeetupsController {
   /**
    * @description Creates a new meetup
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and meetup details
+   * @returns {object} contains details of the newly created meetup
    */
 
   static async createMeetup(req, res) {
@@ -24,9 +24,9 @@ export default class MeetupsController {
 
   /**
    * @description Gets all meetups
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and a list of all meetups if any
+   * @returns {array} contains all created meetups
    */
 
   static async getAllMeetups(req, res) {
@@ -38,9 +38,9 @@ export default class MeetupsController {
 
   /**
    * @description Gets a single meetup
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and a single meetup if it exists
+   * @returns {object} contains details of a specified meetup
    */
 
   static async getMeetupById(req, res) {
@@ -55,9 +55,9 @@ export default class MeetupsController {
 
   /**
    * @description Updates the details of a meetup
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and new meetup details
+   * @returns {object} contains details of the updated meetup
    */
 
   static async updateMeetup(req, res) {
@@ -83,17 +83,18 @@ export default class MeetupsController {
 
   /**
    * @description Gets all upcoming meetups
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and all upcoming meetups
+   * @returns {array} contains all upcoming meetups
    */
 
   static async getUpcomingMeetups(req, res) {
     const currentDate = new Date(Date.now());
     const { id } = req.user;
     const result = await Meetup.getUpcomingMeetups(currentDate);
-    const getResponses = await Rsvp.getAllUserResponses(id);
+    if (result.length === 0) return successResponse(res, 200, 'No upcoming meetups found.', result);
 
+    const getResponses = await Rsvp.getAllUserResponses(id);
     if (getResponses.length > 0) {
       getResponses.forEach((response) => {
         const foundIndex = result.findIndex(index => index.id === response.meetupid);
@@ -102,15 +103,14 @@ export default class MeetupsController {
       });
     }
 
-    if (result.length === 0) return successResponse(res, 200, 'No upcoming meetups found.', result);
     return successResponse(res, 200, 'Upcoming Meetups found.', result);
   }
 
   /**
    * @description Deletes a meetup
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code and message
+   * @returns {array} an empty array
    */
 
   static async deleteMeetup(req, res) {
@@ -122,6 +122,13 @@ export default class MeetupsController {
     await Meetup.deleteMeetup(id);
     return successResponse(res, 200, 'Meetup deleted successfully.', []);
   }
+
+  /**
+   * @description Gets the top upvoted questions for a meetup
+   * @param  {object} req - The request object
+   * @param  {object} res - The response object
+   * @returns {array} contains the top three upvoted questions
+   */
 
   static async getTopQuestions(req, res) {
     const { id } = req.params;

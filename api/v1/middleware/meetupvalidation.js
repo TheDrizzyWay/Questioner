@@ -3,6 +3,14 @@ import { errorResponse } from '../utils/responses';
 import customErrorMessages from '../utils/customerrormessages';
 
 export default class MeetupValidation {
+  /**
+   * @description Validates the request payload for creating a new meetup
+   * @param  {object} req - The request object
+   * @param  {object} res - The response object
+   * @param {object} next - The next middleware
+   * @returns Status code and error message or next()
+   */
+
   static validCreate(req, res, next) {
     const meetup = req.body;
 
@@ -23,6 +31,14 @@ export default class MeetupValidation {
   }
 
   static checkTags(req, res, next) {
+    /**
+     * @description Filters out repeated tags
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     * @param {object} next - The next middleware
+     * @returns next()
+     */
+
     const meetup = req.body;
     if (meetup.tags) {
       const tagSet = new Set(meetup.tags);
@@ -32,6 +48,14 @@ export default class MeetupValidation {
   }
 
   static checkDate(req, res, next) {
+    /**
+     * @description Validates the date in the request payload
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     * @param {object} next - The next middleware
+     * @returns Status code and error message or next()
+     */
+
     const { happeningon } = req.body;
     const currentDate = new Date(Date.now());
     const meetupDate = new Date(happeningon);
@@ -43,6 +67,14 @@ export default class MeetupValidation {
   }
 
   static validEdit(req, res, next) {
+    /**
+     * @description Validates the request payload for editing user details
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     * @param {object} next - The next middleware
+     * @returns Status code and error message or next()
+     */
+
     const meetup = req.body;
 
     const meetupProperties = {

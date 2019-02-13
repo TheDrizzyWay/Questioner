@@ -6,9 +6,9 @@ import { sanitizer } from '../utils/stringfunctions';
 export default class CommentsController {
   /**
    * @description Posts a comment to a question
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and comment details
+   * @returns {object} contains details of the newly created comment
    */
 
   static async createComment(req, res) {
@@ -31,9 +31,9 @@ export default class CommentsController {
 
   /**
    * @description Gets all comments for a particular question
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and all available comments
+   * @returns {array} contains all comments for the specified question
    */
 
   static async getCommentsByQuestion(req, res) {

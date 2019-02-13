@@ -8,9 +8,9 @@ import { successResponse, errorResponse } from '../utils/responses';
 export default class QuestionsController {
   /**
    * @description Creates a question for a particular meetup
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and question details
+   * @returns {object} contains details of the newly created question
    */
 
   static async createQuestion(req, res) {
@@ -35,6 +35,13 @@ export default class QuestionsController {
     return successResponse(res, 201, 'Your question has been recorded.', result);
   }
 
+  /**
+   * @description Gets all questions for a particular meetup
+   * @param  {object} req - The request object
+   * @param  {object} res - The response object
+   * @returns {array} contains all questions for the specified meetup
+   */
+
   static async getQuestionsByMeetup(req, res) {
     const meetupId = req.params.id;
     const meetupExists = await Meetup.getMeetupById(meetupId);
@@ -58,9 +65,9 @@ export default class QuestionsController {
 
   /**
    * @description Upvotes a question
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and the upvoted question
+   * @returns {object} contains details of the upvoted question
    */
 
   static async upvoteQuestion(req, res) {
@@ -96,7 +103,7 @@ export default class QuestionsController {
    * @description Downvotes a question
    * @param  {Object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and the upvoted question
+   * @returns {object} contains details of the downvoted question
    */
 
   static async downvoteQuestion(req, res) {

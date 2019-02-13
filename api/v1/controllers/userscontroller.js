@@ -12,7 +12,7 @@ export default class UsersController {
    * @description Signs up a user
    * @param  {Object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and user details
+   * @returns {object} contains details about the newly created user account
    */
 
   static async signUp(req, res) {
@@ -34,9 +34,9 @@ export default class UsersController {
 
   /**
    * @description Logs in an existing user
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and token
+   * @returns {object} contains an authentication token encoded with the user's details
    */
 
   static async logIn(req, res) {
@@ -62,7 +62,7 @@ export default class UsersController {
    * @description Edits a user's details
    * @param  {Object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and user details
+   * @returns {object} contains details of the updated user
    */
 
   static async editUser(req, res) {
@@ -88,15 +88,22 @@ export default class UsersController {
 
   /**
    * @description Gets all users
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
-   * @returns status code, message and a list of all users
+   * @returns {array} contains all registered users
    */
 
   static async getAllUsers(req, res) {
     const result = await User.getAllUsers();
     return successResponse(res, 200, 'Users found.', result);
   }
+
+  /**
+   * @description Gets the details of the current user
+   * @param  {object} req - The request object
+   * @param  {object} res - The response object
+   * @returns {object} contains details and activities of the user
+   */
 
   static async getProfile(req, res) {
     const { id } = req.user;

@@ -6,9 +6,9 @@ export default class UserValidation {
   static validSignUp(req, res, next) {
     /**
      * @description Validates the request payload for user signup
-     * @param  {Object} req - The request object
+     * @param  {object} req - The request object
      * @param  {object} res - The response object
-     * @param {Object} next - The next middleware
+     * @param {object} next - The next middleware
      * @returns Status code and error message or next()
      */
 
@@ -35,9 +35,9 @@ export default class UserValidation {
   static validLogin(req, res, next) {
     /**
      * @description Validates the request payload for user login
-     * @param  {Object} req - The request object
+     * @param  {object} req - The request object
      * @param  {object} res - The response object
-     * @param {Object} next - The next middleware
+     * @param {object} next - The next middleware
      * @returns Status code and error message or next()
      */
 
@@ -57,6 +57,14 @@ export default class UserValidation {
   }
 
   static validEdit(req, res, next) {
+    /**
+     * @description Validates the request payload for updating user details
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     * @param {object} next - The next middleware
+     * @returns Status code and error message or next()
+     */
+
     const user = req.body;
 
     const userProperties = {
