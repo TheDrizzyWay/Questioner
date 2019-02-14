@@ -53,11 +53,11 @@ describe('Auth', () => {
       expect(res.body).to.have.property('error');
     });
 
-    it('should return 401 if user account not found', async () => {
+    it('should return 404 if user account not found', async () => {
       const res = await chai.request(app)
         .post('/api/v1/auth/login')
         .send(notExistLogin);
-      expect(res).to.have.status(401);
+      expect(res).to.have.status(404);
       expect(res.body).to.have.property('error');
     });
 

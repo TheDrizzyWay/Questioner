@@ -1,0 +1,309 @@
+swagger: '2.0'
+info:
+    version: '1.0'
+    title: Questioner
+    description: 'Questioner is a full stack application for crowd-sourcing questions for a meetup.'
+
+schemes:
+  - https
+host: drizzyquestioner.herokuapp.com
+basePath: '/api/v1'
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+
+tags:
+  - name: 'Authentication'
+
+  - name: 'Users'
+
+  - name: 'Meetups'
+
+  - name: 'Questions'
+
+  - name: 'Comments'
+
+paths:
+  /auth/signup:
+    post:
+      summary: 'Handles creating a new user account.'
+      description: 'This endpoint creates a new user account and persists the information to a database'
+      tags:
+        - Authentication
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          description: 'This is the request body containing input from the user.'
+          schema:
+            $ref: '#/definitions/UserSignUpRequest'
+      responses:
+        201:
+          description: User account has been created successfully
+          example:
+            status: 201
+            message: You have signed up successfully
+            data:
+              id: 1
+              firstname: Freddy
+              lastname: Krueger
+              username: freddyk
+              email: freddyk@email.com
+              phonenumber: '08011112222'
+        409:
+          description: Email address or username already exists in the database
+          example:
+            status: 409
+            error: This email address is already taken.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /auth/login:
+    post:
+      summary: 'Handles logging in a user.'
+      description: 'This endpoint logs in a user and generates a jwt token with which the user can access other endpoints.'
+      tags:
+        - Authentication
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          description: 'This is the request body containing users email and password.'
+          schema:
+            $ref: '#/definitions/UserLoginRequest'
+      responses:
+        200:
+          description: User has been logged in successfully
+          example:
+            status: 200
+            message: You are logged in.
+            data:
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+              username: freddyk
+              isadmin: false
+        404:
+          description: Email does not exist in the database
+          example:
+            status: 404
+            error: We couldn't find an account for your email.
+        401:
+          description: Email and password do not match
+          example:
+            status: 401
+            error: Invalid email and password combination.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /users:
+    get:
+      summary: Handles getting all users
+      description: Gets all user accounts from the database
+      tags:
+        - Users
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: User accounts have been retrieved successfully
+          example:
+            status: 200
+            message: Users found.
+            data:
+              - id: 1,
+                firstname: Freddy
+                lastname: Krueger
+                email: freddyk@email.com
+                username: freddyk
+                phonenumber: '08011112222'
+              - id: 2,
+                firstname: Jason
+                lastname: Voorhees
+                email: jasonv@email.com
+                username: jasonv
+                phonenumber: '08011113333'
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        403:
+          description: User does not have the permission to access this resource
+          example:
+            status: 403
+            error: Access Denied. For Admins only.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+    put:
+      summary: 'Handles Editing user details.'
+      description: 'This endpoint updates users details and enables them upload a profile picture.'
+      tags:
+        - Users
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: formData
+          name: body
+          required: false
+          description: 'This is the request body containing user details.'
+          schema:
+            $ref: '#/definitions/UserUpdateRequest'
+        - in: formData
+          name: file
+          type: file
+          required: false
+          description: 'This contains the image to be uploaded'
+          schema:
+            $ref: '#/definitions/UserUpdateRequest'
+      responses:
+        200:
+          description: User details have been updated successfully
+          example:
+            status: 200
+            message: Your details have been updated successfully
+            data:
+              firstname: Freddy
+              lastname: Krueger
+              username: freddyk
+              image: https://res.cloudinary.com/yourusername/image/upload/v1549801942/questioner/tbucxtfvdrexspiw0mby.jpg
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /users/profile:
+    get:
+      summary: Handles getting a users profile
+      description: Gets a users account details and activities from the database
+      tags:
+        - Users
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: User profile has been retrieved successfully
+          example:
+            status: 200
+            message: Profile Details found.
+            data:
+              firstname: Freddy
+              lastname: Krueger
+              username: freddyk
+              joinedMeetups: 1
+              questionsPosted: 1
+              commentedOn: 1
+              allComments: 1
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+definitions:
+  UserSignUpRequest:
+    title: 'User Sign up request.'
+    type: object
+    properties:
+      firstname:
+        description: 'The users first name.'
+        type: string
+      lastname:
+        description: 'The users last name.'
+        type: string
+      username:
+        description: 'The users  username.'
+        type: string
+      email:
+        description: 'The users email address.'
+        type: string
+      password:
+        description: 'The users password.'
+        type: string
+      password_confirmation:
+        description: 'The users password repeated for confirmation.'
+        type: string
+      phonenumber:
+        description: 'The users phone number.'
+        type: string
+    example:
+      firstname: Freddy
+      lastname: Krueger
+      username: freddyk
+      email: freddyk@email.com
+      password: freddy1234
+      password_confirmation: freddy1234
+      phonenumber: '08011112222'
+    required:
+      - firstname, lastname, username, email, password, password_confirmation, phonenumber
+
+  UserLoginRequest:
+    title: 'User Sign in request.'
+    type: object
+    properties:
+      email:
+        description: 'The users email address.'
+        type: string
+      password:
+        description: 'The users password.'
+        type: string
+    example:
+      email: freddyk@email.com
+      password: freddy1234
+    required:
+      - email, password
+
+  UserUpdateRequest:
+    title: 'User details update request.'
+    type: object
+    properties:
+      firstname:
+        description: 'The users first name.'
+        type: string
+      lastname:
+        description: 'The users last name.'
+        type: string
+      username:
+        description: 'The users  username.'
+        type: string
+      image:
+        description: 'The users profile picture.'
+        type: file
+    example:
+      firstname: Freddy
+      lastname: Krueger
+      username: freddyk

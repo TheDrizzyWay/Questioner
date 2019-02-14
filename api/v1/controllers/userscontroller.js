@@ -45,7 +45,7 @@ export default class UsersController {
     const result = await User.logIn(email);
 
     if (!result) {
-      return errorResponse(res, 401, `We couldn't find an account for ${email}.`);
+      return errorResponse(res, 404, `We couldn't find an account for ${email}.`);
     }
 
     const { password: userPassword } = result;
