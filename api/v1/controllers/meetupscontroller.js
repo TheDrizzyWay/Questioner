@@ -32,7 +32,7 @@ export default class MeetupsController {
   static async getAllMeetups(req, res) {
     const result = await Meetup.getAllMeetups();
 
-    if (result.length === 0) return successResponse(res, 200, 'No meetups found.', []);
+    if (!result.length) return successResponse(res, 200, 'No meetups found.', []);
     return successResponse(res, 200, 'Meetups found.', result);
   }
 
@@ -92,7 +92,7 @@ export default class MeetupsController {
     const currentDate = new Date(Date.now());
     const { id } = req.user;
     const result = await Meetup.getUpcomingMeetups(currentDate);
-    if (result.length === 0) return successResponse(res, 200, 'No upcoming meetups found.', result);
+    if (!result.length) return successResponse(res, 200, 'No upcoming meetups found.', result);
 
     const getResponses = await Rsvp.getAllUserResponses(id);
     if (getResponses.length > 0) {
@@ -137,7 +137,7 @@ export default class MeetupsController {
     if (!meetupExists) return errorResponse(res, 404, 'Meetup not found.');
 
     const result = await Meetup.getTopQuestions(id);
-    if (result.length === 0) return successResponse(res, 200, 'No questions found.', []);
+    if (!result.length) return successResponse(res, 200, 'No questions found.', []);
     return successResponse(res, 200, 'Top questions found.', result);
   }
 }

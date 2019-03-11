@@ -43,7 +43,7 @@ export default class CommentsController {
     if (!questionExists) return errorResponse(res, 404, 'Question does not exist.');
 
     const result = await Comment.getCommentsByQuestion(id);
-    if (result.length === 0) return errorResponse(res, 404, 'No comments found for this question.');
+    if (!result.length) return errorResponse(res, 404, 'No comments found for this question.');
     return successResponse(res, 200, 'Comments Found', result);
   }
 }

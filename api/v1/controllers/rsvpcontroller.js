@@ -41,7 +41,7 @@ export default class RsvpController {
     const response = 'yes';
 
     const result = await Rsvp.getJoinedMeetups(id, response);
-    if (result.length === 0) return successResponse(res, 200, 'You have not joined any meetups yet.', result);
+    if (!result.length) return successResponse(res, 200, 'You have not joined any meetups yet.', result);
     return successResponse(res, 200, 'Joined meetups found.', result);
   }
 }

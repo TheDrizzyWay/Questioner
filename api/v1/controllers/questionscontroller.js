@@ -48,7 +48,7 @@ export default class QuestionsController {
     if (!meetupExists) return errorResponse(res, 404, 'Meetup not found.');
 
     const results = await Question.getQuestionsByMeetup(meetupId);
-    if (results.length === 0) return successResponse(res, 200, 'No questions found for this meetup.', results);
+    if (!results.length) return successResponse(res, 200, 'No questions found for this meetup.', results);
 
     const newResults = Array.from(results);
     let counter = 0;
@@ -101,7 +101,7 @@ export default class QuestionsController {
 
   /**
    * @description Downvotes a question
-   * @param  {Object} req - The request object
+   * @param  {object} req - The request object
    * @param  {object} res - The response object
    * @returns {object} contains details of the downvoted question
    */

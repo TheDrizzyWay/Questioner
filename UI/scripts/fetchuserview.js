@@ -129,7 +129,7 @@ const fetchTopQuestions = async () => {
             topDiv.insertAdjacentHTML('beforeend', `
             <div class="question">
             <p>Question: ${question.body}</p>
-            <p>Posted by: ${question.userid}</p>
+            <p>Posted by: ${question.postedby}</p>
             <p>Upvotes: ${question.upvotes}</p>
             <p>Downvotes: ${question.downvotes}</p>
             </div>
