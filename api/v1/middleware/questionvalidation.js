@@ -3,6 +3,14 @@ import { errorResponse } from '../utils/responses';
 import customErrorMessages from '../utils/customerrormessages';
 
 export default class QuestionValidation {
+  /**
+   * @description Validates the request payload for creating a new question
+   * @param  {object} req - The request object
+   * @param  {object} res - The response object
+   * @param {object} next - The next middleware
+   * @returns Status code and error message or next()
+   */
+
   static validCreate(req, res, next) {
     const question = req.body;
 

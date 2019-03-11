@@ -2,6 +2,14 @@ import Validator from 'validatorjs';
 import { errorResponse } from '../utils/responses';
 
 export default class RsvpValidation {
+  /**
+   * @description Validates the request payload for responding to a meetup
+   * @param  {object} req - The request object
+   * @param  {object} res - The response object
+   * @param {object} next - The next middleware
+   * @returns Status code and error message or next()
+   */
+
   static validRsvp(req, res, next) {
     const userResponse = req.body;
     if (userResponse.response) {

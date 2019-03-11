@@ -1,0 +1,1101 @@
+swagger: '2.0'
+info:
+    version: '1.0'
+    title: Questioner
+    description: 'Questioner is a full stack application for crowd-sourcing questions for a meetup.'
+
+schemes:
+  - https
+host: drizzyquestioner.herokuapp.com
+basePath: '/api/v1'
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+
+tags:
+  - name: 'Authentication'
+
+  - name: 'Users'
+
+  - name: 'Meetups'
+
+  - name: 'Questions'
+
+  - name: 'Comments'
+
+paths:
+  /auth/signup:
+    post:
+      summary: 'Handles creating a new user account.'
+      description: 'This endpoint creates a new user account and persists the information to a database'
+      tags:
+        - Authentication
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          description: 'This is the request body containing input from the user.'
+          schema:
+            $ref: '#/definitions/UserSignUpRequest'
+      responses:
+        201:
+          description: User account has been created successfully
+          example:
+            status: 201
+            message: You have signed up successfully
+            data:
+              id: 1
+              firstname: Freddy
+              lastname: Krueger
+              username: freddyk
+              email: freddyk@email.com
+              phonenumber: '08011112222'
+        409:
+          description: Email address or username already exists in the database
+          example:
+            status: 409
+            error: This email address is already taken.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /auth/login:
+    post:
+      summary: 'Handles logging in a user.'
+      description: 'This endpoint logs in a user and generates a jwt token with which the user can access other endpoints.'
+      tags:
+        - Authentication
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          description: 'This is the request body containing users email and password.'
+          schema:
+            $ref: '#/definitions/UserLoginRequest'
+      responses:
+        200:
+          description: User has been logged in successfully
+          example:
+            status: 200
+            message: You are logged in.
+            data:
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+              username: freddyk
+              isadmin: false
+        404:
+          description: Email does not exist in the database
+          example:
+            status: 404
+            error: We couldn't find an account for your email.
+        401:
+          description: Email and password do not match
+          example:
+            status: 401
+            error: Invalid email and password combination.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /users:
+    get:
+      summary: Handles getting all users
+      description: Gets all user accounts from the database
+      tags:
+        - Users
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: User accounts have been retrieved successfully
+          example:
+            status: 200
+            message: Users found.
+            data:
+              - id: 1,
+                firstname: Freddy
+                lastname: Krueger
+                email: freddyk@email.com
+                username: freddyk
+                phonenumber: '08011112222'
+              - id: 2,
+                firstname: Jason
+                lastname: Voorhees
+                email: jasonv@email.com
+                username: jasonv
+                phonenumber: '08011113333'
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        403:
+          description: User does not have the permission to access this resource
+          example:
+            status: 403
+            error: Access Denied. For Admins only.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+    put:
+      summary: 'Handles Editing user details.'
+      description: 'This endpoint updates users details and enables them upload a profile picture.'
+      tags:
+        - Users
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: formData
+          name: body
+          required: false
+          description: 'This is the request body containing user details.'
+          schema:
+            $ref: '#/definitions/UserUpdateRequest'
+        - in: formData
+          name: file
+          type: file
+          required: false
+          description: 'This contains the image to be uploaded'
+          schema:
+            $ref: '#/definitions/UserUpdateRequest'
+      responses:
+        200:
+          description: User details have been updated successfully
+          example:
+            status: 200
+            message: Your details have been updated successfully
+            data:
+              firstname: Freddy
+              lastname: Krueger
+              username: freddyk
+              image: https://res.cloudinary.com/yourusername/image/upload/v1549801942/questioner/tbucxtfvdrexspiw0mby.jpg
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /users/profile:
+    get:
+      summary: Handles getting a users profile
+      description: Gets a users account details and activities from the database
+      tags:
+        - Users
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: User profile has been retrieved successfully
+          example:
+            status: 200
+            message: Profile Details found.
+            data:
+              firstname: Freddy
+              lastname: Krueger
+              username: freddyk
+              joinedMeetups: 1
+              questionsPosted: 1
+              commentedOn: 1
+              allComments: 1
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /meetups:
+    post:
+      summary: 'Handles creating a new meetup.'
+      description: 'This endpoint enables an admin to create a new meetup.'
+      tags:
+        - Meetups
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: formData
+          name: body
+          required: true
+          description: 'This is the request body containing the meetup details.'
+          schema:
+            $ref: '#/definitions/CreateMeetupRequest'
+        - in: formData
+          name: file
+          type: file
+          required: false
+          description: 'This contains the image to be uploaded'
+          schema:
+            $ref: '#/definitions/CreateMeetupRequest'
+      responses:
+        201:
+          description: Meetup has been created successfully
+          example:
+            status: 201
+            message: Meetup created successfully.
+            data:
+              topic: Aspiring software developers meetup
+              location: The Bunker
+              happeningon: 2019-01-13 by 22:00
+              image: https://res.cloudinary.com/yourusername/image/upload/v1549801942/questioner/tbucxtfvdrexspiw0mby.jpg
+              tags: ['tag1', 'tag2']
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        403:
+          description: User does not have the permission to access this resource
+          example:
+            status: 403
+            error: Access Denied. For Admins only.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+    get:
+      summary: Handles getting all meetups
+      description: Gets all created meetups from the database
+      tags:
+        - Meetups
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: All meetups have been retrieved successfully
+          example:
+            status: 200
+            message: Meetups found.
+            data:
+              - id: 1,
+                topic: Aspiring software developers meetup
+                location: The Bunker
+                happeningon: 2019-01-13 by 22:00
+                image: https://res.cloudinary.com/yourusername/image/upload/v1549801942/questioner/tbucxtfvdrexspiw0mby.jpg
+                tags: ['tag1', 'tag2']
+              - id: 2,
+                topic: Aspiring software developers meetup
+                location: The Bunker
+                happeningon: 2019-01-13 by 22:00
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        403:
+          description: User does not have the permission to access this resource
+          example:
+            status: 403
+            error: Access Denied. For Admins only.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /meetups/upcoming:
+    get:
+      summary: Handles getting all upcoming meetups
+      description: Gets all upcoming meetups from the database
+      tags:
+        - Meetups
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: All upcoming meetups have been retrieved successfully
+          example:
+            status: 200
+            message: Upcoming Meetups found.
+            data:
+              - id: 1,
+                topic: Aspiring software developers meetup
+                location: The Bunker
+                happeningon: 2019-01-13 by 22:00
+                image: https://res.cloudinary.com/yourusername/image/upload/v1549801942/questioner/tbucxtfvdrexspiw0mby.jpg
+                tags: ['tag1', 'tag2']
+              - id: 2,
+                topic: Aspiring software developers meetup
+                location: The Bunker
+                happeningon: 2019-01-13 by 22:00
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /meetups/rsvps:
+    get:
+      summary: Handles getting joined meetups
+      description: Gets all meetups a user has joined from the database
+      tags:
+        - Meetups
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: All joined meetups have been retrieved successfully
+          example:
+            status: 200
+            message: Joined Meetups found.
+            data:
+              - id: 1,
+                topic: Aspiring software developers meetup
+                location: The Bunker
+                happeningon: 2019-01-13 by 22:00
+                image: https://res.cloudinary.com/yourusername/image/upload/v1549801942/questioner/tbucxtfvdrexspiw0mby.jpg
+                tags: ['tag1', 'tag2']
+              - id: 2,
+                topic: Aspiring software developers meetup
+                location: The Bunker
+                happeningon: 2019-01-13 by 22:00
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /meetups/:id:
+    get:
+      summary: Handles getting one meetup
+      description: Gets a single meetup from the database
+      tags:
+        - Meetups
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of meetup being requested for.
+      responses:
+        200:
+          description: Meetup has been retrieved successfully
+          example:
+            status: 200
+            message: Meetup found.
+            data:
+              id: 1
+              topic: Aspiring software developers meetup
+              location: The Bunker
+              happeningon: 2019-01-13 by 22:00
+              image: https://res.cloudinary.com/yourusername/image/upload/v1549801942/questioner/tbucxtfvdrexspiw0mby.jpg
+              tags: ['tag1', 'tag2']
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+    put:
+      summary: 'Handles Editing a meetup.'
+      description: 'This endpoint updates and modifies meetup details.'
+      tags:
+        - Meetups
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of meetup being updated.
+        - in: formData
+          name: body
+          required: false
+          description: 'This is the request body containing the meetup details.'
+          schema:
+            $ref: '#/definitions/UpdateMeetupRequest'
+        - in: formData
+          name: file
+          type: file
+          required: false
+          description: 'This contains the image to be uploaded'
+          schema:
+            $ref: '#/definitions/UpdateMeetupRequest'
+      responses:
+        200:
+          description: Meetup has been updated successfully
+          example:
+            status: 201
+            message: Meetup updated successfully.
+            data:
+              topic: Aspiring software developers meetup
+              location: The Bunker
+              happeningon: 2019-01-13 by 22:00
+              image: https://res.cloudinary.com/yourusername/image/upload/v1549801942/questioner/tbucxtfvdrexspiw0mby.jpg
+              tags: ['tag1', 'tag2']
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        403:
+          description: User does not have the permission to access this resource
+          example:
+            status: 403
+            error: Access Denied. For Admins only.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+    delete:
+      summary: Handles deleting a meetup
+      description: Deletes a single meetup from the database
+      tags:
+        - Meetups
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of meetup being deleted.
+      responses:
+        200:
+          description: Meetup has been deleted successfully
+          example:
+            status: 200
+            message: Meetup deleted successfully.
+            data: []
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        403:
+          description: User does not have the permission to access this resource
+          example:
+            status: 403
+            error: Access Denied. For Admins only.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /meetups/:id/rsvps:
+    post:
+      summary: 'Handles responding to a meetup.'
+      description: 'This endpoint enables a user to respond to an upcoming meetup.'
+      tags:
+        - Meetups
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          description: 'This is the request body containing users response'
+          schema:
+            $ref: '#/definitions/UserRsvpRequest'
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of meetup receiving response.
+      responses:
+        200:
+          description: Response has been recorded successfully
+          example:
+            status: 200
+            message: You have joined Aspiring software developers meetup.
+            data:
+              id: 1
+              userid: 1
+              meetupid: 1
+              response: yes
+        400:
+          description: User has already responded
+          example:
+            status: 400
+            error: You have already responded to this meetup
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /meetups/:id/top:
+    get:
+      summary: Handles getting top voted questions
+      description: Gets the questions with the highest votes for a particular meetup
+      tags:
+        - Meetups
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of meetup.
+      responses:
+        200:
+          description: Meetup has been retrieved successfully
+          example:
+            status: 200
+            message: Top questions found.
+            data:
+              id: 1
+              meetupid: 1
+              title: Question title
+              body: Question body
+              userid: 1
+              upvotes: 1
+              downvotes: 0
+              postedby: mikemyers
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /questions:
+    post:
+      summary: 'Handles posting a question.'
+      description: 'This endpoint enables a user post questions to a joined meetup.'
+      tags:
+        - Questions
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          description: 'This is the request body containing users question'
+          schema:
+            $ref: '#/definitions/PostQuestionRequest'
+      responses:
+        201:
+          description: Question has been recorded successfully
+          example:
+            status: 201
+            message: 'Your question has been recorded.'
+            data:
+              id: 1
+              meetupid: 1
+              title: Question title
+              body: Question body
+              userid: 1
+              postedby: mikemyers
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /questions/:id:
+    get:
+      summary: Handles getting questions for a specific meetup
+      description: Gets all questions posted to a particular meetup
+      tags:
+        - Questions
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of meetup.
+      responses:
+        200:
+          description: All questions have been retrieved successfully
+          example:
+            status: 200
+            message: Questions found.
+            data:
+              - id: 1,
+                meetupid: 1
+                title: question title 1
+                body: question body 1
+                upvotes: 1
+                downvotes: 0
+                userid: 1
+                postedby: mikemyers
+                createdon: 2019-03-09T13:16:56.037Z
+                numbercomments: 2
+              - id: 2,
+                meetupid: 1
+                title: question title 2
+                body: question body 2
+                upvotes: 0
+                downvotes: 1
+                userid: 2
+                postedby: freddyk
+                createdon: 2019-03-09T13:16:56.037Z
+                numbercomments: 3
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /questions/:id/upvote:
+    patch:
+      summary: Handles upvoting a question
+      description: Increases the number of upvotes a question has by one
+      tags:
+        - Questions
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of question.
+      responses:
+        200:
+          description: Question has been upvoted successfully
+          example:
+            status: 200
+            message: 'Question upvoted.'
+            data:
+              id: 2,
+              meetupid: 1,
+              title: question title 2,
+              body: question body 2,
+              upvotes: 1,
+              downvotes: 0,
+              userid: 1,
+              postedby: jasonv2,
+              createdon: 2019-03-09T13:16:56.044Z
+        400:
+          description: The question was posted by the user
+          example:
+            status: 400
+            error: You can not vote on your own question.
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /questions/:id/downvote:
+    patch:
+      summary: Handles downvoting a question
+      description: Increases the number of downvotes a question has by one
+      tags:
+        - Questions
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of question.
+      responses:
+        200:
+          description: Question has been downvoted successfully
+          example:
+            status: 200
+            message: 'Question downvoted.'
+            data:
+              id: 2,
+              meetupid: 1,
+              title: question title 2,
+              body: question body 2,
+              upvotes: 0,
+              downvotes: 1,
+              userid: 1,
+              postedby: jasonv2,
+              createdon: 2019-03-09T13:16:56.044Z
+        400:
+          description: The question was posted by the user
+          example:
+            status: 400
+            error: You can not vote on your own question.
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /comments:
+    post:
+      summary: 'Handles posting a comment.'
+      description: 'This endpoint enables a user post comments.'
+      tags:
+        - Comments
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: body
+          name: body
+          required: true
+          description: 'This is the request body containing users comment'
+          schemas:
+            $ref: '#/definitions/PostCommentRequest'
+      responses:
+        201:
+          description: Comment has been recorded successfully
+          example:
+            status: 201
+            message: 'Comment posted.'
+            data:
+              id: 1,
+              questionid: 1,
+              title: question title,
+              body: question body,
+              comment: comment body,
+              userid: 2,
+              postedby: mikemyers,
+              createdon: 2019-03-09T13:16:56.213Z
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+  /comments/:id:
+    get:
+      summary: Handles getting comments for a specific question
+      description: Gets all comments posted to a particular question
+      tags:
+        - Comments
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          minimum: 1
+          description: Id of question.
+      responses:
+        200:
+          description: All comments have been retrieved successfully
+          example:
+            status: 200
+            message: Comments Found.
+            data:
+              - id: 1,
+                questionid: 1,
+                title: question title,
+                body: question body,
+                comment: comment body,
+                userid: 2,
+                postedby: mikemyers,
+                createdon: 2019-03-09T13:16:56.213Z
+              - id: 1,
+                questionid: 1,
+                title: question title,
+                body: question body,
+                comment: comment body,
+                userid: 2,
+                postedby: mikemyers,
+                createdon: 2019-03-09T13:16:56.213Z
+        401:
+          description: User could not be authenticated
+          example:
+            status: 401
+            error: Access Denied. Please Log In.
+        500:
+          description: Internal server error
+          example:
+            status: 500
+            error: Internal server error
+
+definitions:
+  UserSignUpRequest:
+    title: 'User Sign up request.'
+    type: object
+    properties:
+      firstname:
+        description: 'The users first name.'
+        type: string
+      lastname:
+        description: 'The users last name.'
+        type: string
+      username:
+        description: 'The users  username.'
+        type: string
+      email:
+        description: 'The users email address.'
+        type: string
+      password:
+        description: 'The users password.'
+        type: string
+      password_confirmation:
+        description: 'The users password repeated for confirmation.'
+        type: string
+      phonenumber:
+        description: 'The users phone number.'
+        type: string
+    example:
+      firstname: Freddy
+      lastname: Krueger
+      username: freddyk
+      email: freddyk@email.com
+      password: freddy1234
+      password_confirmation: freddy1234
+      phonenumber: '08011112222'
+    required:
+      - firstname, lastname, username, email, password, password_confirmation, phonenumber
+
+  UserLoginRequest:
+    title: 'User Sign in request.'
+    type: object
+    properties:
+      email:
+        description: 'The users email address.'
+        type: string
+      password:
+        description: 'The users password.'
+        type: string
+    example:
+      email: freddyk@email.com
+      password: freddy1234
+    required:
+      - email
+      - password
+
+  UserUpdateRequest:
+    title: 'User details update request.'
+    type: object
+    properties:
+      firstname:
+        description: 'The users first name.'
+        type: string
+      lastname:
+        description: 'The users last name.'
+        type: string
+      username:
+        description: 'The users  username.'
+        type: string
+      image:
+        description: 'The users profile picture.'
+        type: file
+    example:
+      firstname: Freddy
+      lastname: Krueger
+      username: freddyk
+
+  CreateMeetupRequest:
+    title: 'Create new meetup request.'
+    type: object
+    properties:
+      topic:
+        description: 'The meetup topic.'
+        type: string
+      location:
+        description: 'The meetup location.'
+        type: string
+      happeningon:
+        description: 'The date the meetup is scheduled for.'
+        type: string
+      tags:
+        description: 'Tags related to the meetup.'
+        type: array
+      image:
+        description: 'An image describing the meetup location, brand, etc.'
+        type: file
+    example:
+      topic: Aspiring software developers meetup
+      location: The Bunker
+      happeningon: 2019-01-13T22:00
+      tags: ['tag1', 'tag2']
+    required:
+      - topic, location, happeningon
+
+  UpdateMeetupRequest:
+    title: 'Update meetup request.'
+    type: object
+    properties:
+      topic:
+        description: 'The meetup topic.'
+        type: string
+      location:
+        description: 'The meetup location.'
+        type: string
+      happeningon:
+        description: 'The date the meetup is scheduled for.'
+        type: string
+      tags:
+        description: 'Tags related to the meetup.'
+        type: array
+      image:
+        description: 'An image describing the meetup location, brand, etc.'
+        type: file
+    example:
+      topic: Aspiring software developers meetup
+      location: The Bunker
+      happeningon: 2019-01-13T22:00
+      tags: ['tag1', 'tag2']
+
+  UserRsvpRequest:
+    title: 'Respond to a meetup request.'
+    type: object
+    properties:
+      response:
+        description: 'The users response.'
+        type: string
+    example:
+      response: Yes
+    required:
+      - response
+
+  PostQuestionRequest:
+    title: 'Post a new question'
+    type: object
+    properties:
+      meetupid:
+        description: 'The id of meetup to which the question is posted'
+        type: string
+      title:
+        description: 'Title of the question.'
+        type: string
+      body:
+        description: 'The body of the question.'
+        type: string
+    example:
+      meetupid: 1
+      title: question title
+      body: question body
+    required:
+      - meetupid, title, body
+
+  PostCommentRequest:
+    title: 'Post a new comment'
+    type: object
+    properties:
+      questionid:
+        description: 'The id of the question to which the comment is posted'
+        type: string
+      comment:
+        description: 'The comment body.'
+        type: string
+    example:
+      questionid: 1
+      comment: This is a comment
+    required:
+      - questionid, comment
