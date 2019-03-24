@@ -108,20 +108,23 @@ export default class UsersController {
   static async getProfile(req, res) {
     const { id } = req.user;
     const response = 'yes';
-    const detailsResult = await User.getUserDetails(id);
-    const joinedMeetups = await Rsvp.getJoinedMeetups(id, response);
-    const questionsPosted = await Question.getMyQuestions(id);
-    const commented = await Comment.getMyCommentedQuestions(id);
-    const allComments = await Comment.getMyComments(id);
+
+    const details = await Promise.all([
+      User.getUserDetails(id),
+      Rsvp.getJoinedMeetups(id, response),
+      Question.getMyQuestions(id),
+      Comment.getMyCommentedQuestions(id),
+      Comment.getMyComments(id),
+    ]);
 
     const finalResult = {
-      firstname: detailsResult.firstname,
-      lastname: detailsResult.lastname,
-      username: detailsResult.username,
-      joinedMeetups: joinedMeetups.length || 0,
-      questionsPosted: questionsPosted.length || 0,
-      commentedOn: commented.length || 0,
-      allComments: allComments.length || 0,
+      firstname: details[0].firstname,
+      lastname: details[0].lastname,
+      username: details[0].username,
+      joinedMeetups: details[1].length || 0,
+      questionsPosted: details[2].length || 0,
+      commentedOn: details[3].length || 0,
+      allComments: details[4].length || 0,
     };
 
     return successResponse(res, 200, 'Profile Details found', [finalResult]);
