@@ -18,9 +18,9 @@ export default class Comment {
     return rows[0];
   }
 
-  static async getCommentsByQuestion(id) {
-    const queryString = 'SELECT * FROM comments WHERE questionid = $1';
-    const values = [id];
+  static async getCommentsByQuestion(id, offset, limit) {
+    const queryString = 'SELECT * FROM comments WHERE questionid = $1 OFFSET $2 LIMIT $3';
+    const values = [id, offset, limit];
     const { rows } = await pool.query(queryString, values);
     return rows;
   }
