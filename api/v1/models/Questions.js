@@ -24,9 +24,9 @@ export default class Question {
     return rows[0];
   }
 
-  static async getQuestionsByMeetup(id) {
-    const queryString = 'SELECT * FROM questions WHERE meetupid = $1 ORDER BY createdon';
-    const values = [id];
+  static async getQuestionsByMeetup(id, offset, limit) {
+    const queryString = 'SELECT * FROM questions WHERE meetupid = $1 ORDER BY createdon OFFSET $2 LIMIT $3';
+    const values = [id, offset, limit];
     const { rows } = await pool.query(queryString, values);
     return rows;
   }
