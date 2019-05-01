@@ -1,6 +1,7 @@
 import Rsvp from '../models/Rsvps';
 import Meetup from '../models/Meetups';
 import { successResponse, errorResponse } from '../utils/responses';
+import paginate from '../utils/pagination';
 
 export default class RsvpController {
   /**
@@ -38,10 +39,22 @@ export default class RsvpController {
 
   static async getJoinedMeetups(req, res) {
     const { id } = req.user;
+    const page = parseInt(req.query.page, 10) || 1;
     const response = 'yes';
 
-    const result = await Rsvp.getJoinedMeetups(id, response);
+    const result = await Rsvp.getJoinedMeetups(id, response, 0, null);
     if (!result.length) return successResponse(res, 200, 'You have not joined any meetups yet.', result);
-    return successResponse(res, 200, 'Joined meetups found.', result);
+
+    const pages = Math.ceil(result.length / 5);
+    if (page > pages) return errorResponse(res, 404, 'No meetups here.');
+
+    const offset = (page - 1) * 5;
+    const paginatedResult = await Rsvp.getJoinedMeetups(id, response, offset, 5);
+    const meta = paginate(page, pages);
+    const pageResult = {
+      paginatedResult,
+      meta,
+    };
+    return successResponse(res, 200, 'Joined meetups found.', pageResult);
   }
 }

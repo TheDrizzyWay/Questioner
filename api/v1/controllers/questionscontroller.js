@@ -4,6 +4,7 @@ import Rsvp from '../models/Rsvps';
 import Comment from '../models/Comments';
 import { sanitizer } from '../utils/stringfunctions';
 import { successResponse, errorResponse } from '../utils/responses';
+import paginate from '../utils/pagination';
 
 export default class QuestionsController {
   /**
@@ -44,20 +45,27 @@ export default class QuestionsController {
 
   static async getQuestionsByMeetup(req, res) {
     const meetupId = req.params.id;
+    const page = parseInt(req.query.page, 10) || 1;
     const meetupExists = await Meetup.getMeetupById(meetupId);
     if (!meetupExists) return errorResponse(res, 404, 'Meetup not found.');
 
-    const results = await Question.getQuestionsByMeetup(meetupId);
+    const results = await Question.getQuestionsByMeetup(meetupId, 0, null);
     if (!results.length) return successResponse(res, 200, 'No questions found for this meetup.', results);
 
-    const newResults = Array.from(results);
+    const pages = Math.ceil(results.length / 5);
+    if (page > pages) return errorResponse(res, 404, 'No questions here.');
+
+    const offset = (page - 1) * 5;
+    const paginatedResult = await Question.getQuestionsByMeetup(meetupId, offset, 5);
+    const meta = paginate(page, pages);
+    const newResults = Array.from(paginatedResult);
     let counter = 0;
     /* istanbul ignore next */
-    results.map(async (result) => {
-      const comments = await Comment.getCommentsByQuestion(result.id);
+    paginatedResult.map(async (result) => {
+      const comments = await Comment.getCommentsByQuestion(result.id, 0, null);
       newResults[counter].numbercomments = comments.length;
       counter += 1;
-      if (counter === newResults.length) return successResponse(res, 200, 'Questions found.', newResults);
+      if (counter === newResults.length) return successResponse(res, 200, 'Questions found.', { newResults, meta });
       return true;
     });
     return true;

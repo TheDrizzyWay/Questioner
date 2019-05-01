@@ -62,7 +62,7 @@ const responses = {
     meetupForm.insertBefore(errorDiv, meetupForm.firstChild);
   },
   success: (meetups) => {
-    meetups.forEach((meetup) => {
+    meetups.paginatedResult.forEach((meetup) => {
       const meetupNode = createNode('div', 'meet');
       const imageSource = meetup.image ? meetup.image : 'images/No_image.svg.png';
       meetupNode.innerHTML = `<img src="${imageSource}" alt="location image">

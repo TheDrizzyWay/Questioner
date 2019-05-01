@@ -2,6 +2,7 @@ import Comment from '../models/Comments';
 import Question from '../models/Questions';
 import { successResponse, errorResponse } from '../utils/responses';
 import { sanitizer } from '../utils/stringfunctions';
+import paginate from '../utils/pagination';
 
 export default class CommentsController {
   /**
@@ -38,12 +39,24 @@ export default class CommentsController {
 
   static async getCommentsByQuestion(req, res) {
     const { id } = req.params;
+    const page = parseInt(req.query.page, 10) || 1;
 
     const questionExists = await Question.getQuestionById(id);
     if (!questionExists) return errorResponse(res, 404, 'Question does not exist.');
 
-    const result = await Comment.getCommentsByQuestion(id);
+    const result = await Comment.getCommentsByQuestion(id, 0, null);
     if (!result.length) return errorResponse(res, 404, 'No comments found for this question.');
-    return successResponse(res, 200, 'Comments Found', result);
+
+    const pages = Math.ceil(result.length / 5);
+    if (page > pages) return errorResponse(res, 404, 'No comments here.');
+
+    const offset = (page - 1) * 5;
+    const paginatedResult = await Comment.getCommentsByQuestion(id, offset, 5);
+    const meta = paginate(page, pages);
+    const pageResult = {
+      paginatedResult,
+      meta,
+    };
+    return successResponse(res, 200, 'Comments Found', pageResult);
   }
 }

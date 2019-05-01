@@ -12,9 +12,9 @@ export default class Rsvp {
     return rows[0];
   }
 
-  static async getJoinedMeetups(userId, response) {
-    const queryString = 'SELECT * FROM rsvps WHERE userid =$1 AND response = $2';
-    const values = [userId, response];
+  static async getJoinedMeetups(userId, response, offset, limit) {
+    const queryString = 'SELECT * FROM rsvps WHERE userid =$1 AND response = $2 OFFSET $3 LIMIT $4';
+    const values = [userId, response, offset, limit];
     const { rows } = await pool.query(queryString, values);
     return rows;
   }

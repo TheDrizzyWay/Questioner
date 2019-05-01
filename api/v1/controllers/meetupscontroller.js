@@ -2,6 +2,7 @@ import Meetup from '../models/Meetups';
 import Rsvp from '../models/Rsvps';
 import { successResponse, errorResponse } from '../utils/responses';
 import { sanitizer } from '../utils/stringfunctions';
+import paginate from '../utils/pagination';
 
 export default class MeetupsController {
   /**
@@ -30,10 +31,21 @@ export default class MeetupsController {
    */
 
   static async getAllMeetups(req, res) {
-    const result = await Meetup.getAllMeetups();
-
+    const page = parseInt(req.query.page, 10) || 1;
+    const result = await Meetup.getAllMeetups(0, null);
     if (!result.length) return successResponse(res, 200, 'No meetups found.', []);
-    return successResponse(res, 200, 'Meetups found.', result);
+
+    const pages = Math.ceil(result.length / 5);
+    if (page > pages) return errorResponse(res, 404, 'No meetups here.');
+
+    const offset = (page - 1) * 5;
+    const paginatedResult = await Meetup.getAllMeetups(offset, 7);
+    const meta = paginate(page, pages);
+    const pageResult = {
+      paginatedResult,
+      meta,
+    };
+    return successResponse(res, 200, 'Meetups found.', pageResult);
   }
 
   /**
@@ -89,6 +101,7 @@ export default class MeetupsController {
    */
 
   static async getUpcomingMeetups(req, res) {
+    const page = parseInt(req.query.page, 10) || 1;
     const currentDate = new Date(Date.now());
     const { id } = req.user;
     const result = await Meetup.getUpcomingMeetups(currentDate);
@@ -101,6 +114,17 @@ export default class MeetupsController {
         /* istanbul ignore next */
         if (foundIndex !== -1) result.splice(foundIndex, 1);
       });
+    }
+
+    if (result.length > 5) {
+      const pages = Math.ceil(result.length / 5);
+      if (page > pages) return errorResponse(res, 404, 'No new meetups here.');
+      // This ensures that only 5 upcoming meetups are displayed per page
+      const meta = paginate(page, pages);
+      const startIndex = (page - 1) * 5;
+      const endIndex = startIndex + 5;
+      const pageResult = result.slice(startIndex, endIndex);
+      return successResponse(res, 200, 'Upcoming Meetups found.', { pageResult, meta });
     }
 
     return successResponse(res, 200, 'Upcoming Meetups found.', result);
