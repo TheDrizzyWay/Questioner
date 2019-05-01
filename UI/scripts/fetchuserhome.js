@@ -75,8 +75,8 @@ const responses = {
     fetchJoinedMeetups();
   },
   joined: (meetups) => {
-    if (meetups.length > 0) {
-      meetups.reverse().forEach((meetup) => {
+    if (meetups.paginatedResult.length > 0) {
+      meetups.paginatedResult.reverse().forEach((meetup) => {
         fetchOneMeetup(meetup.meetupid);
       });
     } else {

@@ -91,14 +91,14 @@ const responses = {
     e.target.parentElement.appendChild(voteError);
   },
   success: (questions) => {
-    if (questions.length === 0) {
+    if (questions.newResults.length === 0) {
       container.insertAdjacentHTML('afterbegin', `
       <div class="notfound"><p>No questions found.</p>
       </div>`);
       return;
     }
     topicSpan.innerHTML = meetupTopic;
-    questions.forEach((question) => {
+    questions.newResults.forEach((question) => {
       const newDate = convertDate(question.createdon);
       if (question.userid === parseInt(userId, 10)) {
         container.insertAdjacentHTML('afterbegin', `

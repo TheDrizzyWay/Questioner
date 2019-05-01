@@ -59,7 +59,7 @@ const responses = {
     `);
   },
   success: (comments) => {
-    if (comments.length === 0) {
+    if (comments.paginatedResult.length === 0) {
       container.insertAdjacentHTML('afterbegin', `
       <div class="notfound"><p>No questions found.</p>
       </div>`);
@@ -67,7 +67,7 @@ const responses = {
     }
     topicSpan.innerHTML = meetupTopic;
     questionSpan.innerHTML = `QUESTION: ${comments[0].body}`;
-    comments.forEach((comment) => {
+    comments.paginatedResult.forEach((comment) => {
       const newDate = convertDate(comment.createdon);
       container.insertAdjacentHTML('afterbegin', `
       <div class="questions">
