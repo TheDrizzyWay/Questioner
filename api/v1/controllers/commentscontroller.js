@@ -57,7 +57,6 @@ export default class CommentsController {
       paginatedResult,
       meta,
     };
-    paginatedResult.metadata = meta;
     return successResponse(res, 200, 'Comments Found', pageResult);
   }
 }
