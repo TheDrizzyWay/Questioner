@@ -75,8 +75,8 @@ const responses = {
     fetchJoinedMeetups();
   },
   joined: (meetups) => {
-    if (meetups.paginatedResult.length > 0) {
-      meetups.paginatedResult.reverse().forEach((meetup) => {
+    if (meetups.length > 0) {
+      meetups.reverse().forEach((meetup) => {
         fetchOneMeetup(meetup.meetupid);
       });
     } else {
@@ -144,7 +144,7 @@ const fetchJoinedMeetups = async () => {
     .then(res => res.json())
     .then((data) => {
       if (data.status === 200) {
-        const meetups = data.data.reverse();
+        const meetups = data.data.paginatedResult.reverse();
         return responses.joined(meetups);
       }
       return true;

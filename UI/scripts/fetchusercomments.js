@@ -66,7 +66,7 @@ const responses = {
       return;
     }
     topicSpan.innerHTML = meetupTopic;
-    questionSpan.innerHTML = `QUESTION: ${comments[0].body}`;
+    questionSpan.innerHTML = `QUESTION: ${comments.paginatedResult[0].body}`;
     comments.paginatedResult.forEach((comment) => {
       const newDate = convertDate(comment.createdon);
       container.insertAdjacentHTML('afterbegin', `
