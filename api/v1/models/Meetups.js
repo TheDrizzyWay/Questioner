@@ -19,7 +19,7 @@ export default class Meetup {
   }
 
   static async getAllMeetups(offset, limit) {
-    const queryString = 'SELECT * FROM meetups ORDER BY id ASC OFFSET $1 LIMIT $2';
+    const queryString = 'SELECT * FROM meetups ORDER BY id DESC OFFSET $1 LIMIT $2';
     const values = [offset, limit];
     const { rows } = await pool.query(queryString, values);
     return rows;
