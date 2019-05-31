@@ -29,7 +29,9 @@ export default class UsersController {
     if (usernameExists) return errorResponse(res, 409, 'This username is already taken.');
 
     const newUser = await user.signUp();
-    return successResponse(res, 201, 'You have signed up successfully', newUser);
+    const { id, username, isadmin } = newUser;
+    const token = await Jwt.generateToken({ id, username, isadmin });
+    return successResponse(res, 201, 'You have signed up successfully', [{ token, isadmin, newUser }]);
   }
 
   /**
