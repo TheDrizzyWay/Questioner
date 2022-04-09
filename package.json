@@ -43,7 +43,7 @@
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
-    "moment": "^2.23.0",
+    "moment": "^2.29.2",
     "multer": "^1.4.1",
     "multer-storage-cloudinary": "^2.2.1",
     "nodemon": "^1.18.10",
